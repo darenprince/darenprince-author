@@ -10,6 +10,8 @@ The React application imports exactly one stylesheet from `voxvector/src/main.js
 
 Do not add additional global stylesheet imports to JSX files or to `main.jsx`. The canonical manifest is the visible cascade contract for production.
 
+`voxvector/public/landing.css` remains only as an inert compatibility stub for the existing static HTML link. It contains no production style rules and must not regain page ownership. Public landing behavior belongs in `voxvector/src/canonical-landing.css`.
+
 ## Cascade ownership order
 
 1. **Foundation** — `index.css`
@@ -32,7 +34,7 @@ Do not add additional global stylesheet imports to JSX files or to `main.jsx`. T
    - landing page composition
    - hero image ownership
    - mobile full-width artwork treatment
-   - the only requested hero edge fade behavior
+   - direct hero artwork presentation without hero-wide opacity, filter, gradient, mask, pseudo-element fade, or structural overlay selectors
 
 5. **Developer console** — `components/DeveloperConsole.css`, followed by dashboard and engineering status owners
    - console shell and analysis workflow
@@ -79,10 +81,12 @@ Historical layers removed from the active cascade are preserved under:
 
 `voxvector/src/archive/styles/2026-09-canonicalization/`
 
-Those files are reference-only and must not be reintroduced as production imports.
+Those files are reference-only and must not be reintroduced as production imports. `landing-public-legacy.css` is the preserved pre-#996 public landing layer; useful layout behavior was migrated into `canonical-landing.css`, while the old hero-darkening opacity/overlay rules were intentionally retired.
 
 ## Audit result
 
 The September 2, 2026 audit removed competing JSX CSS imports, consolidated the developer console's enhancement/workflow layers into its canonical owner, and retired unreferenced refinement and duplicate stylesheets from the active source tree.
 
 The September 9, 2026 active-UI icon review confirmed that shared header access glyphs, landing section/method glyphs, collapsible-panel glyphs, engineering-state glyphs, and toast status glyphs already render without decorative full-stroke boxes. The remaining active passive full-stroke treatments were the API-startup step glyph container and the Developer Gate key glyph; those canonical owners were corrected directly. Interactive buttons and structural card/status borders were intentionally preserved.
+
+The September 11, 2026 hero-cascade repair migrated the still-required public landing typography, CTA, responsive layout, and analytical-path presentation out of the stale `public/landing.css` layer and into `canonical-landing.css`. The legacy hero opacity/filter/gradient/mask/fade rules and structural `nth-child` overlay selectors were not migrated because they conflicted with the canonical direct-artwork requirement and current React hero DOM.

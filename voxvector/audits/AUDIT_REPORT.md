@@ -2,29 +2,47 @@
 
 ## Current task status
 
-Prompt: **VV-OBSERVABILITY-AVAILABILITY-REFINE**. Source base: `a249f3f781a221313549e941b9cdb650b8683a2f`. Tracking issue: [#915](https://github.com/darenprince/darenprince-author/issues/915). Active implementation issue: [#959](https://github.com/darenprince/darenprince-author/issues/959). Merged implementation PR: [#968](https://github.com/darenprince/darenprince-author/pull/968). Canonical merged revision: `7305d0727fafe60a1f78be4995dfddb618ed0192`.
+Prompt: **VV-HERO-REMOVE-STALE-LANDING-CASCADE**. Source base: `0e051293e8071afcf5a243c9a81f76ab1144b7c6`. Tracking issue: [#996](https://github.com/darenprince/darenprince-author/issues/996). Review PR: [#997](https://github.com/darenprince/darenprince-author/pull/997). Pre-audit implementation head: `667a21709cb0cc5c0ece25a0673d8cf72264d8a9`.
 
-This checkpoint refines one observability/debug-bundle subsystem after PRs #961 and #966 established the dual Render/Supabase log foundation, deterministic Render snapshot identity, durable speech-worker correlation, and debug evidence packaging. The change does not alter analytical methodology, provider configuration, authentication architecture, deployment policy, classification behavior, or create a second logging system.
+This task repairs the public landing CSS ownership defect that survived the hero-artwork replacement in #985/#995. The supplied desktop/mobile hero art was already canonical, but `voxvector/index.html` still loaded the older `voxvector/public/landing.css`, whose structural `nth-child` selectors, image opacity/filter rules, dark gradients, masks and bottom fade were authored for an older hero DOM. On the current two-child React hero, those rules darkened the artwork and could also place `pointer-events:none` on the live content container. The repair stays within the public landing/CSS subsystem: still-required typography, CTA, responsive layout and analytical-path presentation are migrated into `voxvector/src/canonical-landing.css`; the hero-darkening rules are intentionally not migrated; the old public stylesheet is preserved in the existing historical style archive and reduced to an inert compatibility stub.
 
 | Task | Status | Evidence or remaining work |
 | --- | --- | --- |
-| Re-read canonical charter/workflow/guardrails and current repository state | Complete | source work started from `a249f3f781a221313549e941b9cdb650b8683a2f` |
-| Preserve Render native log view | Preserved | normalized browser response still contains message/timestamp/level/type; provider stdout/stderr architecture unchanged |
-| Remove unnecessary browser-facing raw Render payload | Complete | `_normalize_log()` no longer returns the full nested provider record |
-| Distinguish empty evidence from unavailable evidence | Complete in source | debug route now sets explicit event/error/Render retrieval availability before manifest generation |
-| Add focused regression coverage | Complete | browser-facing Render log contract plus route-level available-empty/unavailable behavior covered in `test_render_api.py` |
-| Synchronize affected canonical docs | Complete | `ENDPOINT_REGISTRY.md` and `STORAGE_AND_OBSERVABILITY.md` reflect the refined source contract |
-| Exact-head PR QA | Complete | VoxVector QA `34525214723` success on PR head `7cd89cc40a06ddcebc6285f38e242d3fb553d96c`; API tests, React contract tests and Vite production build all completed successfully |
-| Exact-head PR Preview | Complete | PR Preview Build `34525214748` success on the same PR head |
-| Review readback | Complete | no open inline review threads observed before merge |
-| Merge | Complete | PR #968 merged as `7305d0727fafe60a1f78be4995dfddb618ed0192` |
-| Exact-main QA | Complete | push-triggered VoxVector QA `34525449309` succeeded on `7305d0727fafe60a1f78be4995dfddb618ed0192` |
-| GitHub Pages publication | Complete, not Render deployment | Deploy GitHub Pages `34525449351` succeeded for the merged revision |
-| Render production deployment / dual-store execution proof | Not performed in this checkpoint | merge/Pages publication are not backend deployment or provider/log execution evidence |
-| Remaining #959 acceptance | Open | automatic terminal Render snapshot capture, retention/quota coordination, deliberate exact-revision Render deployment, controlled Render + Supabase readback, generated bundle inspection and authenticated browser verification |
-| Scientific validation | Not claimed | observability engineering work does not validate deception methodology or models |
+| Re-read canonical charter/workflow/guardrails and current repository state | Complete | work started from canonical `main` `0e051293e8071afcf5a243c9a81f76ab1144b7c6` |
+| Trace hero DOM and active cascade | Complete | current React hero has one `.vv-hero-background` child followed by the content container; stale `public/landing.css` targeted structural child positions from an older composition |
+| Identify darkening source | Complete | legacy image opacity/filter plus near-black gradients, mask/pseudo layers and bottom fade were active through the static HTML stylesheet link |
+| Migrate required behavior | Complete in source | shared landing typography, hero layout/CTA/responsive behavior and analytical-path presentation now live in `src/canonical-landing.css` |
+| Remove competing hero treatment | Complete in source | canonical hero artwork has no hero-wide opacity, filter, gradient, mask, pseudo fade or structural overlay selector |
+| Preserve recoverable history | Complete | former `public/landing.css` is preserved verbatim at `src/archive/styles/2026-09-canonicalization/landing-public-legacy.css`; the public path is an inert compatibility stub |
+| Synchronize affected canonical docs | Complete | `VoxVector/docs/CSS_ARCHITECTURE.md` and archive README record canonical ownership and the retired behavior; Crown Labs overview already stated direct hero presentation and required no factual change |
+| Pre-audit merge-candidate QA | Complete | PR-triggered VoxVector QA `34656631997` succeeded; it checked synthetic merge commit `1c1a97b28c77796a547f37f74452580eb3114f5d`, whose Git tree `f6b27facd79e64a78d3348affdfa0c4ae78480fc` is identical to branch head `667a21709...` |
+| Pre-audit API tests | Complete | `pytest -q` reported **230 passed in 1.14s** in QA `34656631997` |
+| Pre-audit frontend contract tests | Complete | `npm test` reported **26 passed, 0 failed** in QA `34656631997` |
+| Pre-audit production build | Complete | Vite production build succeeded in QA `34656631997` |
+| Pre-audit PR Preview | Complete | PR Preview Build `34656631946` succeeded on head `667a21709cb0cc5c0ece25a0673d8cf72264d8a9` |
+| Final-head QA after this audit update | Required | this report commit advances the branch; fresh final-head QA and Preview evidence must be green before merge |
+| Merge | Pending | user authorized merge, but merge waits for final-head checks and final diff/readback |
+| GitHub Pages publication | Pending | must be verified separately after merge; a successful build is not publication |
+| Live desktop/mobile browser verification | Pending | required after publication when browser tooling permits; not inferred from source or CI |
+| Scientific validation | Not applicable / not claimed | presentation/CSS repair does not alter analytical methodology or validation status |
 
 ## Task log
+
+### Task 27: migrate stale landing behavior and remove hero-darkening cascade, 2026-09-11
+
+Issue #996 was created after a current-main source investigation found that #985/#995 correctly installed the supplied desktop and mobile hero artwork into the canonical owner but left an older public stylesheet active through `voxvector/index.html`. The defect was not in the SVG assets. `voxvector/src/canonical-landing.css` already rendered the desktop and mobile hero art directly without opacity, gradient, mask or brightness treatment.
+
+The conflicting layer was `voxvector/public/landing.css`. It reduced the artwork layer to `.78` opacity on desktop, `.70` at the tablet breakpoint and `.48` on mobile, applied saturation/contrast filtering, painted near-black horizontal/vertical gradients over the hero, added a masked pseudo-element treatment and ended the hero with a bottom fade to solid `#050505`. Its structural `#product>div:nth-child(2)` rule was also written for an older multi-layer hero and now matched the current React content container, including `pointer-events:none`. That made the stale layer both a brightness defect and an interaction risk.
+
+The repair follows the documented migration rule rather than deleting the old file blindly. Required presentation behavior from the stale stylesheet was reconciled into `voxvector/src/canonical-landing.css`: shared landing body typography, existing hero sizing/spacing/type treatment, CTA styling, mobile/responsive layout, the Explore the Technology placement, and the analytical-path console bleed/fade treatment. Hero-wide image opacity/filter, gradient/mask layers, pseudo-element dark fades and structural `nth-child` overlay ownership were intentionally not migrated because they conflict with the current direct-artwork requirement and current React DOM.
+
+The former `voxvector/public/landing.css` contents are preserved verbatim at `voxvector/src/archive/styles/2026-09-canonicalization/landing-public-legacy.css` for recovery and historical reasoning. The public path remains as an inert compatibility stub because `voxvector/index.html` still carries the historical static link; the stub contains no production style rules and therefore no competing page ownership. `VoxVector/docs/CSS_ARCHITECTURE.md` and the archive README were synchronized. The Crown Labs VoxVector overview already said the hero uses the supplied canonical desktop/mobile artwork directly without hero-specific gradient, mask or opacity treatment, so it required no edit.
+
+The pre-audit implementation head was `667a21709cb0cc5c0ece25a0673d8cf72264d8a9`. PR-triggered VoxVector QA run `34656631997` succeeded. GitHub Actions checked out synthetic PR merge commit `1c1a97b28c77796a547f37f74452580eb3114f5d`; both that merge commit and literal branch head `667a21709...` resolve to the same Git tree `f6b27facd79e64a78d3348affdfa0c4ae78480fc`, so the tested content is tree-identical to the branch head. That run reported **230 passing Python tests**, **26 passing frontend contract tests**, and a successful Vite production build. PR Preview Build `34656631946` also succeeded for the same branch head. A push-triggered QA run existed separately and was still in progress at the audit-writing checkpoint; no success claim is made for it here.
+
+Before this audit update the PR contained exactly five intended paths: `VoxVector/docs/CSS_ARCHITECTURE.md`, `voxvector/public/landing.css`, `voxvector/src/archive/styles/2026-09-canonicalization/README.md`, `voxvector/src/archive/styles/2026-09-canonicalization/landing-public-legacy.css`, and `voxvector/src/canonical-landing.css`. No React page, backend source, workflow, provider configuration, analytical methodology or classification code changed. This audit update adds only `voxvector/audits/AUDIT_REPORT.md` to the same review vehicle.
+
+This report commit necessarily advances the PR head, so the successful pre-audit runs do not by themselves satisfy the final-head merge gate. Fresh QA/Preview, final changed-file/diff readback, merge, Pages publication and live visual verification remain separate steps. No deployment or browser-verification claim is made by this checkpoint.
 
 ### Task 26: refine debug evidence availability and protected Render response, 2026-09-10
 
@@ -94,7 +112,7 @@ This maintenance record does not claim application-runtime behavior, Render depl
 
 ### Task 22: synchronize live tracker, issues and current engineering evidence, 2026-09-10
 
-Canonical `main` was re-read at `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`, the merge of run-lifecycle recovery PR #946. Exact-main VoxVector QA #1963 / run `34425588762`, Deploy GitHub Pages #1708 / run `34425588752`, and CodeQL push run #71 / `34425587747` all completed successfully.
+Canonical `main` was re-read at `c21b4cf07f6475eddb15c99e67f1ff70d6a50167`, the merge of run-lifecycle recovery PR #946. Exact-main VoxVector QA #1963 / run `34425588762`, Deploy GitHub Pages #1708 / `34425588752`, and CodeQL push run #71 / `34425587747` all completed successfully.
 
 Connected Render inspection found deployment `dep-dah0g13l550s73d2dbb0` `live` on the same `c21b4cf...` revision with trigger `api`; production auto-deploy remains disabled. This corrects the previous tracker state that described current source as undeployed. The evidence is deliberately bounded: an API-triggered deployment does not verify #920's protected Developer Console `Deploy Now` / server deploy-hook path, and a Render deployment record is not a fresh `/health` payload or browser verification.
 
