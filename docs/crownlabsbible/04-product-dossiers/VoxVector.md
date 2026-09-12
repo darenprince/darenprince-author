@@ -20,9 +20,26 @@ VoxVector is purpose-built for deception-analysis research and professional evid
 
 Current executive engineering authority is `VoxVector/current-engineering-state-2026-09-12.md` in this dossier mirror and `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-09-12.md` in the technical source.
 
-The 2026-09-12 reconciliation baseline was source `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`; exact-baseline VoxVector QA run `34679916767` succeeded. Documentation synchronization commits after that baseline can make `main` newer without changing the package release numbers.
+The current production backend remains release **0.2.27** on deployed revision `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`. Frontend release authority remains **0.2.37**.
 
-Current product status is best described as an **advanced pre-release engineering / connected MVP build**.
+Current product status is best described as an **advanced pre-release engineering / connected MVP build with current controlled transcription-through-Stage-10 proof**.
+
+## September 12 validation snapshot
+
+A controlled 183.3-second WAV completed the deployed canonical path on backend 0.2.27:
+
+- run elapsed: **247,984 ms**
+- pipeline result: **17/21 complete, 0 failed, 4 intentionally not run**
+- Stage 05: **26 speech segments**
+- Stage 07 faster-whisper: **about 150.1 seconds**
+- durable acquisition checkpoint: **58 transcript segments / 246 words**
+- Stage 08 transcript/audio alignment: **available before Stage 10**
+- Stage 10 admission: **118.6 MB RSS** under **416 MB** admission ceiling / **512 MB** service limit
+- Stage 10 acoustic extraction: **about 73.8 seconds**
+- Stage 10 post-GC RSS: **128.63 MB**
+- uncontrolled API restart: **none**
+
+Issue **#941 is passed and closed**.
 
 ## Canonical 21-stage pipeline
 
@@ -59,40 +76,22 @@ Current product status is best described as an **advanced pre-release engineerin
 20. Final Classification / Disposition
 21. Audit and Provenance Output
 
-The canonical numbering is Stage 05 **Speech Segmentation** and Stage 06 **Speaker Identification / Diarization**. Any undated living copy that reverses them is stale.
+The canonical numbering is Stage 05 **Speech Segmentation** and Stage 06 **Speaker Identification / Diarization**.
 
 ## Current maturity
 
-Approximately 16 stages have implemented analytical/runtime foundations. Four are conditional or intentionally not invoked without required inputs or authorization. Current cloud-primary speaker execution and persisted multimodal alignment still require proof. Faster-whisper has historical real provider execution, while current same-revision repeatability and Stage 10 containment remain open release gates.
+Source-level health still reports approximately 16 implemented foundations, one queued stage and four conditional/not-invoked stages. That is a source maturity summary.
 
-This maturity count does not mean sixteen validated deception indicators.
+The September 12 controlled runtime run separately completed 17 stages, failed none, and intentionally did not run four. Those runtime and source maturity numbers answer different questions and must not be collapsed into one percentage.
 
-## User experience
+Current cloud-primary speaker execution and persisted speaker evidence remain the first P0 gate under #970. Speaker-inclusive transcript/audio alignment remains #971.
 
-The target case workflow is:
+## Current frontend and Developer Console
 
-1. Create/open a case
-2. Upload or select persisted audio
-3. Verify source/provenance
-4. Inspect/play the recording
-5. Segment speech
-6. Acquire speaker evidence when enabled
-7. Generate and align transcript evidence
-8. Persist upstream evidence before heavy downstream work
-9. Run acoustic/prosodic/temporal/linguistic analysis
-10. Assemble evidence and conflicts
-11. Review guarded assessment state
-12. Generate/report provenance
-13. Close and later reopen the case without re-uploading the source
-
-The product experience architecture is maintained in `VoxVector/docs/PRODUCT_EXPERIENCE_ARCHITECTURE.md`.
-
-## Current frontend
-
-The canonical React application currently includes:
+The canonical React application includes:
 
 - public landing and styled reference pages;
-- Request Access routed to the canonical login;
+- Request Access routed to canonical login;
 - route-safe landing anchors and restored direct hash navigation;
 - human site map;
 - protected user and Developer Console surfaces;
@@ -101,28 +100,9 @@ The canonical React application currently includes:
 - backend-driven 21-stage pipeline projection;
 - current landing hero artwork with obsolete legacy darkening styles retired.
 
-The Developer Console startup shows frontend package version and live API-reported version separately. Its 21-stage startup check is labeled **Pipeline contract** so a completed check cannot be mistaken for all 21 stages being production-complete.
+The Developer Console engineering-status module has been updated so the deployed proof revision is shown as **PROVEN** for transcription rather than `execution unverified`. It also exposes a dedicated controlled-runtime proof check and retains diarization as ready but execution-unverified.
 
-## Analysis foundation
-
-The active analytical foundation includes measurements and structured evidence across:
-
-- RMS/intensity and energy behavior;
-- zero-crossing and spectral observations;
-- spectral centroid/spread/flux/rolloff;
-- F0 and pitch dynamics;
-- HNR/harmonicity;
-- MFCC/cepstral observations;
-- formant candidate tracking;
-- pause topology and timing;
-- response latency when supplied;
-- transcript disfluency when supplied;
-- within-speaker baseline when supplied;
-- evidence grouping, convergence/conflict and provenance structures.
-
-Additional reusable modules include jitter, shimmer, pulse-period, cepstral and interaction-timing utilities.
-
-These are evidence inputs. Their existence does not establish validated deception inference.
+The September 12 Confidential IP screenshot set showed one older rendered dashboard snapshot that still said `Transcription first`, `execution unverified`, `71% complete`, and `20 of 28`. Those values are now treated as stale visual evidence from before the validation reconciliation, not current engineering truth.
 
 ## Provider architecture
 
@@ -130,13 +110,13 @@ These are evidence inputs. Their existence does not establish validated deceptio
 
 Canonical provider path: faster-whisper.
 
-Historical controlled beam-1 provider execution is proven. Current same-revision controlled repeatability, durable upstream checkpointing and bounded Stage 10 behavior remain #941.
+Current same-revision controlled execution is proven on the deployed 0.2.27 candidate. Durable transcript checkpointing and bounded Stage 10 completion are also proven for that run.
 
 ### Speaker intelligence
 
 Canonical primary path: pyannoteAI cloud.
 
-Provider wiring/readiness is not provider execution. Current real execution and persisted speaker evidence remain #970.
+Fresh `/health` reports cloud-primary diarization configured and execution-ready. Stage 06 was intentionally not invoked in the successful controlled case, so #970 remains the first P0 runtime gate.
 
 ### Hugging Face
 
@@ -154,46 +134,33 @@ Current architecture uses:
 - a separately addressed AWS API environment;
 - cloud speech providers selected by the canonical backend runtime.
 
-Connected Supabase inspection during the 2026-09-12 reconciliation showed the project ACTIVE_HEALTHY on PostgreSQL 17.6, `voxvector-user-admin` ACTIVE at version 2 with JWT verification, 6,405 private log objects, 28 private media objects and active current-source diagnostic traffic.
+Fresh Render inspection shows `voxvector-api` live in Oregon on deployment `dep-daifrgoae00c73ebcc20`, source `66f2ea...`, with `/health` returning 200 and runtime self-test passed.
 
-## Developer Console
+## Observability and Debug Bundle
 
-The Developer Console is the operational engineering surface for:
+A real sanitized Debug Bundle now exists for the successful controlled run. It includes case/run state, runtime health, Render status and 100 Render logs, plus a Supabase Render-log mirror path.
 
-- runtime health and source/version evidence;
-- case workflow and analysis workspace;
-- pipeline build/status projection;
-- diagnostics and error review;
-- Render status/log/debug workflows through server-owned routes;
-- GitHub QA evidence;
-- documentation and engineering-status navigation;
-- protected account/admin functions according to trusted permissions.
+The current manifest reports zero exported exact VoxVector events and zero correlated error records. #959 therefore remains open for full dual-copy correlation acceptance.
 
-Status must remain evidence-backed. Configuration must not be shown as execution, and provider execution must not be shown as scientific validity.
+A separate browser validation case also reproduced an HTTP 500 caused by a `TimeoutError` while diagnostic middleware persisted a completed-request record. `/health` remained 200 and later reads succeeded. Issue **#998** tracks the requirement that observability persistence be best-effort/non-fatal to product requests.
 
 ## Current release gates
 
-1. #941 controlled transcription/durability/Stage 10 proof
-2. #970 real cloud-primary diarization and persisted speaker evidence
-3. #971 persisted multimodal alignment
-4. #963 historical-case reopen/playback/artifact/report rehydration
-5. #930 upload reliability bounding
-6. #959 production observability/debug-bundle acceptance
-7. authenticated desktop/mobile acceptance for already-merged frontend/auth work
+1. #970 real cloud-primary diarization and persisted speaker evidence
+2. #971 persisted speaker/transcript/audio alignment
+3. #963 historical-case reopen/playback/artifact/report rehydration
+4. #930 upload reliability bounding
+5. #998 observability persistence isolation
+6. #959 complete dual-copy observability and Debug Bundle correlation
+7. authenticated desktop/mobile acceptance
 8. #972 two complete same-revision/configuration golden cases
 9. scientific validation separately
-
-## Frontend design system
-
-Current product UI uses React, Tailwind CSS, Base UI/application-owned composition, Motion for React, TanStack Query and application-owned analytical SVGs. Streamline Sharp is the canonical shared product-chrome icon family through the existing `SharpIcon.jsx` wrapper. Existing specialist components can retain other primitives until deliberately migrated.
 
 ## Commercial posture
 
 The strongest near-term commercial framing is **auditable vocal/audio evidence intelligence and professional workflow**, not an automated universal lie verdict.
 
 Potential revenue layers include professional/team subscriptions, enterprise/institutional licensing, API usage, managed analytical services, research/evaluation engagements, private deployments, OEM/embedded licensing and later task-specific validated inference offerings if scientific evidence supports them.
-
-The current internal valuation framework remains maintained in `VoxVector/docs/CURRENT_VALUATION_ASSESSMENT.md`. Its figures are internal analytical scenarios, not an independent appraisal or evidence of booked revenue.
 
 ## Documentation authority
 
