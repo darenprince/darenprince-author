@@ -8,7 +8,7 @@
 **Separate AWS API environment:** `awsapi.crownlabs.tech`  
 **Public application:** `darenprince.com/voxvector/`  
 **Backend release:** **0.2.27**  
-**Frontend release:** **0.2.37**
+**Frontend release:** **0.2.38**
 
 ## Product definition
 
@@ -20,7 +20,7 @@ VoxVector is purpose-built for deception-analysis research and professional evid
 
 Current executive engineering authority is `VoxVector/current-engineering-state-2026-09-12.md` in this dossier mirror and `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-09-12.md` in the technical source.
 
-The current production backend remains release **0.2.27** on deployed revision `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`. Frontend release authority remains **0.2.37**.
+The current production backend remains release **0.2.27** on deployed revision `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`. Frontend release authority is **0.2.38**.
 
 Current product status is best described as an **advanced pre-release engineering / connected MVP build with current controlled transcription-through-Stage-10 proof**.
 
@@ -80,7 +80,7 @@ The canonical numbering is Stage 05 **Speech Segmentation** and Stage 06 **Speak
 
 ## Current maturity
 
-Source-level health still reports approximately 16 implemented foundations, one queued stage and four conditional/not-invoked stages. That is a source maturity summary.
+Source-level health reports approximately 16 implemented foundations, one queued stage and four conditional/not-invoked stages. That is a source maturity summary.
 
 The September 12 controlled runtime run separately completed 17 stages, failed none, and intentionally did not run four. Those runtime and source maturity numbers answer different questions and must not be collapsed into one percentage.
 
@@ -100,9 +100,17 @@ The canonical React application includes:
 - backend-driven 21-stage pipeline projection;
 - current landing hero artwork with obsolete legacy darkening styles retired.
 
-The Developer Console engineering-status module has been updated so the deployed proof revision is shown as **PROVEN** for transcription rather than `execution unverified`. It also exposes a dedicated controlled-runtime proof check and retains diarization as ready but execution-unverified.
+Frontend **0.2.38** updates the actual `DeveloperConsole.jsx` owner directly:
 
-The September 12 Confidential IP screenshot set showed one older rendered dashboard snapshot that still said `Transcription first`, `execution unverified`, `71% complete`, and `20 of 28`. Those values are now treated as stale visual evidence from before the validation reconciliation, not current engineering truth.
+- the Developer Overview shows the accepted deployed transcription proof as **PROVEN** only when the live backend revision matches `66f2ea...`;
+- **Next Engineering Move** is **#970 diarization**;
+- stale `Transcription first`, `execution ready, unverified`, 71% and 20-of-28 release-readiness presentation is retired;
+- the 28-task checklist remains available as implementation coverage, not the release gate;
+- `setProgress` is now passed into `CaseWorkbench`, fixing the file-picker state-setter error exposed during validation;
+- the existing direct file-input read remains defensive fallback rather than the normal state path;
+- a focused regression contract guards the repaired Dashboard/picker behavior.
+
+Validation-snapshot QA `34684789612` passed before the 0.2.38 repair. Exact-head 0.2.38 QA and authenticated browser readback are separate acceptance evidence.
 
 ## Provider architecture
 
@@ -138,7 +146,7 @@ Fresh Render inspection shows `voxvector-api` live in Oregon on deployment `dep-
 
 ## Observability and Debug Bundle
 
-A real sanitized Debug Bundle now exists for the successful controlled run. It includes case/run state, runtime health, Render status and 100 Render logs, plus a Supabase Render-log mirror path.
+A real sanitized Debug Bundle exists for the successful controlled run. It includes case/run state, runtime health, Render status and 100 Render logs, plus a Supabase Render-log mirror path.
 
 The current manifest reports zero exported exact VoxVector events and zero correlated error records. #959 therefore remains open for full dual-copy correlation acceptance.
 
@@ -152,7 +160,7 @@ A separate browser validation case also reproduced an HTTP 500 caused by a `Time
 4. #930 upload reliability bounding
 5. #998 observability persistence isolation
 6. #959 complete dual-copy observability and Debug Bundle correlation
-7. authenticated desktop/mobile acceptance
+7. authenticated desktop/mobile acceptance, including frontend 0.2.38 readback
 8. #972 two complete same-revision/configuration golden cases
 9. scientific validation separately
 
