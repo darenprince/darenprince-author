@@ -10,7 +10,9 @@ The repository remains the source of truth for what is actually implemented. Sof
 - Public/authenticated React application: `../voxvector/`
 - Backend source release: **0.2.27**
 - Frontend source release: **0.2.37**
+- Current deployed backend revision: `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`
 - Current engineering handoff: `docs/CURRENT_ENGINEERING_STATE_2026-09-12.md`
+- Current validation snapshot: `docs/VALIDATION_SNAPSHOT_2026-09-12.md`
 - Living version map: `docs/VERSION_MAP.md`
 - Living QA record: `docs/QA_STATUS.md`
 
@@ -59,68 +61,29 @@ Frontend and backend are independently versioned.
 | 20 | Final Classification / Disposition |
 | 21 | Audit and Provenance Output |
 
-The complete contract is `docs/ANALYSIS_PIPELINE.md`. Stage 05 is Speech Segmentation and Stage 06 is Speaker Identification / Diarization. Historical documents may preserve older numbering, but living product surfaces must use this order.
+Stage 05 is Speech Segmentation and Stage 06 is Speaker Identification / Diarization. Historical documents may preserve older numbering, but living product surfaces must use this order.
 
 ## Current engineering maturity
 
-Approximately 16 stages have implemented analytical/runtime foundations. Four are conditional or intentionally not invoked without required inputs/authorization. Current cloud-primary speaker execution and persisted multimodal alignment remain open. Historical faster-whisper execution is proven, while current same-revision repeatability and Stage 10 containment remain release gates.
+Fresh `/health` reports 21 total stages, approximately 16 implemented foundations, one queued stage and four conditional/not-invoked stages.
 
-This is an engineering maturity statement, not a claim of sixteen validated deception indicators.
+Separately, the September 12 controlled runtime proof completed **17/21 stages with 0 failed and 4 intentionally not run**. Source maturity and one-run runtime completion are different evidence dimensions.
 
-## Case-centered product flow
+This is an engineering maturity statement, not a count of validated deception indicators.
 
-```text
-Create/open case
-    ↓
-Persist source + provenance
-    ↓
-Decode / recording assessment
-    ↓
-Speech segmentation
-    ↓
-Speaker diarization when enabled
-    ↓
-Transcription
-    ↓
-Transcript/audio/speaker alignment
-    ↓
-Durable upstream checkpoint
-    ↓
-Operational Stage 10 memory admission
-    ↓
-Acoustic / prosodic / temporal / linguistic analysis
-    ↓
-Evidence assembly + convergence/conflict
-    ↓
-Guarded candidate assessment
-    ↓
-Validation/calibration gate when authorized
-    ↓
-Guarded final disposition + audit/provenance
-```
+## September 12 controlled runtime proof
 
-Eligibility/reliability, operational memory admission, evidence collection, candidate classification, final disposition and scientific validation are deliberately separate concepts.
+A controlled 183.3-second WAV completed on deployed backend **0.2.27**, revision `66f2ea...`:
 
-## Current analytical foundation
+- 26 speech segments
+- faster-whisper completed in about 150.1 seconds
+- 58 timestamped transcript segments / 246 words durably checkpointed
+- transcript/audio alignment available before Stage 10
+- Stage 10 admitted at 118.6 MB RSS under a 416 MB ceiling / 512 MB service limit
+- acoustic extraction completed in about 73.8 seconds
+- no uncontrolled API restart
 
-The engine contains structured observations across multiple evidence families, including:
-
-- RMS/intensity and energy behavior
-- zero-crossing rate
-- spectral centroid/spread/flux/rolloff
-- F0 and pitch dynamics
-- harmonicity / HNR
-- MFCC / cepstral observations
-- formant candidate tracking
-- pause topology and timing
-- response latency when supplied
-- transcript disfluency when supplied
-- optional within-speaker baseline
-- evidence grouping, convergence/conflict and provenance structures
-
-Reusable utilities also include jitter, shimmer, pulse-period, cepstral and interaction-timing work.
-
-These measurements are evidence inputs. No single vocal or linguistic feature is treated as proof of deception.
+**#941 passed and is closed.**
 
 ## Current provider architecture
 
@@ -128,13 +91,13 @@ These measurements are evidence inputs. No single vocal or linguistic feature is
 
 Canonical adapter: faster-whisper.
 
-Historical controlled beam-1 execution completed successfully. #941 remains the current-revision controlled durability/Stage 10 proof gate.
+Current same-revision controlled execution, durable transcript checkpointing, transcript/audio alignment and bounded Stage 10 completion are proven on the deployed candidate.
 
 ### Speaker diarization
 
 Canonical primary path: pyannoteAI cloud.
 
-Provider wiring/readiness is not provider execution. #970 remains the real current cloud execution and persisted speaker-evidence gate.
+Fresh `/health` reports the provider configured and execution-ready. Stage 06 was intentionally not invoked in the successful controlled case, so **#970 is now the first P0 runtime gate**.
 
 ### Local fallback
 
@@ -142,102 +105,36 @@ Local pyannote Community-1/Hugging Face tooling is optional fallback infrastruct
 
 ## Developer Console
 
-The Developer Console is the operational engineering cockpit for:
+The Developer Console is the operational engineering cockpit for API health, case workflow, analysis workspace, pipeline projection, diagnostics, GitHub QA, Render status/log/debug evidence, documentation and trusted account functions.
 
-- API health and live version/source evidence
-- case creation/reopen/source upload/playback
-- Analysis Workspace
-- 21-stage pipeline projection
-- lifecycle/diagnostic evidence
-- GitHub QA evidence
-- Render status/log/debug controls through protected server routes
-- documentation and engineering-status navigation
-- role/permission-gated account functions
+The engineering-status module now recognizes the validated deployed proof revision and can display transcription as **PROVEN** rather than `execution unverified`. The source-level 16/21 foundations count remains separate from the successful 17/21 controlled runtime result.
 
-Current startup UI reads web version from `voxvector/package.json` and API version from `/health`. Its 21-stage startup check is **Pipeline contract**, so a completed check means the backend reported the canonical contract. The separate foundations count communicates maturity.
+The September 12 screenshot PDFs also exposed stale pre-validation dashboard copy such as `Transcription first`, `71% complete`, `20 of 28` and `execution ready, unverified`. Those values are historical rendered evidence from before the validation reconciliation and are not current engineering truth.
 
-## Current frontend
+## Observability finding
 
-The React application currently includes:
+A real sanitized Debug Bundle exists for the successful controlled run, with runtime health, Render status and 100 Render logs plus a Supabase Render-log mirror. Exact exported VoxVector event/error correlation remains incomplete under #959.
 
-- public landing and styled reference pages
-- Request Access → canonical login
-- route-safe landing anchors and restored hash navigation
-- human site map
-- protected user and Developer Console entry
-- one-shot login-time API wake
-- shared role-aware self-profile implementation
-- backend-driven pipeline status projection
-- current hero artwork with obsolete legacy darkening styles retired
-
-Final authenticated desktop/mobile acceptance remains separate from source/CI completion.
-
-## Persistence and operations
-
-Current architecture uses:
-
-- GitHub for source, issues and CI
-- GitHub Pages for the public React app
-- FastAPI for the backend HTTP boundary
-- Supabase for authentication, private storage, diagnostics and persistence
-- Render for the primary API boundary
-- a separately addressed AWS API environment
-
-Current operational state is documented in `docs/SYSTEM_STATE_REPORT.md` and `docs/ENDPOINT_REGISTRY.md`.
+A separate browser case reproduced one HTTP 500 caused by a `TimeoutError` while diagnostic middleware persisted a completed-request record. `/health` remained 200 and later reads succeeded. **#998** tracks the requirement that observability persistence be best-effort/non-fatal to product requests.
 
 ## Active release path
 
-1. #941 controlled current-revision transcription/durability/Stage 10 proof
-2. #970 real cloud-primary diarization and persisted speaker evidence
-3. #971 persisted transcript/audio/speaker alignment
-4. #963 historical-case reopen/playback/artifact/report rehydration
-5. #930 upload reliability bounding
-6. #959 production observability/debug-bundle acceptance
-7. authenticated desktop/mobile acceptance for merged frontend/auth work
+1. #970 real cloud-primary diarization and persisted speaker evidence
+2. #971 persisted speaker/transcript/audio alignment
+3. #963 historical-case reopen/playback/artifact/report rehydration
+4. #930 upload reliability bounding
+5. #998 observability persistence isolation
+6. #959 complete dual-copy observability/debug-bundle correlation
+7. authenticated desktop/mobile acceptance
 8. #972 two complete golden cases on one frozen revision/configuration
 9. scientific validation as a separate program
-
-## Repository structure
-
-```text
-VoxVector/
-├── api/                    FastAPI HTTP adapter
-├── src/voxvector/          canonical analysis engine
-├── tests/                  backend/software QA
-└── docs/                   canonical technical documentation
-
-voxvector/
-├── src/                    React/Vite application
-├── public/                 public assets
-└── tests/                  frontend contract/behavior QA
-```
-
-## Development
-
-Backend:
-
-```bash
-cd VoxVector
-python -m pip install -e '.[dev]'
-pytest
-```
-
-Frontend:
-
-```bash
-cd voxvector
-npm install
-npm test
-npm run build
-```
-
-Use the active repository documentation for current environment variables, deployment boundaries and provider configuration.
 
 ## Documentation map
 
 Use these living documents for current-state decisions:
 
 - `docs/CURRENT_ENGINEERING_STATE_2026-09-12.md`
+- `docs/VALIDATION_SNAPSHOT_2026-09-12.md`
 - `docs/SYSTEM_STATE_REPORT.md`
 - `docs/VERSION_MAP.md`
 - `docs/QA_STATUS.md`
