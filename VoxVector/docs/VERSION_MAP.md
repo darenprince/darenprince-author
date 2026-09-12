@@ -1,141 +1,97 @@
 # VoxVector Version Map
 
-**State date:** 2026-09-09
+**Living status document**
 
-| Area | Version / reference | Status |
+This map records current version authorities and evidence boundaries. Dated audit/checkpoint documents remain historical records and are not rewritten to look current.
+
+## Active version authorities
+
+| Area | Current authority | Current value / state |
+|---|---|---|
+| Backend source release | `VoxVector/pyproject.toml` | **0.2.27** |
+| Backend package/runtime version | `VoxVector/src/voxvector/__init__.py` | must match backend source release |
+| Pipeline/API software version | `VoxVectorPipeline.software_version` | sourced from backend package version |
+| Public React application | `voxvector/package.json` | **0.2.37** |
+| Frontend lockfile root package | `voxvector/package-lock.json` | **0.2.37** |
+| Result schema | engine result contract | **0.3** |
+| Observation layer | engine observation contract | **0.1** |
+| Validation registry | validation contract | **0.3** |
+
+Frontend and backend versions are intentionally independent. Do not force them into numeric lockstep. A documentation reconciliation does not itself create a new software release.
+
+## Current synchronization baseline
+
+The engineering baseline reconciled by the 2026-09-12 systemwide information pass was GitHub `main` revision `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`, which includes the merged public navigation/site-map/pipeline projection repair from PR #993 and the merged landing-cascade repair from PR #997.
+
+Because documentation synchronization is itself committed after that baseline, the branch head can legitimately be newer. Use the package manifests for release numbers and Git history for exact source identity rather than treating this baseline SHA as a forever-current head pointer.
+
+Exact-baseline VoxVector QA run `34679916767` completed successfully.
+
+## Runtime evidence boundary
+
+The latest previously recorded forced-fresh backend `/health` readback reported backend version **0.2.27**, `status=ok`, and `runtime_self_test=passed` on source `1cc10f40bb6b94e0a8f3380c1b70529137e89d93` on 2026-09-11.
+
+The 2026-09-12 connected Supabase diagnostic stream is receiving production API request records tagged with source revision `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`. Those records establish current diagnostic source attribution, not a substitute for a fresh `/health` response or a Render deployment record. `pipeline_version` remains `unknown` on the sampled request-log rows and must not be invented from source metadata.
+
+## Pipeline and capability versions
+
+| Capability | Version / state | Current engineering interpretation |
 |---|---:|---|
-| Backend source release | 0.2.27 | active source; packaging/runtime authorities synchronized in source |
-| Public React application | 0.2.37 | active; package authority verified 2026-09-09 |
-| Result schema | 0.3 | active engine and composed case envelope |
-| Observation layer | 0.1 | implemented / observational |
-| Acoustic observation integration | 0.2 | integrated |
-| Temporal observation integration | 0.2 | integrated |
+| Acoustic observation integration | 0.2 | integrated / observational |
+| Temporal observation integration | 0.2 | integrated / observational |
 | Voice quality HNR | 0.1 | integrated / observational |
 | Prosodic dynamics | 0.1 | integrated / observational |
 | Spectral dynamics / rolloff | 0.1 | integrated / observational |
 | Formant frame tracking | 0.1 | integrated / observational |
-| Speech segmentation | 0.1 | integrated / observational |
+| Speech segmentation | 0.1 | integrated foundation |
 | Speaker baseline | 0.1 | optional integrated / observational |
 | Response latency | 0.1 | optional integrated / observational |
 | Transcript disfluency | 0.1 | optional integrated / observational |
 | MFCC / cepstral module | 0.1 | integrated / observational |
 | Evidence acquisition | 0.1 | implemented foundation |
-| faster-whisper adapter | configured / execution-ready on latest observed live Render runtime | implemented; real execution verification next |
-| pyannoteAI cloud primary (`pyannote_api`) | configured / primary execution-ready on latest observed Render runtime | implemented; real cloud execution verification next |
-| local pyannote Community-1 fallback (`pyannote_local`) | disabled / not execution-ready on latest observed Render runtime | implemented optional fallback; test only when explicitly enabled |
-| Transcript/speaker alignment | 0.1 | foundation implemented; provider-backed verification next |
-| Jitter / shimmer utilities | 0.1 | implemented / outside primary pipeline |
-| Reliability gate | 0.1 | implemented / eligibility control |
+| faster-whisper adapter | configured | historical real beam-1 provider execution exists; current controlled repeatability remains #941 |
+| pyannoteAI cloud primary | configured | provider path wired; current real execution/persisted speaker evidence remains #970 |
+| local pyannote Community-1 fallback | optional | not part of the constrained cloud-primary path unless explicitly enabled |
+| Transcript/speaker alignment | 0.1 | foundation implemented; persisted multimodal proof remains #971 |
+| Reliability gate | 0.1 | implemented analytical eligibility control |
 | Evidence grouping | 0.1 | implemented / neutral |
-| Candidate classification boundary | 0.1 | implemented / controlled boundary |
-| Final disposition gate | 0.1 | implemented / controlled boundary |
-| Validation registry | 0.3 | synchronized with implemented and planned methods |
-| Reproducibility / QA | 0.1 | implemented / regression controls |
-| CI QA workflow | 0.2 | exact-commit QA still required for current runtime source |
-| Research method expansion | 0.2 | active preserved backlog |
-| Capability status map | 0.1 | active |
-| Roadmap | 0.1 | active |
-| Deception classifier | not assigned | planned / not validated |
-| Speaker diarization | not assigned | cloud primary configured; route-gated controlled execution next |
-| Production transcription | not assigned | adapter configured; execution-ready; real controlled execution next |
-| Transcript alignment | 0.1 | foundation implemented; provider-backed execution next |
-| Learned speech representations | not assigned | planned |
+| Candidate classification boundary | 0.1 | implemented guarded foundation |
+| Final disposition gate | 0.1 | implemented guarded foundation |
+| Reproducibility / QA | 0.1 | implemented regression controls |
+| Research method expansion | 0.2 | active backlog |
+| Deception classifier | not assigned | no validated production classifier claimed |
 | D Series validated inference | not assigned | not active |
 
-## Release-version authority and drift prevention
+## Canonical 21-stage order
 
-VoxVector has two independently versioned application surfaces. They are not required to have the same numeric version.
+Stages 05 and 06 are authoritative as:
 
-- Backend source release authority: `VoxVector/pyproject.toml`.
-- Backend runtime package version: `VoxVector/src/voxvector/__init__.py`.
-- Pipeline/API software version: `VoxVectorPipeline.software_version`, sourced from the backend package version rather than a second hard-coded release number.
-- Public React version authority: `voxvector/package.json`.
-- Live API version evidence: `/health.runtime.version`, with the top-level `pipeline` value retained for compatibility.
+5. Speech Segmentation
+6. Speaker Identification / Diarization
 
-`VoxVector/tests/test_version_sync.py` reads `pyproject.toml` and requires the backend manifest, package `__version__`, and pipeline software version to match. This converts backend release alignment from a documentation convention into a QA gate.
+Any undated living surface that reverses those stages is stale. Historical dated records may retain prior wording as evidence of the state at that time.
 
-The Developer Console startup footer displays the frontend manifest version and the API version returned by the live `/health` response side by side. A source/deployment mismatch therefore remains visible instead of being replaced by a frontend hard-coded API number.
+## Frontend version presentation
 
-Revision freshness follows the same separation. GitHub Pages and frontend QA are compared to the frontend `VITE_GITHUB_SHA`. Render deployment and backend-source QA are compared to `/health.runtime.source_revision`. Each live source keeps its own observation timestamp; missing revision identity remains unverified and a mismatch remains stale.
+The Developer Console startup footer reads the frontend version from `voxvector/package.json` and reads the API version from the live `/health` payload. It must not hard-code a backend version in the React source.
 
-Current source versions are frontend `0.2.37` and backend `0.2.27`. The latest separately observed production Render evidence below still reported backend pipeline `0.2.26`; that historical live observation remains valid until a newer deployment is independently verified.
+The startup pipeline row verifies that the backend reports the canonical 21-stage contract. The maturity count shown beside it is a separate engineering status and must not be represented as all 21 stages being production-complete or scientifically validated.
 
-## Latest observed runtime evidence — 2026-09-07
+## Current documentation authorities
 
-Live Render `/health` reports:
+Use these living records first:
 
-- source revision: `73ac03ded08c161e092ee2a4ecbbed7d036771c8`
-- pipeline: `0.2.26`
-- runtime self-test: `passed`
-- diagnostic storage: `configured_media_ready`
-- media storage: `true`
-- transcription provider: `faster_whisper`
-- transcription adapter: installed
-- transcription execution readiness: `true`
-- diarization primary provider: `pyannote_api`
-- cloud API-key presence: `true`
-- primary execution readiness: `true`
-- local fallback provider: `pyannote_local`
-- local fallback execution readiness: `false`
-- successful provider execution: not established by health readiness
-
-The health response reports `current_commit_qa: external_workflow_required`; that value remains separate from runtime health until exact-commit GitHub Actions verification is observed.
-
-The case-analysis route also requires `VOXVECTOR_ENABLE_DIARIZATION_RUNS` before it invokes the configured diarization provider. Provider readiness in `/health` must not be read as proof that this route gate is enabled or that diarization executed on a case.
-
-## Canonical locations
-
-VoxVector backend and analysis: `VoxVector/`
-
-Public React application: `voxvector/`
-
-Historical systems remain historical source material and are not alternate active implementations.
-
-## Primary pipeline integration
-
-`VoxVectorPipeline` currently orchestrates acoustic summaries, F0 and intensity dynamics, HNR, spectral flux and rolloff, formant tracking, pause topology, MFCC observations, optional within-speaker baselines, optional response latency, and optional transcript disfluency observations.
-
-The product pipeline additionally defines speaker processing, transcription, alignment, evidence synthesis, classification, validation, reporting, and audit stages.
-
-## Speech intelligence runtime
-
-The canonical acquisition layer can activate real transcription and diarization providers through environment-selected adapters. The latest observed Render health contract makes faster-whisper and the pyannoteAI cloud primary path execution-ready; the local pyannote fallback was disabled and not ready. Heavy provider execution must still be verified through controlled case runs before the related pipeline stages are promoted to implemented/integrated runtime status.
-
-Supported providers are faster-whisper for transcription, pyannoteAI cloud for primary diarization, and local pyannote Community-1 as an explicit fallback when separately configured.
-
-## Frontend authority
-
-Current frontend package authority is `voxvector/package.json`. The active stack is React 19.2.8, React DOM 19.2.8, Motion for React, TanStack Query, Lucide React, Tailwind CSS, Base UI, application-owned shadcn-style composition, and application-owned SVG analytical charts. Recharts 3.10.1 remains declared in the package manifest but is not imported by current frontend source.
-
-Historical React 18 / Tremor documentation is retained only as historical context.
-
-## Deployment boundary
-
-GitHub Pages hosts the public frontend at `https://darenprince.com/voxvector/`.
-
-The original VoxVector API remains at `https://voxvector.crownlabs.tech`.
-
-AWS provides the separately addressed API environment at `https://awsapi.crownlabs.tech`, using an HTTPS Application Load Balancer and ECS Fargate.
-
-Supabase is the operational/authentication/persistence/diagnostic/private-media service layer.
-
-Vercel is retired and prohibited for VoxVector.
-
-## Scientific boundary
-
-All implemented analysis remains observational until the defined validation program promotes a method for a specific task. Eligibility/reliability, evidence analysis, candidate classification, and final disposition remain distinct.
-
-## Documentation synchronization
-
-Current canonical status records include:
-
-- `docs/CURRENT_ENGINEERING_STATE_2026-09-04.md`
-- `docs/ENDPOINT_REGISTRY.md`
-- `docs/CLOUD_PLATFORM_RUNTIME_AUDIT_2026-09-03.md`
-- `docs/DEPLOYMENT_VARIABLE_MATRIX.md`
-- `docs/PIPELINE_BUILD_STATUS.md`
-- `docs/IMPLEMENTATION_PLAN.md`
-- `docs/MVP_BUILD_PLAN.md`
-- `docs/ROADMAP.md`
-- `docs/CAPABILITY_STATUS.md`
+- `docs/VERSION_MAP.md`
+- `docs/SYSTEM_STATE_REPORT.md`
 - `docs/QA_STATUS.md`
+- `docs/PIPELINE_BUILD_STATUS.md`
+- `docs/ENDPOINT_REGISTRY.md`
+- `docs/CURRENT_ENGINEERING_STATE_2026-09-12.md`
+- `docs/CAPABILITY_STATUS.md`
+- `docs/MVP_RELEASE_GATE.md`
+
+The Crown Labs executive mirror is `docs/crownlabsbible/04-product-dossiers/VoxVector/`.
+
+## Verification boundary
+
+Source version, CI, deployment, fresh runtime health, provider execution, persisted artifacts, authenticated browser behavior, engineering-MVP completion, and scientific validation are different evidence states. Never promote one into another by documentation wording alone.

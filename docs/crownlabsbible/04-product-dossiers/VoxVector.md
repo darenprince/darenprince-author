@@ -1,63 +1,47 @@
 # VoxVector — Crown Labs Product Dossier
 
-**Product:** VoxVector
-
-**Category:** Vocal intelligence and deception analysis
-
-**Canonical implementation:** `VoxVector/`
-
-**Public application:** `voxvector/`
-
-**Backend target:** `voxvector.crownlabs.tech`
-
-**AWS API environment:** `awsapi.crownlabs.tech`
-
-**Public target:** `darenprince.com/voxvector/`
-
-**Product objective:** Build an advanced full-stack vocal and audio deception analysis platform.
+**Product:** VoxVector  
+**Category:** Advanced vocal and audio intelligence with deception-analysis research architecture  
+**Canonical backend:** `VoxVector/`  
+**Canonical frontend:** `voxvector/`  
+**Primary API:** `voxvector.crownlabs.tech`  
+**Separate AWS API environment:** `awsapi.crownlabs.tech`  
+**Public application:** `darenprince.com/voxvector/`  
+**Backend release:** **0.2.27**  
+**Frontend release:** **0.2.37**
 
 ## Product definition
 
-VoxVector is an advanced vocal and audio deception analysis platform built to transform spoken conversation into structured intelligence through a complete multimethod analytical workflow.
+VoxVector is Crown Labs' case-centered vocal and audio intelligence platform. It combines private source handling, speaker/transcript evidence acquisition, acoustic and temporal measurements, evidence assembly, guarded assessment architecture, reporting and auditable provenance in one workflow.
 
-The platform spans recording ingestion audio preparation provenance recording assessment speaker intelligence speech segmentation transcription alignment acoustic analysis prosodic analysis voice quality analysis temporal analysis linguistic analysis conversational context within speaker comparison evidence synthesis classification validation reporting and final disposition.
+VoxVector is purpose-built for deception-analysis research and professional evidence review, but the current system must not be marketed as a scientifically validated universal lie detector. Engineering capability, provider execution, repeatability and scientific validation are separate evidence states.
 
-VoxVector is purpose built for deception analysis.
+## Current engineering posture
 
-The product architecture is designed to progress from foundational signal measurement into increasingly sophisticated multimethod inference calibrated models speaker aware intelligence conversational understanding and validated classification.
+Current executive engineering authority is `VoxVector/current-engineering-state-2026-09-12.md` in this dossier mirror and `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-09-12.md` in the technical source.
 
-## Current endpoint roles
+The current production backend remains release **0.2.27** on deployed revision `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`. Frontend release authority remains **0.2.37**.
 
-The public product experience is currently served from `https://darenprince.com/voxvector/`.
+Current product status is best described as an **advanced pre-release engineering / connected MVP build with current controlled transcription-through-Stage-10 proof**.
 
-The original API remains `https://voxvector.crownlabs.tech` and is preserved as the existing backend endpoint.
+## September 12 validation snapshot
 
-A separate AWS API environment is available at `https://awsapi.crownlabs.tech`, using an AWS Application Load Balancer with HTTPS and an ECS Fargate backend.
+A controlled 183.3-second WAV completed the deployed canonical path on backend 0.2.27:
 
-The AWS endpoint is an additional deployment environment. It does not silently replace the original API domain.
+- run elapsed: **247,984 ms**
+- pipeline result: **17/21 complete, 0 failed, 4 intentionally not run**
+- Stage 05: **26 speech segments**
+- Stage 07 faster-whisper: **about 150.1 seconds**
+- durable acquisition checkpoint: **58 transcript segments / 246 words**
+- Stage 08 transcript/audio alignment: **available before Stage 10**
+- Stage 10 admission: **118.6 MB RSS** under **416 MB** admission ceiling / **512 MB** service limit
+- Stage 10 acoustic extraction: **about 73.8 seconds**
+- Stage 10 post-GC RSS: **128.63 MB**
+- uncontrolled API restart: **none**
 
-## Product experience target
+Issue **#941 is passed and closed**.
 
-The supplied reference screens establish the intended end state for the application experience.
-
-The product is a unified intelligence workspace rather than a collection of disconnected utilities.
-
-The user journey is:
-
-1. Upload or record
-2. Prepare and inspect
-3. Identify speakers
-4. Generate transcript
-5. Align audio and language
-6. Analyze synchronized evidence
-7. Explore evidence
-8. Review synthesis
-9. Review assessment
-10. Generate report
-
-The detailed experience contract is defined in `VoxVector/docs/PRODUCT_EXPERIENCE_ARCHITECTURE.md`.
-
-## The 21 stage pipeline
+## Canonical 21-stage pipeline
 
 ### Prepare
 
@@ -68,8 +52,8 @@ The detailed experience contract is defined in `VoxVector/docs/PRODUCT_EXPERIENC
 
 ### Understand
 
-5. Speaker Identification / Diarization
-6. Speech Segmentation
+5. Speech Segmentation
+6. Speaker Identification / Diarization
 7. Transcription Generation
 8. Transcript Alignment
 9. Eligibility and Reliability
@@ -92,387 +76,107 @@ The detailed experience contract is defined in `VoxVector/docs/PRODUCT_EXPERIENC
 20. Final Classification / Disposition
 21. Audit and Provenance Output
 
-## Analysis Workspace
-
-The core analysis workspace combines:
-
-- source metadata
-- audio playback
-- waveform
-- pitch F0
-- intensity
-- spectral energy
-- speech activity
-- pauses
-- speaker regions
-- transcript
-- transcript alignment
-- evidence markers
-- analysis pipeline
-- key metrics
-- evidence timeline
-- assessment state
-
-All analytical tracks share one time axis and one playhead.
-
-Selecting an audio region can reveal the associated transcript and evidence.
-
-Selecting transcript content can move the audio playhead to the associated interval.
-
-Selecting an evidence event can open its source interval and method details.
-
-## Analysis Overview
-
-The overview surface provides:
-
-- source file
-- duration
-- recording quality
-- processing state
-- condensed waveform
-- evidence markers
-- key analytical metrics
-- assessment state
-- evidence timeline
-
-Metrics are data driven and tied to the canonical analysis result.
-
-## Method intelligence
-
-### Acoustic Analysis
-
-- pitch
-- intensity
-- energy
-- spectral shape
-- spectral distribution
-- harmonicity
-- HNR
-- MFCC
-- formant candidates
-
-### Prosodic Intelligence
-
-- pitch contours
-- pitch dynamics
-- intensity dynamics
-- speech rate
-- articulation timing
-- phrase movement
-- pause topology
-- prosodic boundaries
-
-### Voice Quality Intelligence
-
-- harmonicity
-- HNR
-- jitter
-- shimmer
-- pulse period
-- glottal source measures
-- expanded voice quality descriptors
-
-### Speaker Intelligence
-
-- speaker identification
-- diarization
-- speaker turns
-- overlap
-- speaker separation
-- speaker aware baselines
-- interaction structure
-
-### Linguistic Intelligence
-
-- transcription
-- transcript alignment
-- disfluency
-- lexical analysis
-- syntactic structure
-- semantic representation
-- contradiction analysis
-- consistency analysis
-- hedging
-- certainty
-- negation
-- discourse structure
-- question and answer alignment
-
-### Evidence Intelligence
-
-- evidence assembly
-- convergence analysis
-- conflict analysis
-- dependency modeling
-- uncertainty
-- alternative hypothesis analysis
-- provenance
-- audit trails
-
-### Classification Intelligence
-
-- candidate classification
-- calibrated probabilistic models
-- confidence matrix
-- uncertainty state
-- validation framework
-- final classification
-- final disposition
-
-## Evidence Explorer
-
-Evidence Explorer provides case wide access to analytical evidence.
-
-Users can filter by:
-
-- speaker
-- timestamp
-- method family
-- evidence type
-- evidence direction
-- reliability
-- transcript context
-- question
-- response
-
-Every evidence item links to its source audio interval and analytical method.
-
-## Reports
-
-Reports provide a structured and auditable representation of an analysis.
-
-Report sections include:
-
-- case summary
-- recording information
-- speaker information
-- eligibility and reliability
-- analysis methods
-- acoustic findings
-- prosodic findings
-- temporal findings
-- linguistic findings
-- speaker findings
-- evidence timeline
-- convergence and conflict
-- candidate assessment
-- confidence and uncertainty
-- alternative hypotheses
-- final disposition
-- audit and provenance
-
-## Comparisons
-
-The product supports comparison between compatible:
-
-- recordings
-- speakers
-- baseline segments
-- question responses
-- evidence regions
-- analysis runs
-
-## Alerts
-
-Alerts provide case level events such as:
-
-- processing completed
-- processing failed
-- reliability change
-- speaker processing completed
-- transcript completed
-- evidence convergence
-- evidence conflict
-- report ready
-
-## Developer Console
-
-The Developer Console remains a separate operational surface.
-
-It provides:
-
-- runtime health
-- API workbench
-- request inspection
-- errors
-- lifecycle events
-- runtime diagnostics
-- documentation
-- development board
-- deployment endpoint traceability
-
-## Current analytical foundation
-
-The active analysis engine provides structured measurement across multiple evidence families including:
-
-- RMS and intensity
-- zero crossing rate
-- spectral centroid
-- spectral spread
-- spectral flux
-- spectral rolloff
-- fundamental frequency
-- harmonicity
-- harmonic to noise ratio
-- F0 dynamics
-- intensity dynamics
-- MFCC observations
-- formant candidate tracking
-- pause topology
-- response latency when supplied
-- transcript disfluency when supplied
-- within speaker baseline when supplied
-
-Additional reusable analytical modules include:
-
-- jitter
-- shimmer
-- pulse period analysis
-- cepstral processing
-- interaction timing
-- speech timing utilities
-
-## Frontend architecture
-
-The canonical public application uses React with application owned UI composition.
-
-The approved architecture includes:
-
-- React
-- shadcn style application owned components
-- Base UI interaction primitives
-- Tailwind CSS
-- application-owned SVG analytical components; Recharts 3 remains installed but is not imported by current source
-- Streamline Sharp for shared product chrome, with Lucide retained only where still owned by existing components
-- Motion for React
-- TanStack Query
-
-For shared VoxVector product chrome, **Streamline Sharp** is the canonical icon family. The React application resolves it through the existing `voxvector/src/components/SharpIcon.jsx` wrapper using Iconify's `streamline-sharp` collection. New or replacement shared-interface icons should use that canonical wrapper when the glyph exists rather than introducing another icon family for convenience. Existing components may retain a different icon primitive until an intentional migration is performed.
-
-Canonical library references:
-
-- Official Streamline icon browser: <https://www.streamlinehq.com/icons>
-- Exact Iconify runtime collection: <https://icon-sets.iconify.design/streamline-sharp/>
+The canonical numbering is Stage 05 **Speech Segmentation** and Stage 06 **Speaker Identification / Diarization**.
 
-The frontend remains an interface over the canonical FastAPI analysis architecture.
+## Current maturity
 
-## Backend architecture
+Source-level health still reports approximately 16 implemented foundations, one queued stage and four conditional/not-invoked stages. That is a source maturity summary.
 
-The canonical backend and analysis engine live under `VoxVector/`.
+The September 12 controlled runtime run separately completed 17 stages, failed none, and intentionally did not run four. Those runtime and source maturity numbers answer different questions and must not be collapsed into one percentage.
 
-- `VoxVector/api/app.py` — FastAPI HTTP boundary
-- `VoxVector/src/voxvector/` — analysis engine
-- `VoxVector/tests/` — QA
-- `VoxVector/docs/` — technical source of truth
+Current cloud-primary speaker execution and persisted speaker evidence remain the first P0 gate under #970. Speaker-inclusive transcript/audio alignment remains #971.
 
-Render serves the original API environment.
+## Current frontend and Developer Console
 
-AWS provides the separately addressed `awsapi.crownlabs.tech` environment through an HTTPS Application Load Balancer and ECS Fargate.
+The canonical React application includes:
 
-GitHub Pages serves the public React application.
+- public landing and styled reference pages;
+- Request Access routed to canonical login;
+- route-safe landing anchors and restored direct hash navigation;
+- human site map;
+- protected user and Developer Console surfaces;
+- one-shot login-time API wake;
+- shared self-profile behavior across supported account roles;
+- backend-driven 21-stage pipeline projection;
+- current landing hero artwork with obsolete legacy darkening styles retired.
 
-## Implementation plan
+The Developer Console engineering-status module has been updated so the deployed proof revision is shown as **PROVEN** for transcription rather than `execution unverified`. It also exposes a dedicated controlled-runtime proof check and retains diarization as ready but execution-unverified.
 
-The detailed engineering sequence is maintained in `VoxVector/docs/IMPLEMENTATION_PLAN.md`.
+The September 12 Confidential IP screenshot set showed one older rendered dashboard snapshot that still said `Transcription first`, `execution unverified`, `71% complete`, and `20 of 28`. Those values are now treated as stale visual evidence from before the validation reconciliation, not current engineering truth.
 
-The plan is organized around:
+## Provider architecture
 
-- product shell
-- analysis intake
-- synchronized audio visualization
-- speaker intelligence
-- transcription
-- transcript alignment
-- eligibility and reliability
-- acoustic and prosodic intelligence
-- temporal intelligence
-- linguistic intelligence
-- question and answer intelligence
-- within speaker baselines
-- evidence architecture
-- convergence and conflict
-- candidate classification
-- validation and calibration
-- final assessment
-- reports
-- history
-- Evidence Explorer
-- comparisons
-- alerts
-- Developer Console
-- reliability
-- security
-- browser verification
+### Transcription
 
-## Investor valuation and commercial posture
+Canonical provider path: faster-whisper.
 
-VoxVector now maintains a synchronized internal investor valuation record in `VoxVector/docs/CURRENT_VALUATION_ASSESSMENT.md`.
+Current same-revision controlled execution is proven on the deployed 0.2.27 candidate. Durable transcript checkpointing and bounded Stage 10 completion are also proven for that run.
 
-**Valuation effective date:** 2026-09-08  
-**Repository evidence base:** `887c39e08973d1fe45a3d5c8460ebec40d5f8816`
+### Speaker intelligence
 
-The assessment is an internal analytical valuation framework. It is not an independent appraisal, fairness opinion, investment recommendation, evidence of current revenue, or scientific validation report.
+Canonical primary path: pyannoteAI cloud.
 
-### Current valuation ladder
+Fresh `/health` reports cloud-primary diarization configured and execution-ready. Stage 06 was intentionally not invoked in the successful controlled case, so #970 remains the first P0 runtime gate.
 
-| Valuation basis | Current range | Central assessment |
-|---|---:|---:|
-| Replacement / recreation | **$0.85M–$1.80M** | **$1.30M** |
-| Orderly asset sale | **$0.55M–$1.30M** | **$0.85M** |
-| Strategic as-is enterprise / IP | **$2.50M–$5.00M** | **$3.50M** |
-| Connected engineering MVP | **$5.50M–$9.50M** | **$7.50M** |
-| Paid pilots / early ARR | **$8M–$16M** | **$12M** |
-| Validated proprietary model / data system | **$15M–$35M+** | Milestone-dependent |
-| 36-month base scenario | **~$24.8M–$33.0M** | **~$29M** |
-| 36-month high-growth scenario | **$99M–$126M** | Scenario only |
-| Five-year conditional base zone | **$60M–$90M** | **~$75M** |
+### Hugging Face
 
-The current approximately **$3.50M central strategic assessment** reflects the assembled software, case-centered architecture, 21-stage analytical design, provenance and reliability controls, QA/operational discipline, research and validation architecture, infrastructure evidence, product UX, documentation, and brand system.
+The connected Hugging Face identity is `crownlabs-voxvector`. Hugging Face supports optional/local model workflows and fallback tooling. It is not proof of cloud-primary pyannoteAI execution.
 
-It does **not** assume that VoxVector already has recurring revenue, a large rights-cleared proprietary labeled corpus, a proprietary validated deception classifier, completed enterprise security, or scientifically validated general deception inference.
+## Data and infrastructure
 
-The next valuation inflection is therefore proof-driven: a reproducible provider-backed golden case, complete history/reopen/report proof, enterprise hardening, external paid design partners, rights-cleared proprietary data, and task-specific scientific evaluation.
+Current architecture uses:
 
-### Monetization posture
+- GitHub for source, issues and CI;
+- GitHub Pages for the public React application;
+- FastAPI for the API boundary;
+- Supabase for authentication, private storage, durable diagnostics and persistence;
+- Render for the primary API service boundary;
+- a separately addressed AWS API environment;
+- cloud speech providers selected by the canonical backend runtime.
 
-The strongest near-term commercial wedge is **auditable vocal/audio evidence intelligence and professional workflow**, not an automated universal lie verdict.
+Fresh Render inspection shows `voxvector-api` live in Oregon on deployment `dep-daifrgoae00c73ebcc20`, source `66f2ea...`, with `/health` returning 200 and runtime self-test passed.
 
-Potential revenue layers include professional/team subscriptions, enterprise and institutional licensing, API usage, managed analytical services, research/evaluation engagements, private deployments, OEM/embedded licensing, and later validated task-specific inference offerings if the scientific evidence supports them.
+## Observability and Debug Bundle
 
-Current pricing ranges in the valuation model are planning assumptions only; they are not current list prices or booked revenue. Product-level assumptions and evidence gates are maintained in `crowndocs/content/product-dossiers/voxvector/monetization.md`.
+A real sanitized Debug Bundle now exists for the successful controlled run. It includes case/run state, runtime health, Render status and 100 Render logs, plus a Supabase Render-log mirror path.
 
-### Proprietary IP protection
+The current manifest reports zero exported exact VoxVector events and zero correlated error records. #959 therefore remains open for full dual-copy correlation acceptance.
 
-Investor and transaction value depends on clear ownership, permitted use, confidentiality, and transferability.
+A separate browser validation case also reproduced an HTTP 500 caused by a `TimeoutError` while diagnostic middleware persisted a completed-request record. `/health` remained 200 and later reads succeeded. Issue **#998** tracks the requirement that observability persistence be best-effort/non-fatal to product requests.
 
-Commercial structures should preserve Crown Labs ownership of lawfully owned VoxVector background IP while expressly carving out third-party libraries, open-source components, external models, datasets, hosted providers, and other materials governed by separate rights.
+## Current release gates
 
-Publicly disclosed repository material must not be represented as a trade secret. Non-public proprietary assets may receive confidentiality/trade-secret treatment only when they are actually kept non-public and protected appropriately.
+1. #970 real cloud-primary diarization and persisted speaker evidence
+2. #971 persisted speaker/transcript/audio alignment
+3. #963 historical-case reopen/playback/artifact/report rehydration
+4. #930 upload reliability bounding
+5. #998 observability persistence isolation
+6. #959 complete dual-copy observability and Debug Bundle correlation
+7. authenticated desktop/mobile acceptance
+8. #972 two complete same-revision/configuration golden cases
+9. scientific validation separately
 
-Customer or research-participant audio, transcripts, labels, annotations, and case records do not become Crown Labs training property by default. Data/model-training, retention, de-identification, evaluation, and derived-data rights should be defined expressly by contract and applicable law.
+## Commercial posture
 
-The current valuation assigns no incremental premium merely for unverified patents, registrations, proprietary model weights, a rights-cleared labeled deception corpus, customer contracts, or ARR.
+The strongest near-term commercial framing is **auditable vocal/audio evidence intelligence and professional workflow**, not an automated universal lie verdict.
 
-The detailed product policy is maintained in `crowndocs/content/product-dossiers/voxvector/licensing.md`, with ecosystem licensing rules in `docs/crownlabsbible/03-investor-framework/licensing-structures.md`.
+Potential revenue layers include professional/team subscriptions, enterprise/institutional licensing, API usage, managed analytical services, research/evaluation engagements, private deployments, OEM/embedded licensing and later task-specific validated inference offerings if scientific evidence supports them.
 
 ## Documentation authority
 
-The technical source of truth is the `VoxVector/` directory in GitHub.
+Technical source of truth: `VoxVector/`.
 
-The Crown Labs Bible is the executive and product documentation mirror.
+Executive/product mirror: `docs/crownlabsbible/04-product-dossiers/VoxVector/`.
 
-The product experience architecture is maintained in `VoxVector/docs/PRODUCT_EXPERIENCE_ARCHITECTURE.md`.
+Key living records:
 
-The implementation plan is maintained in `VoxVector/docs/IMPLEMENTATION_PLAN.md`.
+- `VoxVector/docs/CURRENT_ENGINEERING_STATE_2026-09-12.md`
+- `VoxVector/docs/VERSION_MAP.md`
+- `VoxVector/docs/SYSTEM_STATE_REPORT.md`
+- `VoxVector/docs/PIPELINE_BUILD_STATUS.md`
+- `VoxVector/docs/ENDPOINT_REGISTRY.md`
+- `VoxVector/docs/QA_STATUS.md`
+- `VoxVector/docs/CAPABILITY_STATUS.md`
+- `VoxVector/docs/MVP_RELEASE_GATE.md`
 
-The technical architecture is maintained in `VoxVector/docs/ARCHITECTURE.md`.
-
-The canonical pipeline is maintained in `VoxVector/docs/ANALYSIS_PIPELINE.md`.
-
-The method library remains in `VoxVector/docs/MASTER_METHOD_INDEX.md`.
-
-The endpoint map is maintained in `VoxVector/docs/ENDPOINT_REGISTRY.md`.
-
-The current internal valuation assessment is maintained in `VoxVector/docs/CURRENT_VALUATION_ASSESSMENT.md`.
-
-Material product, architecture, valuation, monetization, or licensing changes should be synchronized across the affected canonical and mirror surfaces.
+Dated historical audit/checkpoint documents remain evidence of their original state and should not be rewritten to appear current.

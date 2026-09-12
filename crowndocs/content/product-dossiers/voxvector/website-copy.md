@@ -8,180 +8,141 @@
 
 ### Subheadline
 
-**Go beyond the transcript. Examine the conversation.**
+VoxVector turns recorded conversation into structured vocal and audio intelligence, giving investigators, analysts, researchers, and professional teams a synchronized way to review speech, timing, speaker behavior, acoustic observations, transcript evidence, and provenance in one case workspace.
 
-### Supporting Copy
+### Primary action
 
-VoxVector transforms recorded human conversation into structured intelligence through advanced vocal, acoustic, linguistic, temporal, speaker, and multimethod analysis.
+**Request Access**
 
-### Primary CTA
-
-**Analyze a Recording**
-
-### Secondary CTA
+### Secondary action
 
 **See How It Works**
 
-## Product Introduction
+## Positioning
 
-### You know what was said.
+VoxVector is an advanced vocal intelligence and evidence analysis platform built for high scrutiny conversations. It is designed to help professionals inspect what happened in a recording, where meaningful changes occurred, how different evidence families relate, and what remains uncertain.
 
-### The recording contains more.
+VoxVector is being engineered for deception analysis and related high stakes review, but the product does not treat a single vocal feature as proof of deception and should not be marketed as a scientifically validated universal lie detector.
 
-VoxVector gives investigators, analysts, researchers, security professionals, and organizations a deeper way to examine recorded conversations.
+## What the platform connects
 
-The platform brings together hundreds of individually defined analytical data points and evidence fields across its broader method library, with the current runtime extracting a supported subset based on the recording and available inputs.
+VoxVector brings the full case lifecycle into one workspace:
 
-## Key Value Propositions
+1. Upload and preserve the source
+2. Verify provenance and recording quality
+3. Segment speech
+4. Identify speaker regions when speaker processing is enabled
+5. Generate transcript evidence
+6. Align audio, transcript, and speaker timing
+7. Analyze acoustic, prosodic, voice quality, temporal, and linguistic observations
+8. Assemble evidence, convergence, conflict, uncertainty, and alternatives
+9. Review guarded assessment state
+10. Generate an auditable report and preserve provenance
 
-### More to Examine
-
-A transcript captures the words. VoxVector examines the voice, audio, timing, language, and conversational context surrounding them.
-
-### Hundreds of Analytical Data Points
-
-VoxVector's canonical method library contains more than 300 individually defined analytical data points and evidence fields across acoustic, spectral, pitch, prosodic, voice-quality, temporal, linguistic, speaker, integrity, evidence, uncertainty, classification, and validation domains.
-
-The exact data extracted from an analysis depends on the implemented methods and the information available in the recording.
-
-### Multimethod Analysis
-
-Bring multiple analytical perspectives together so findings can be compared for agreement, conflict, uncertainty, context, and alternative explanations.
-
-### Speaker-Aware Intelligence
-
-Organize conversations by speaker and build richer analytical context through speaker processing, interaction analysis, and within-speaker comparison as supported by the analysis configuration.
-
-### Evidence You Can Examine
-
-See what was measured, where findings converge, where they conflict, how reliable the recording was, and what the evidence supports.
-
-### API Access
-
-Integrate VoxVector into your own applications and workflows through the canonical API.
-
-Use VoxVector as a product or as an analytical service.
-
-## How VoxVector Works
-
-### 1. Recording
-
-Bring a conversation into the VoxVector analysis environment.
-
-### 2. Analysis
-
-Examine supported vocal, acoustic, linguistic, temporal, and conversational characteristics.
-
-### 3. Assessment
-
-Bring findings together and examine agreement, conflict, uncertainty, and alternative explanations.
-
-### 4. Result
-
-Determine what the available evidence supports and how confidently it can be understood.
-
-## The 21-Stage Technical Pipeline
-
-The customer experience is expressed simply as **Recording → Analysis → Assessment → Result**.
-
-Underneath that experience, the technical pipeline contains 21 stages:
+## The 21 stage pipeline
 
 ### Prepare
 
 1. File Upload / Ingest
-2. Decode & Normalize
-3. Provenance & Integrity
-4. Recording & Channel Assessment
+2. File Decode and Normalization
+3. Provenance and Integrity
+4. Channel and Recording Assessment
 
 ### Understand
 
-5. Speaker Identification / Diarization
-6. Speech Segmentation
+5. Speech Segmentation
+6. Speaker Identification / Diarization
 7. Transcription Generation
 8. Transcript Alignment
-9. Analysis Readiness & Reliability
+9. Eligibility and Reliability
 
 ### Analyze
 
-10. Acoustic Analysis
-11. Prosodic & Voice Quality Analysis
-12. Temporal & Pause Analysis
-13. Linguistic & Disfluency Analysis
+10. Acoustic Feature Extraction
+11. Prosodic and Voice Quality Analysis
+12. Temporal and Pause Analysis
+13. Linguistic and Disfluency Analysis
 14. Question / Answer Alignment
 15. Within Speaker Baseline
 
-### Synthesize & Decide
+### Synthesize and Decide
 
-16. Evidence Assembly
-17. Evidence Convergence & Conflict
+16. Cross Method Evidence Assembly
+17. Evidence Convergence and Conflict
 18. Candidate Classification
-19. Validation & Calibration
-20. Final Classification / Result
-21. Audit & Provenance Output
+19. Validation and Calibration Gate
+20. Final Classification / Disposition
+21. Audit and Provenance Output
 
-## Analysis Families
+The canonical order places Speech Segmentation at Stage 05 and Speaker Identification / Diarization at Stage 06.
 
-### Acoustic & Spectral
+## Analysis Workspace
 
-- RMS and intensity
-- Zero-crossing rate
-- Spectral centroid and spread
-- Spectral flux and rolloff
-- Fundamental frequency
-- Harmonicity
-- Harmonic-to-noise ratio
-- MFCC and cepstral features
-- Formant candidate tracking
+One case. One timeline. Multiple evidence families.
 
-### Voice & Prosody
+The Analysis Workspace is designed to bring together:
 
-- F0 dynamics
-- Intensity dynamics
-- Pitch movement
-- Voice quality
-- Pause topology
-- Speech timing
-- Articulation timing
+- protected source playback
+- waveform and shared playhead
+- speaker regions
+- transcript timing
+- pitch and intensity behavior
+- spectral and voice quality observations
+- speech and pause timing
+- evidence markers
+- convergence and conflict
+- uncertainty and alternatives
+- stage and provenance detail
 
-### Language & Conversation
+The goal is not to bury the user in raw metrics. It is to preserve the path from source recording to every analytical observation so the work can be inspected and challenged.
 
-- Transcription
-- Transcript alignment
-- Disfluency analysis
-- Question and answer alignment
-- Speaker identification
-- Speaker turn structure
-- Within-speaker baselines
-- Conversational timing
+## Evidence first
 
-## Technology
+VoxVector separates:
 
-VoxVector brings together audio processing, vocal analysis, speech intelligence, linguistic analysis, speaker intelligence, evidence synthesis, classification architecture, and a developer-accessible API in one platform.
+- recording quality and eligibility
+- operational processing safety
+- observations
+- evidence relationships
+- candidate assessment
+- final disposition
+- scientific validation
 
-The system is designed to advance from foundational measurements into increasingly sophisticated multimethod inference and validated deception classification.
+That separation is intentional. A measurement can be real without being diagnostic. A provider can execute successfully without proving scientific accuracy. A software workflow can be repeatable without validating a universal deception claim.
 
-## Developer & API Experience
+## Current product status
 
-Developers can connect to VoxVector through the canonical FastAPI service.
+VoxVector is an advanced pre release engineering build with a connected case architecture, private persistence, a canonical 21 stage workflow, active operational diagnostics, historical real transcription provider execution, and substantial analytical foundations.
 
-Current API capabilities include:
+Current engineering release gates still include controlled current revision speech and memory proof, real cloud speaker execution and persistence, multimodal alignment, historical case rehydration, intake reliability, observability acceptance, authenticated browser acceptance, and two same revision golden cases.
 
-- health and runtime inspection
-- direct WAV analysis
-- authenticated case creation
-- case listing and retrieval
-- source upload and provenance
-- signed media playback
-- case-bound analysis runs
-- persisted pipeline state
-- request correlation and diagnostics
+## Developer and enterprise posture
 
-The API provides an integration path for applications that need VoxVector intelligence without replacing the canonical analysis engine.
+The platform is being structured for professional workflows that require:
 
-## Closing CTA
+- authenticated access
+- owner scoped case data
+- private media handling
+- auditable source and method provenance
+- reproducible software behavior
+- operational diagnostics
+- protected provider and infrastructure credentials
+- explicit uncertainty and limitations
 
-**What did you miss?**
+## CTA section
 
-**Go back to the recording.**
+### Headline
 
-**Experience VoxVector.**
+**Turn a recording into evidence you can inspect.**
+
+### Body
+
+Request access to VoxVector and follow the complete case workflow from source intake through synchronized evidence review and auditable reporting.
+
+### Action
+
+**Request Access**
+
+## Copy boundary
+
+Website language must not claim validated deception accuracy, verified speaker identity, guaranteed transcript truthfulness, universal lie detection, legal admissibility, or production readiness beyond the evidence actually established in the current engineering and validation records.

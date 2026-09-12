@@ -1,70 +1,24 @@
 # VoxVector
 
-**VoxVector is a vocal intelligence and deception detection platform being engineered as a complete end to end analysis system.**
+VoxVector is Crown Labs' case-centered vocal and audio intelligence platform with a deception-analysis research architecture. It connects source intake, private persistence, speech/speaker evidence acquisition, synchronized analysis, evidence synthesis, guarded assessment and auditable reporting in one system.
 
-It is built around a case centered workflow that turns conversational audio into a structured analytical record through recording intake speaker processing transcription synchronized audio analysis evidence synthesis classification and auditable reporting.
+The repository remains the source of truth for what is actually implemented. Software execution and engineering maturity must not be presented as scientific validation.
 
-> **Product objective:** build the end product rather than a collection of disconnected analysis utilities.
+## Current source state
 
----
+- Backend/API/engine: `VoxVector/`
+- Public/authenticated React application: `../voxvector/`
+- Backend source release: **0.2.27**
+- Frontend source release: **0.2.37**
+- Current deployed backend revision: `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`
+- Current engineering handoff: `docs/CURRENT_ENGINEERING_STATE_2026-09-12.md`
+- Current validation snapshot: `docs/VALIDATION_SNAPSHOT_2026-09-12.md`
+- Living version map: `docs/VERSION_MAP.md`
+- Living QA record: `docs/QA_STATUS.md`
 
-## What VoxVector is building
+Frontend and backend are independently versioned.
 
-VoxVector brings the complete analysis lifecycle into one connected system:
-
-```text
-Audio / Conversation
-        ↓
-File Upload and Ingest
-        ↓
-Decode and Normalization
-        ↓
-Provenance and Integrity
-        ↓
-Recording / Channel Assessment
-        ↓
-Speaker Identification / Diarization
-        ↓
-Speech Segmentation
-        ↓
-Transcription Generation
-        ↓
-Transcript Alignment
-        ↓
-Eligibility and Reliability
-        ↓
-Acoustic Analysis
-        ↓
-Prosodic and Voice Quality Analysis
-        ↓
-Temporal and Pause Analysis
-        ↓
-Linguistic and Disfluency Analysis
-        ↓
-Question / Answer Alignment
-        ↓
-Within Speaker Baseline
-        ↓
-Cross Method Evidence Assembly
-        ↓
-Evidence Convergence / Conflict
-        ↓
-Candidate Classification
-        ↓
-Validation / Calibration Gate
-        ↓
-Final Classification / Disposition
-        ↓
-Audit / Provenance Output
-```
-
-The architecture deliberately separates eligibility and reliability from evidence collection from candidate classification from final disposition. The same case identity follows the source asset through the complete workflow.
-
----
-
-## The 21 stage pipeline
-
-The canonical pipeline is organized into four operating groups.
+## Canonical 21-stage pipeline
 
 ### Prepare
 
@@ -79,8 +33,8 @@ The canonical pipeline is organized into four operating groups.
 
 | # | Stage |
 |---:|---|
-| 5 | Speaker Identification / Diarization |
-| 6 | Speech Segmentation |
+| 5 | Speech Segmentation |
+| 6 | Speaker Identification / Diarization |
 | 7 | Transcription Generation |
 | 8 | Transcript Alignment |
 | 9 | Eligibility and Reliability |
@@ -107,478 +61,98 @@ The canonical pipeline is organized into four operating groups.
 | 20 | Final Classification / Disposition |
 | 21 | Audit and Provenance Output |
 
-The complete stage specification is maintained in `docs/ANALYSIS_PIPELINE.md`.
+Stage 05 is Speech Segmentation and Stage 06 is Speaker Identification / Diarization. Historical documents may preserve older numbering, but living product surfaces must use this order.
 
----
+## Current engineering maturity
 
-## Analysis methods
+Fresh `/health` reports 21 total stages, approximately 16 implemented foundations, one queued stage and four conditional/not-invoked stages.
 
-The current engine already provides a broad set of vocal, acoustic, temporal, and behavioral observations. These are the building blocks for the larger evidence system.
+Separately, the September 12 controlled runtime proof completed **17/21 stages with 0 failed and 4 intentionally not run**. Source maturity and one-run runtime completion are different evidence dimensions.
 
-### Acoustic and audio observations
+This is an engineering maturity statement, not a count of validated deception indicators.
 
-- RMS / energy
-- relative intensity / dB
-- zero crossing rate
-- spectral centroid
-- spectral spread
-- fundamental frequency
-- harmonicity
-- HNR
-- spectral flux
-- spectral rolloff
-- MFCC / cepstral coefficients
-- formant candidate tracking
+## September 12 controlled runtime proof
 
-### Prosodic and temporal observations
+A controlled 183.3-second WAV completed on deployed backend **0.2.27**, revision `66f2ea...`:
 
-- F0 dynamics
-- intensity dynamics
-- pause topology
-- speech timing
-- response latency when timing is supplied
-- turn structure as speaker processing expands
+- 26 speech segments
+- faster-whisper completed in about 150.1 seconds
+- 58 timestamped transcript segments / 246 words durably checkpointed
+- transcript/audio alignment available before Stage 10
+- Stage 10 admitted at 118.6 MB RSS under a 416 MB ceiling / 512 MB service limit
+- acoustic extraction completed in about 73.8 seconds
+- no uncontrolled API restart
 
-### Linguistic observations
+**#941 passed and is closed.**
 
-- transcript disfluency when transcript data is supplied
-- lexical observations
-- question / response context
-- transcript timing
-- speaker attributed language analysis as transcription and diarization mature
+## Current provider architecture
 
-### Comparative observations
+### Transcription
 
-- within speaker baseline deviation
-- cross method evidence grouping
-- evidence convergence
-- evidence conflict
-- reliability state
-- source and method provenance
+Canonical adapter: faster-whisper.
 
-The complete data point inventory is maintained in `docs/MASTER_METHOD_INDEX.md`. Method definitions live in `docs/ANALYSIS_METHODS.md`.
+Current same-revision controlled execution, durable transcript checkpointing, transcript/audio alignment and bounded Stage 10 completion are proven on the deployed candidate.
 
----
+### Speaker diarization
 
-## End to end product experience
+Canonical primary path: pyannoteAI cloud.
 
-VoxVector is being developed around a persistent case and a synchronized Analysis Workspace.
+Fresh `/health` reports the provider configured and execution-ready. Stage 06 was intentionally not invoked in the successful controlled case, so **#970 is now the first P0 runtime gate**.
 
-### Case
+### Local fallback
 
-A case is the root identity for an analysis. It connects:
-
-- case ID
-- analysis ID
-- analysis run ID
-- source asset
-- source metadata
-- provenance
-- recording metadata
-- speakers
-- speaker segments
-- speech segments
-- transcript
-- transcript segments
-- transcript words
-- alignment records
-- analytical tracks
-- feature observations
-- evidence records
-- pipeline stage state
-- lifecycle events
-- findings
-- assessment
-- reports
-- final disposition
-
-### Analysis Workspace
-
-The workspace is designed around one shared audio time axis.
-
-Core surfaces include:
-
-- source metadata
-- persisted audio playback
-- decoded waveform
-- shared playhead
-- pipeline state
-- speaker regions
-- transcript
-- analytical tracks
-- evidence markers
-- evidence timeline
-- assessment state
-
-Current workspace engineering already includes real source waveform generation and persisted run stage inspection. Stage records can be expanded to inspect status timing duration outcome and persisted errors.
-
-The next connected layers are speaker processing transcription alignment analytical tracks and evidence visualization.
-
----
+Local pyannote Community-1/Hugging Face tooling is optional fallback infrastructure. It is not the constrained cloud-primary default.
 
 ## Developer Console
 
-The Developer Console is the engineering cockpit for building VoxVector.
+The Developer Console is the operational engineering cockpit for API health, case workflow, analysis workspace, pipeline projection, diagnostics, GitHub QA, Render status/log/debug evidence, documentation and trusted account functions.
 
-It provides the operational path for:
+The engineering-status module now recognizes the validated deployed proof revision and can display transcription as **PROVEN** rather than `execution unverified`. The source-level 16/21 foundations count remains separate from the successful 17/21 controlled runtime result.
 
-- API health and runtime inspection
-- case creation
-- case selection and reopening
-- source upload
-- provenance inspection
-- analysis run creation
-- persisted pipeline state
-- diagnostic events
-- methodology navigation
-- MVP engineering priorities
-- Analysis Workspace access
-- expandable pipeline stage inspection
-- deployment endpoint traceability
+The September 12 screenshot PDFs also exposed stale pre-validation dashboard copy such as `Transcription first`, `71% complete`, `20 of 28` and `execution ready, unverified`. Those values are historical rendered evidence from before the validation reconciliation and are not current engineering truth.
 
-The console is intentionally connected to real backend contracts rather than maintaining a separate simulated application state.
+## Observability finding
 
-The fastest connected MVP path is tracked in `docs/MVP_BUILD_PLAN.md`.
+A real sanitized Debug Bundle exists for the successful controlled run, with runtime health, Render status and 100 Render logs plus a Supabase Render-log mirror. Exact exported VoxVector event/error correlation remains incomplete under #959.
 
----
+A separate browser case reproduced one HTTP 500 caused by a `TimeoutError` while diagnostic middleware persisted a completed-request record. `/health` remained 200 and later reads succeeded. **#998** tracks the requirement that observability persistence be best-effort/non-fatal to product requests.
 
-## Synchronized analytical viewer
+## Active release path
 
-The primary analytical viewer uses one shared time axis so different evidence families can be inspected against the same moment in the recording.
-
-### Initial tracks
-
-- waveform
-- pitch / F0
-- intensity
-- spectral energy
-- speech activity
-- pauses
-
-### Expanded tracks
-
-- formants
-- HNR
-- spectral flux
-- spectral rolloff
-- MFCC
-- jitter
-- shimmer
-- voice quality
-- response latency
-- speaker turns
-- transcript alignment
-- evidence events
-
-Every analytical track must be driven by canonical analysis data. The interface is not permitted to manufacture analytical telemetry.
-
----
-
-## Evidence model
-
-VoxVector is designed to move from isolated observations to structured evidence.
-
-Each evidence item should retain:
-
-- source identity
-- source interval
-- speaker identity when available
-- method identity
-- observation identity
-- measurement
-- quality / reliability
-- evidence direction
-- contextual relationship
-- provenance
-- dependencies
-
-The synthesis layer then organizes evidence into:
-
-- convergence
-- conflict
-- dependency relationships
-- alternative hypotheses
-- candidate assessments
-- calibrated final outputs
-
-No single vocal or linguistic feature is treated as an independent proof of deception. The system is engineered to combine multiple evidence families through an explicit analytical architecture.
-
----
-
-## Classification architecture
-
-Classification is deliberately downstream of measurement and evidence.
-
-```text
-Eligibility / Reliability
-          ↓
-Evidence Collection
-          ↓
-Evidence Synthesis
-          ↓
-Candidate Classification
-          ↓
-Validation / Calibration Gate
-          ↓
-Final Classification / Disposition
-```
-
-This separation makes the system auditable and gives engineering a clear path from raw observations to validated inferential capability.
-
-The validation program covers defined tasks and populations rather than treating software execution as scientific validation.
-
----
-
-## Current implementation status
-
-The repository currently contains working foundations across the intake pipeline case model analysis engine API and developer experience.
-
-### Backend and engine
-
-- canonical `VoxVectorPipeline`
-- FastAPI runtime adapter
-- authenticated case workflow
-- case creation and retrieval
-- WAV source upload
-- source metadata extraction
-- SHA-256 source hashing
-- private durable media storage
-- signed playback URL generation
-- case bound analysis runs
-- persisted pipeline stage state
-- request correlation
-- lifecycle diagnostics
-- durable diagnostic storage adapter
-- acoustic feature extraction
-- F0 and intensity dynamics
-- HNR
-- spectral flux
-- spectral rolloff
-- formant candidate tracking
-- pause topology
-- optional response latency
-- optional transcript disfluency observations
-- optional within speaker baselines
-- evidence grouping
-- reliability gate
-
-### Frontend
-
-- React / Vite application
-- authenticated application shell
-- Developer Console
-- real API client
-- case workbench
-- source upload workflow
-- upload progress
-- signed media playback
-- local WAV waveform generation
-- persistent Analysis Workspace
-- synchronized playhead foundation
-- pipeline stage inspector
-- methodology navigation
-- MVP task board foundation
-
-### Operational architecture
-
-- GitHub Pages public frontend deployment
-- Render original backend API deployment
-- AWS HTTPS API environment at `https://awsapi.crownlabs.tech`
-- Supabase authentication and persistence integration
-- API request correlation
-- durable lifecycle diagnostics
-
-Implementation state is tracked in `docs/CAPABILITY_STATUS.md` rather than inferred from this overview.
-
----
-
-## Deployment endpoint map
-
-```text
-https://darenprince.com/voxvector/
-        Public React application / landing page
-
-https://darenprince.com/voxvector/developer/
-        Authenticated Developer Console
-
-https://voxvector.crownlabs.tech
-        Original VoxVector API domain / Render environment
-
-https://awsapi.crownlabs.tech
-        Dedicated AWS API environment / ALB → ECS Fargate
-```
-
-The original API domain remains preserved. The AWS endpoint is a separate deployment environment and does not silently replace the original API.
-
-The complete endpoint ownership and migration rules are maintained in `docs/ENDPOINT_REGISTRY.md`.
-
----
-
-## Product development path
-
-The fastest connected path to the end product is:
-
-```text
-1. Case identity
-2. Intake and provenance
-3. Audio playback and waveform
-4. Real pipeline lifecycle
-5. Speaker processing
-6. Transcription
-7. Transcript alignment
-8. Analytical tracks
-9. Evidence normalization
-10. Evidence synthesis
-11. Assessment
-12. Reporting
-13. History and reopen
-14. Browser verification
-```
-
-The immediate engineering sequence is therefore centered on real speaker segmentation and diarization contracts followed by transcription generation and synchronization into the existing Analysis Workspace.
-
-Planned research capabilities are preserved in the canonical capability register and roadmap. They are not silently promoted into implemented functionality.
-
----
-
-## Repository structure
-
-```text
-VoxVector/
-├── api/                    FastAPI HTTP adapter
-├── src/voxvector/          canonical analysis engine
-├── tests/                  automated software QA
-└── docs/                   canonical technical documentation
-
-voxvector/
-├── src/                    React / Vite application
-├── public/                 frontend public assets
-└── ...                     frontend configuration and build files
-```
-
-The repository root contains both product workspaces because the public React application and backend engine have deliberately separated deployment responsibilities.
-
-### Deployment boundary
-
-```text
-https://darenprince.com/voxvector/
-        public React application
-
-https://darenprince.com/voxvector/developer/
-        authenticated Developer Console
-
-https://voxvector.crownlabs.tech
-        original / canonical Render FastAPI API
-
-https://awsapi.crownlabs.tech
-        AWS HTTPS API environment
-```
-
-GitHub Pages hosts the frontend.
-
-Render hosts the original backend API.
-
-AWS hosts the separately addressed AWS API environment.
-
-The root `voxvector.html` is a compatibility redirect and is not a second application.
-
----
+1. #970 real cloud-primary diarization and persisted speaker evidence
+2. #971 persisted speaker/transcript/audio alignment
+3. #963 historical-case reopen/playback/artifact/report rehydration
+4. #930 upload reliability bounding
+5. #998 observability persistence isolation
+6. #959 complete dual-copy observability/debug-bundle correlation
+7. authenticated desktop/mobile acceptance
+8. #972 two complete golden cases on one frozen revision/configuration
+9. scientific validation as a separate program
 
 ## Documentation map
 
-### Governing documents
+Use these living documents for current-state decisions:
 
-- `docs/OPERATING_CHARTER.md` — product identity architecture authority and engineering rules
-- `docs/PROJECT_DECISION_LOG.md` — durable architectural decisions
-- `docs/ENDPOINT_REGISTRY.md` — current endpoint ownership and deployment boundary
+- `docs/CURRENT_ENGINEERING_STATE_2026-09-12.md`
+- `docs/VALIDATION_SNAPSHOT_2026-09-12.md`
+- `docs/SYSTEM_STATE_REPORT.md`
+- `docs/VERSION_MAP.md`
+- `docs/QA_STATUS.md`
+- `docs/PIPELINE_BUILD_STATUS.md`
+- `docs/ENDPOINT_REGISTRY.md`
+- `docs/CAPABILITY_STATUS.md`
+- `docs/MVP_RELEASE_GATE.md`
+- `docs/ARCHITECTURE.md`
+- `docs/ANALYSIS_PIPELINE.md`
+- `docs/MASTER_METHOD_INDEX.md`
+- `docs/VALIDATION.md`
 
-### Architecture and product
+Dated audit/checkpoint documents remain historical evidence and should not be rewritten to look current.
 
-- `docs/ARCHITECTURE.md` — complete system architecture
-- `docs/ANALYSIS_PIPELINE.md` — canonical 21 stage pipeline
-- `docs/PRODUCT_EXPERIENCE_ARCHITECTURE.md` — product and workspace UX architecture
-- `docs/MASTER_METHOD_INDEX.md` — complete method and data point inventory
+## Evidence rule
 
-### Capability and engineering
+Keep this chain explicit:
 
-- `docs/CAPABILITY_STATUS.md` — implementation and capability maturity map
-- `docs/MVP_BUILD_PLAN.md` — fastest connected MVP path
-- `docs/ROADMAP.md` — longer range product and research roadmap
-- `docs/RESEARCH_INTEGRATION.md` — research to product integration boundary
-- `docs/RESEARCH_METHOD_EXPANSION.md` — research derived engineering backlog
+`source → QA → deployment/publication → fresh runtime readback → provider execution → durable artifact readback → authenticated browser acceptance → repeated golden cases → scientific validation`
 
-### Analysis and validation
-
-- `docs/ANALYSIS_METHODS.md` — analytical method definitions
-- `docs/METHOD_QA_MATRIX.md` — software QA coverage
-- `docs/VALIDATION.md` — scientific validation program and requirements
-- `docs/RESULTS_CONTRACT.md` — result schema and output contract
-
-### Operations
-
-- `docs/SYSTEM_STATE_REPORT.md` — repository and runtime state
-- `docs/CLOUD_PLATFORM_RUNTIME_AUDIT_2026-09-03.md` — connected Render/AWS operational audit
-- `docs/VERSION_MAP.md` — version and deployment state
-- `docs/DEPLOYMENT_PLAN_FREE.md` — deployment runbook
-- `docs/DOCS_ALIGNMENT_2026-08-24.md` — active documentation synchronization audit
-- `docs/PROJECT_CHECKPOINT_2026-08-20_WORKSPACE_PIPELINE_INSPECTION.md` — recent workspace pipeline implementation checkpoint
-
----
-
-## Development
-
-### Requirements
-
-- Python 3.11 through 3.14
-- Node.js / npm for the React frontend
-- Supabase configuration for authenticated persistence workflows
-- Render configuration for the original backend API deployment
-- AWS credentials/workflow configuration for the separately addressed AWS environment
-
-### Backend
-
-```bash
-cd VoxVector
-python -m pip install -e '.[dev]'
-pytest
-```
-
-### Frontend
-
-```bash
-cd voxvector
-npm install
-npm run build
-```
-
-Use the repository's active configuration and documentation as the authority for deployment commands and environment variables.
-
----
-
-## Engineering rules
-
-VoxVector is built from the repository canon.
-
-- one canonical analysis engine
-- one canonical case model
-- one 21 stage pipeline
-- one synchronized analytical time axis
-- real backend state drives the frontend
-- every visualization has a data contract
-- every evidence record has provenance
-- every analytical stage has defined inputs and outputs
-- implementation state is documented separately from validation state
-- planned product capabilities remain preserved
-- scientific validation is an explicit engineering workstream
-- accessibility and responsive behavior are part of completion
-- deployment is verified rather than assumed
-
-Never invent measurements validation results datasets model performance or completed integrations.
-
----
-
-## Project status
-
-VoxVector is actively under development toward the complete end to end product described above.
-
-The repository is the source of truth for what is actually implemented. This README provides the project map and architecture overview; the linked canonical documents provide the detailed implementation and validation state.
+Never use an earlier state as proof of a later one.
