@@ -4,19 +4,18 @@
 
 Build the complete VoxVector product represented by the canonical product architecture and Analysis Workspace: one auditable case connects recording intake, private persistence, speaker/transcript evidence, synchronized analytical views, evidence synthesis, guarded assessment, reporting, history/reopen and provenance.
 
-The implementation plan is broader than the immediate MVP sequence. `MVP_BUILD_PLAN.md` owns the shortest current dependency chain and `MVP_RELEASE_GATE.md` owns the exit criteria.
+`MVP_BUILD_PLAN.md` owns the shortest current dependency chain and `MVP_RELEASE_GATE.md` owns the exit criteria.
 
 ## Current source context
 
 - backend source release: **0.2.27**
 - frontend source release: **0.2.37**
+- deployed backend revision: `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`
 - current engineering handoff: `CURRENT_ENGINEERING_STATE_2026-09-12.md`
+- current validation snapshot: `VALIDATION_SNAPSHOT_2026-09-12.md`
 - canonical Stage 05 = Speech Segmentation
 - canonical Stage 06 = Speaker Identification / Diarization
-- frontend navigation/site-map/pipeline correction is merged
-- current auth source includes login-time API wake and shared self-profile behavior
-
-Do not use older checkpoint SHAs as a current-head claim. Dated checkpoint documents remain historical evidence.
+- #941 controlled transcription/durability/Stage 10 proof: **passed and closed**
 
 ## Architecture principles
 
@@ -30,6 +29,7 @@ Do not use older checkpoint SHAs as a current-head claim. Dated checkpoint docum
 8. Provider readiness is separate from execution.
 9. Engineering completion is separate from scientific validation.
 10. Existing canonical owners are edited directly; do not create patch/replacement/v2 duplicates.
+11. Observability persistence must not convert a healthy product operation into a user-visible failure.
 
 ## Phase A — case spine and source integrity
 
@@ -60,11 +60,12 @@ Canonical sequence:
 
 Current status:
 
-- speech segmentation foundation implemented;
-- faster-whisper integration implemented with historical real provider execution;
-- pyannoteAI cloud-primary architecture wired;
-- alignment foundation implemented;
-- current release evidence remains #941 → #970 → #971.
+- speech segmentation current runtime proven;
+- faster-whisper current same-revision execution proven;
+- durable transcript checkpoint current runtime proven;
+- transcript/audio alignment current runtime proven;
+- pyannoteAI cloud-primary architecture/readiness present, but Stage 06 real execution/persistence still open;
+- current acquisition dependency path is now **#970 → #971**.
 
 ## Phase C — analytical observations
 
@@ -81,7 +82,7 @@ Implemented/foundation areas include:
 - optional transcript disfluency;
 - optional within-speaker baseline.
 
-Operational memory admission belongs to Stage 10 execution safety and must not be confused with Stage 09 analytical Eligibility and Reliability.
+The September 12 controlled run proves bounded Stage 10 admission and acoustic-extraction completion on the deployed 0.2.27 revision. Operational memory admission remains separate from Stage 09 analytical Eligibility and Reliability.
 
 ## Phase D — evidence architecture
 
@@ -97,21 +98,21 @@ Build and maintain:
 - alternative hypotheses;
 - uncertainty.
 
-Evidence records must be inspectable back to their source context.
+Evidence records must remain inspectable back to source context.
 
 ## Phase E — guarded assessment
 
 Current architecture contains guarded foundations for candidate classification and final disposition.
 
-Before any task-specific inferential capability is promoted:
+Before task-specific inferential capability is promoted:
 
-- define the exact task/population;
+- define exact task/population;
 - establish labels/rights/evaluation methodology;
-- calibrate and validate outside the software QA loop;
+- calibrate and validate outside software QA;
 - preserve indeterminate/insufficient-evidence outcomes;
 - avoid converting a single acoustic/linguistic observation into a deception verdict.
 
-Stage 19 Validation and Calibration is intentionally not invoked merely because code runs.
+Stage 19 Validation and Calibration remains intentionally not invoked merely because code runs.
 
 ## Phase F — Analysis Workspace
 
@@ -128,7 +129,7 @@ The canonical workspace should restore and synchronize:
 - guarded assessment state;
 - reports/failure reports/provenance.
 
-#963 owns the critical close/reopen persistence acceptance for the connected product experience.
+The September 12 screenshots visually verify case creation, upload, protected playback, waveform, live level, spectral display, pitch trajectory, decoded metadata and live stage progression. #963 still owns full close/reopen persistence acceptance.
 
 ## Phase G — reports and audit
 
@@ -163,7 +164,7 @@ The status UI must preserve the evidence chain:
 
 `source → QA → deployment → health → provider execution → durable artifacts → browser acceptance`
 
-The startup `Pipeline contract` row verifies contract presence, not all-stage completion.
+The current engineering-status module now recognizes the validated `66f2ea...` proof revision and can report transcription as **PROVEN**. The screenshot-era dashboard strings `Transcription first`, `execution ready, unverified`, `71% complete`, and `20 of 28` are stale pre-validation copy and must not be used as current project truth.
 
 ## Phase I — frontend/product shell
 
@@ -178,17 +179,21 @@ Current source already includes:
 - current hero artwork/cascade ownership;
 - protected account/workspace routes.
 
-Remaining work is primarily authenticated/rendered acceptance and any defects discovered by that acceptance, not recreation of the shell.
+Remaining work is authenticated/rendered acceptance and defects found during that acceptance, not recreation of the shell.
 
 ## Phase J — observability and hardening
 
 Current operational foundation includes Supabase request/error persistence and protected Render observability routes.
 
+A real sanitized Debug Bundle exists with runtime health, Render status and 100 Render logs plus a Supabase Render-log mirror. Exact exported VoxVector event/error correlation remains incomplete under #959.
+
+A separate browser case reproduced one HTTP 500 caused by a `TimeoutError` while diagnostic middleware persisted a completed-request record. `/health` remained 200 and later reads succeeded. #998 is release-critical until observability persistence is best-effort/non-fatal.
+
 Remaining hardening includes:
 
-- #959 production dual-evidence/debug-bundle acceptance;
+- #998 observability persistence isolation;
+- #959 full dual-copy/debug-bundle acceptance;
 - #930 upload error bounding;
-- active timeout/error reduction;
 - Supabase SECURITY DEFINER boundary review;
 - leaked-password protection decision;
 - unindexed foreign-key and RLS performance advisories;
@@ -199,16 +204,17 @@ Remaining hardening includes:
 
 Follow `MVP_RELEASE_GATE.md`:
 
-1. finish the current P0 runtime/persistence/browser gates;
-2. freeze one exact source/configuration candidate;
-3. run exact-head QA;
-4. intentionally publish/deploy;
-5. obtain fresh runtime identity;
-6. execute and persist golden case 1;
-7. close/reopen and verify artifact restoration;
-8. execute and persist golden case 2 on the same revision/configuration;
-9. record correlated operational evidence;
-10. declare only engineering-MVP completion.
+1. complete #970, #971, #963, #930, #998 and #959;
+2. finish authenticated desktop/mobile acceptance;
+3. freeze one exact source/configuration candidate;
+4. run exact-head QA;
+5. intentionally publish/deploy;
+6. obtain fresh runtime identity;
+7. execute and persist golden case 1;
+8. close/reopen and verify artifact restoration;
+9. execute and persist golden case 2 on the same revision/configuration;
+10. record correlated operational evidence;
+11. declare only engineering-MVP completion.
 
 ## Phase L — scientific validation
 
