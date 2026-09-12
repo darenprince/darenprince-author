@@ -1,6 +1,6 @@
 # VoxVector 21 Stage Pipeline — Build Status
 
-**Status date:** 2026-09-10
+**Status date:** 2026-09-11
 
 This document is an engineering status record, not a claim that every pipeline stage is currently integrated, production-verified, or scientifically validated.
 
@@ -14,7 +14,7 @@ This document is an engineering status record, not a claim that every pipeline s
 | 04 | Channel and Recording Assessment | **implemented** | sample rate, duration, peak, clipping profile; persisted run boundary | runtime exercised historically by controlled case |
 | 05 | Speech Segmentation | **implemented foundation** | deterministic speech segmentation; historical controlled run completed 26 segments | deterministic tests plus historical production execution evidence |
 | 06 | Speaker Identification / Diarization | **built cloud-primary provider path** | `pyannote_api` architecture; real current cloud execution/persisted speaker artifact still required | #970 owns provider-contract correction/execution/persistence |
-| 07 | Transcription Generation | **built integration with historical controlled provider execution** | faster-whisper beam-1 completed historically; same-run durability source is merged | current post-#964/#967 controlled proof remains #941 |
+| 07 | Transcription Generation | **built integration with historical controlled provider execution** | faster-whisper beam-1 completed historically; same-run durability source is merged | current controlled proof remains #941 |
 | 08 | Transcript Alignment | **built synchronized foundation** | historical alignment state reached; same-run checkpoint source merged; speaker-aware persisted proof remains open | #971 owns persisted transcript/audio/speaker alignment |
 | 09 | Eligibility and Reliability | **implemented** | analytical eligibility/reliability remains distinct from operational memory admission | pipeline tests; scientific validation separate |
 | 10 | Acoustic Feature Extraction | **implemented source with bounded admission merged** | fail-fast single-flight composite admission + locked RSS recheck are in current source | reopened #941 owns controlled production proof |
@@ -40,16 +40,32 @@ This document is an engineering status record, not a claim that every pipeline s
 
 The maturity count does not mean sixteen validated deception indicators. Individual measurements remain evidence only, and inferential capability requires a separate validation program.
 
-## Current repository and Render evidence — 2026-09-10
+## Frontend pipeline projection — PR #993
 
-Canonical GitHub `main` is `420536771875c6948be51851118b58cb04a596e6`, the merge of PR #967.
+The existing `voxvector/src/components/PipelineBuildCard.jsx` has been corrected on PR #993 rather than replaced.
 
-Exact-main GitHub evidence:
+The candidate source now:
+
+- preserves the canonical Stage 05 Speech Segmentation → Stage 06 Speaker Identification / Diarization order;
+- prefers backend `pipeline_build.status_by_stage` for mutable row state whenever that contract is present;
+- normalizes backend `implemented*` foundation variants for presentation without converting provider readiness into execution evidence;
+- uses source-contract data only as a fallback while the backend state is loading or unavailable and labels that fallback explicitly;
+- gives Stage 07 and Stage 08 fallback states the backend implemented-foundation semantics rather than the obsolete queued presentation;
+- does not mark Stage 01 as the current stage when the backend supplies no exact current-stage token;
+- keeps the existing 21-stage component owner and `/health` contract, with no duplicate pipeline implementation.
+
+Exact PR-head QA remains the software-verification boundary. This source correction is not provider execution, deployment, browser verification, engineering-MVP completion, or scientific validation.
+
+## Preserved repository and Render checkpoint — 2026-09-10
+
+At the 2026-09-10 checkpoint, canonical GitHub `main` was `420536771875c6948be51851118b58cb04a596e6`, the merge of PR #967.
+
+Exact-main GitHub evidence at that checkpoint:
 
 - VoxVector QA `34532394431`: success;
 - GitHub Pages publication workflow `34532394423`: success.
 
-Connected Render inspection shows:
+Connected Render inspection at that checkpoint showed:
 
 - service `voxvector-api` (`srv-da2f88n40ujc73a8m26g`);
 - deployment `dep-dahi2ics728c73b6ujug`;
@@ -57,13 +73,13 @@ Connected Render inspection shows:
 - deployed source exact `420536771875c6948be51851118b58cb04a596e6`;
 - trigger `api`;
 - auto-deploy disabled;
-- current live build command `pip install -r api/requirements.txt && pip install -r api/requirements-speech.txt`.
+- live build command `pip install -r api/requirements.txt && pip install -r api/requirements-speech.txt`.
 
-The owner-provided Render export generated `2026-09-10T21:38:48Z` independently matches the service/repository/root/build/start/health/domain/auto-deploy fields and redacts environment-variable values.
+The owner-provided Render export generated `2026-09-10T21:38:48Z` independently matched the service/repository/root/build/start/health/domain/auto-deploy fields and redacted environment-variable values.
 
-The canonical root `render.yaml` instead specifies `api/requirements-transcription.txt`. That Blueprint/live-service drift is isolated in #964. Root `render.yaml` also declares `CORS_ORIGINS` as server-managed while the owner export does not list it; backend source defaults to `*` when the variable is absent. #964 owns deliberate reconciliation rather than inference from the redacted export.
+That historical checkpoint recorded Blueprint/live-service drift under #964. Issue #964 was subsequently completed after reconciliation and service-inventory verification. This section is retained as historical evidence, not as a current deployment claim.
 
-No fresh `/health` payload for exact deployed `420536...` is recorded by the current synchronization pass.
+No old deployment observation in this section is used as proof of the current PR #993 frontend source.
 
 ## Controlled beam-1 production run — preserved historical evidence
 
@@ -90,9 +106,9 @@ Render did not emit a dedicated kernel OOM/SIGKILL line, so no specific OS termi
 
 ## Merged #941 source repair and reopened verification
 
-Merged PR #962 introduced the first same-subsystem containment work. Merged PR #967 completed the reviewed follow-up and is now current `main`.
+Merged PR #962 introduced the first same-subsystem containment work. Merged PR #967 completed the reviewed follow-up.
 
-Current source behavior includes:
+The merged source behavior includes:
 
 1. **Cleanup side effect removed:** post-heavy-phase cleanup does not import PyTorch merely to inspect CUDA on the CPU faster-whisper path.
 2. **Durability ordering:** completed acquisition/transcript/alignment/provider state is checkpointed to the same persisted run before Stage 10.
@@ -102,7 +118,7 @@ Current source behavior includes:
 6. **Process identity:** `process_instance_id` identifies the Python process and remains distinct from `render_instance_id`.
 7. **Stable run identity:** route-owned persisted `run_id` remains stable; internal analytical UUID is preserved separately as `pipeline_run_id`.
 
-Issue #941 was closed at source merge even though controlled production criteria remained open and has been reopened. #964 should first reconcile the runtime dependency/profile boundary, then #941 should rerun the same controlled WAV and require the durable checkpoint plus Stage 10 completion or explicit bounded admission failure without uncontrolled API restart.
+Issue #941 was closed at source merge even though controlled production criteria remained open and has been reopened. With #964 complete, #941 remains the controlled runtime proof gate for the same WAV and requires the durable checkpoint plus Stage 10 completion or explicit bounded admission failure without uncontrolled API restart.
 
 ## Speech execution sequence
 
@@ -157,45 +173,33 @@ Issue #945 remains complete. Its merged lifecycle behavior includes Case History
 
 Merged #962/#967 build on that canonical owner. They do not introduce a competing CaseStore or duplicate run lifecycle.
 
-## Frontend pipeline projection defect — issue #965
-
-Current `voxvector/src/components/PipelineBuildCard.jsx` still carries the stale local Stage 05/06 order and presents Stage 07/08 as queued in its fallback metadata. The component already receives backend `pipeline_build`, but row statuses are not yet primarily derived from `pipeline_build.status_by_stage`.
-
-Issue #965 owns the bounded correction in the existing component. No second pipeline card or alternate 21-stage definition should be created.
-
 ## Related work kept separate
 
-- #964: reconcile the existing root `render.yaml` with current live/exported Render state; no second Blueprint.
-- #941: reopened controlled post-#967 runtime proof after #964.
+- #964: **completed** Render Blueprint/runtime-dependency reconciliation and sole-service inventory.
+- #941: reopened controlled runtime proof.
 - #970: cloud-primary diarization provider contract/execution/persistence.
 - #971: persisted transcript/audio/speaker alignment.
 - #959: merged dual Render + Supabase observability/Debug Bundle source; production acceptance remains open.
 - #963: reopened-case playback/transcript/speaker/alignment/report rehydration.
 - #930: intermittent intake pre-handler 400 investigation/repeatability proof.
-- #965: frontend pipeline contract synchronization.
-- #931 / draft PR #974: login wake/shared role-aware self-profile candidate plus browser matrix.
-- #932: release-critical public CTA/anchor/navigation repair.
-- #948 / PR #951: auditable secure deletion.
-- #949 / PR #952: server-aware Stop Analysis.
+- #965: frontend pipeline projection correction represented by PR #993; authenticated browser acceptance remains separate.
+- #932: public CTA/anchor/navigation repair represented by PR #993; browser acceptance remains separate.
 - #972: final frozen-candidate two same-revision/configuration golden cases.
 
 ## Current next steps
 
-1. finish #964 Render Blueprint/runtime-dependency reconciliation;
-2. deliberately deploy/read back the reconciled revision with fresh `/health`;
-3. rerun the same controlled WAV under reopened #941 and require durable provider checkpoint + bounded Stage 10 behavior without uncontrolled restart;
+1. complete exact-head QA and review for PR #993;
+2. complete authenticated desktop/mobile browser acceptance for the frontend navigation and Developer Console pipeline projection before #972 closes;
+3. continue the separate #941 runtime proof;
 4. execute/persist cloud-primary diarization under #970;
 5. execute/persist transcript/audio/speaker alignment under #971;
 6. complete #963 historical case rehydration;
 7. bound #930 intake reliability and complete #959 observability production acceptance;
-8. correct the existing frontend pipeline projection under #965;
-9. refresh PR #974 against current `main`, rerun current-base QA and complete #931 auth/profile browser acceptance;
-10. complete #932 public navigation acceptance;
-11. freeze one exact candidate and pass two complete same-revision/configuration golden cases under #972;
-12. continue scientific validation separately.
+8. freeze one exact candidate and pass two complete same-revision/configuration golden cases under #972;
+9. continue scientific validation separately.
 
 ## Verification boundary
 
 Software execution, provider readiness, deployment health, fresh runtime readback, memory containment, artifact persistence, browser verification, engineering-MVP completion, and scientific validation are different states.
 
-The historical successful beam-1 transcription proves actual provider execution for one older controlled run. It does not establish current `420536...` execution, transcript truthfulness, end-to-end production reliability, or deception-detection validity.
+The historical successful beam-1 transcription proves actual provider execution for one older controlled run. It does not establish current provider execution, transcript truthfulness, end-to-end production reliability, or deception-detection validity.

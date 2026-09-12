@@ -9,6 +9,7 @@ import './canonical.css'
 
 const AuthGate = lazy(() => import('./components/AuthGate'))
 const UserWorkspace = lazy(() => import('./components/UserWorkspace'))
+const SiteMapPage = lazy(() => import('./components/SiteMapPage'))
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,15 +24,28 @@ function ScrollRestoration() {
     if (typeof window === 'undefined') return undefined
     const previous = window.history.scrollRestoration
     window.history.scrollRestoration = 'manual'
-    const scrollTop = () => window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
-    scrollTop()
-    window.addEventListener('pageshow', scrollTop)
-    window.addEventListener('popstate', scrollTop)
-    window.addEventListener('hashchange', scrollTop)
+    const restoreLocation = () => {
+      window.requestAnimationFrame(() => {
+        const hash = window.location.hash || ''
+        if (hash && !hash.startsWith('#/')) {
+          const targetId = decodeURIComponent(hash.slice(1))
+          const target = document.getElementById(targetId)
+          if (target) {
+            target.scrollIntoView({ block: 'start', behavior: 'auto' })
+            return
+          }
+        }
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+      })
+    }
+    restoreLocation()
+    window.addEventListener('pageshow', restoreLocation)
+    window.addEventListener('popstate', restoreLocation)
+    window.addEventListener('hashchange', restoreLocation)
     return () => {
-      window.removeEventListener('pageshow', scrollTop)
-      window.removeEventListener('popstate', scrollTop)
-      window.removeEventListener('hashchange', scrollTop)
+      window.removeEventListener('pageshow', restoreLocation)
+      window.removeEventListener('popstate', restoreLocation)
+      window.removeEventListener('hashchange', restoreLocation)
       window.history.scrollRestoration = previous
     }
   }, [])
@@ -62,6 +76,7 @@ function RoutedApplication() {
   const path = normalizedPath()
   if (path === '/voxvector/login') return <LoginRoute />
   if (path === '/voxvector/app') return <Suspense fallback={<div className="vv-route-loading" role="status" aria-live="polite">Opening VoxVector workspace…</div>}><UserWorkspace /></Suspense>
+  if (path === '/voxvector/site-map') return <Suspense fallback={<div className="vv-route-loading" role="status" aria-live="polite">Opening VoxVector site map…</div>}><SiteMapPage /></Suspense>
   return <App />
 }
 

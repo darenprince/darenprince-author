@@ -4,15 +4,13 @@ This document distinguishes the product end state from current implementation st
 
 An unimplemented capability remains active product scope.
 
-## Latest observed runtime checkpoint — 2026-09-10
+## Preserved runtime checkpoint — 2026-09-10
 
-Current canonical GitHub `main` is `420536771875c6948be51851118b58cb04a596e6`, the merge of PR #967. Exact-main VoxVector QA `34532394431` succeeded and GitHub Pages publication workflow `34532394423` succeeded.
+At the 2026-09-10 checkpoint, canonical GitHub `main` was `420536771875c6948be51851118b58cb04a596e6`, the merge of PR #967. Exact-main VoxVector QA `34532394431` succeeded and GitHub Pages publication workflow `34532394423` succeeded.
 
-Connected Render inspection shows `voxvector-api` deployment `dep-dahi2ics728c73b6ujug` `live` on exact source `420536771875c6948be51851118b58cb04a596e6` with automatic deployment disabled. The live service builds `api/requirements.txt` plus `api/requirements-speech.txt`.
+Connected Render inspection at that checkpoint showed `voxvector-api` deployment `dep-dahi2ics728c73b6ujug` `live` on exact source `420536771875c6948be51851118b58cb04a596e6` with automatic deployment disabled. The live service built `api/requirements.txt` plus `api/requirements-speech.txt`.
 
-The owner-provided Render export generated `2026-09-10T21:38:48Z` independently matches the current service/repository/root/build/start/health/domain/auto-deploy fields and redacts environment-variable values. The canonical root `render.yaml` instead specifies `api/requirements-transcription.txt` and declares `CORS_ORIGINS` server-managed; the export does not list `CORS_ORIGINS`. That infrastructure/configuration drift is tracked in #964 and is not silently treated as resolved or inferred from redacted values.
-
-No fresh `/health` response for exact deployed source `420536...` is recorded by the current synchronization pass. Render `live` is not runtime readback.
+That historical checkpoint recorded repository/live dependency drift under #964. Issue #964 was subsequently completed after the sole root Blueprint was reconciled and sole-service inventory verified. The 2026-09-10 deployment observation is retained as historical evidence and is not used as proof of the current frontend PR candidate.
 
 A controlled 183.3-second production case on older source `f0dda136...` established real faster-whisper execution:
 
@@ -26,7 +24,7 @@ A controlled 183.3-second production case on older source `f0dda136...` establis
 
 That changed the transcription evidence class from configuration/readiness-only to **controlled provider execution observed** for the historical run. It did not establish full production reliability, durable checkpointing, transcript correctness, browser verification, or scientific validation.
 
-Merged PRs #962 and #967 now implement the intended post-transcription durability, bounded Stage 10 admission, process/runtime provenance and stable run identity in source. Issue #941 is reopened for controlled production proof after #964 reconciles the runtime profile.
+Merged PRs #962 and #967 implement the intended post-transcription durability, bounded Stage 10 admission, process/runtime provenance and stable run identity in source. Issue #941 remains reopened for controlled production proof.
 
 ## Canonical 21 stage capability map
 
@@ -54,7 +52,9 @@ Merged PRs #962 and #967 now implement the intended post-transcription durabilit
 | Final Classification / Disposition | Integrated boundary | Validated final disposition architecture |
 | Audit and Provenance Output | Integrated | Complete auditable case package |
 
-The canonical stage numbering places Speech Segmentation at Stage 05 and Speaker Identification / Diarization at Stage 06. Historical dated records may retain earlier numbering as historical evidence. Current frontend `PipelineBuildCard.jsx` still preserves the stale opposite local order and queued Stage 07/08 fallback text; #965 owns that synchronization defect.
+The canonical stage numbering places Speech Segmentation at Stage 05 and Speaker Identification / Diarization at Stage 06. Historical dated records may retain earlier numbering as historical evidence.
+
+The existing Developer Console `PipelineBuildCard.jsx` is corrected in PR #993 to match that order, prefer backend `pipeline_build.status_by_stage` whenever available, label loading/offline source-contract fallback explicitly, and present Stage 07/08 fallback state consistently with the backend implemented-foundation contract. No alternate pipeline component was created.
 
 ## Live input and case capabilities
 
@@ -78,7 +78,7 @@ Current constrained source profile:
 - isolated child process: enabled
 - child deadline: `165` seconds
 
-Historical production execution of this beam-1 profile was observed on exact deployed source `f0dda136...`. Merged #962/#967 now contain the durability and Stage 10 resource-safety path. Reopened #941 must prove the current implementation on the post-#964 reconciled runtime.
+Historical production execution of this beam-1 profile was observed on exact deployed source `f0dda136...`. Merged #962/#967 contain the durability and Stage 10 resource-safety path. Reopened #941 must prove the current implementation in controlled production.
 
 ### Diarization
 
@@ -89,9 +89,9 @@ Historical production execution of this beam-1 profile was observed on exact dep
 - local fallback is explicit and requires separate configuration/credential readiness
 - successful controlled cloud-primary execution: not yet established in the current release-gate evidence
 
-The local Community-1 path and its PyTorch dependency are not required merely to call the cloud-primary `pyannote_api` adapter. Live Render dependency drift involving the broader speech requirements is tracked in #964 rather than treated as inherent to the cloud-primary architecture.
+The local Community-1 path and its PyTorch dependency are not required merely to call the cloud-primary `pyannote_api` adapter.
 
-Issue #970 owns rechecking/correcting the current pyannoteAI cloud media-upload/job contract and obtaining real provider execution plus persisted speaker evidence after #964/#941.
+Issue #970 owns rechecking/correcting the current pyannoteAI cloud media-upload/job contract and obtaining real provider execution plus persisted speaker evidence after the separate #941 runtime proof.
 
 ## Post-transcription durability and memory boundary
 
@@ -119,29 +119,35 @@ The persisted route-owned `run_id` remains the case-run identity. The pipeline-i
 
 The Developer Console remains the engineering cockpit with runtime health, case workflow, 21-stage status, live run polling, synchronized waveform/transcript review, diagnostics, Render runtime, methodology and pipeline navigation, structured audits, and report/audit/log copy/download controls.
 
+The frontend API client continues to route case, diagnostics, health and Render operations through the preserved VoxVector backend contract. PR #993 adds source-level contract tests that trace the client routes to `VoxVector/api/app.py` and the mounted `VoxVector/api/render_api.py` router. That establishes source wiring only; it is not backend/provider execution or browser verification.
+
 Merged PRs #961/#966/#968 provide the observability/Debug Bundle source foundation. #959 remains open for production dual-copy/bundle/terminal-capture/browser acceptance.
 
 The console must display execution readiness independently from provider execution, artifact durability, resource stability, browser verification, and scientific validation.
 
 ## Authentication and self-profile status
 
-Current `main` `AuthGate.jsx` still does not issue the requested login-time API wake.
+Current merged `AuthGate.jsx` performs a non-blocking canonical API wake after successful password login before trusted-role routing settles. Shared developer/admin/user self-profile behavior remains in the canonical role-aware account implementation.
 
-Draft PR #974 under #931 contains the candidate one-shot `/health` wake plus shared role-aware developer/admin/user self-profile implementation. It reuses the existing `public.profiles` and private avatar bucket; email, trusted role and account ID remain read-only and admin-only User Management stays separate.
+The login wake is connectivity/readiness behavior only. It is not provider execution, deployment proof, successful analysis, or scientific validation. Authenticated desktop/mobile browser acceptance remains separate.
 
-PR #974 is not current or deployed behavior. Its prior integration QA predates the #967 main advance and must be refreshed against current `main` before merge recommendation.
+## Public frontend navigation status — PR #993
 
-## Operational status
+PR #993 repairs the canonical public application rather than creating replacement pages:
+
+- Request Access routes to `/voxvector/login`;
+- landing/menu/footer anchors are route-qualified and map to unique current landing sections;
+- Pipeline and Analysis Methods use the existing styled frontend references instead of raw repository Markdown where those styled surfaces exist;
+- `/voxvector/site-map` is a human-readable inventory rendered through the existing React public shell;
+- GitHub Pages and PR Preview staging create physical direct-route entries for `developer`, `login`, `app`, and `site-map`, all serving the same built React application rather than duplicate implementations;
+- hash restoration honors direct load, refresh and browser navigation instead of forcing every hash load to page top.
+
+Source/build QA and production/browser acceptance remain separate evidence classes.
+
+## Operational status boundaries
 
 | Area | State |
 |---|---|
-| GitHub `main` | exact `420536...` |
-| Exact-main QA | VoxVector QA `34532394431` success |
-| GitHub Pages publication workflow | `34532394423` success |
-| Render backend | deploy `dep-dahi2ics728c73b6ujug` `live` on exact `420536...` |
-| Render auto-deploy | disabled |
-| Current live dependency command | `requirements.txt` + `requirements-speech.txt` |
-| Canonical Blueprint dependency command | `requirements.txt` + `requirements-transcription.txt`; reconciliation tracked in #964 |
 | Case persistence API | implemented |
 | Case-bound analysis API | implemented |
 | Speech segmentation | historical controlled production execution observed |
@@ -151,23 +157,24 @@ PR #974 is not current or deployed behavior. Its prior integration QA predates t
 | Diarization primary provider | pyannoteAI cloud architecture built; controlled primary execution still required #970 |
 | Local diarization fallback | optional explicit path; not primary |
 | Transcript/speaker alignment | foundation implemented; controlled durable provider-backed readback still required #971 |
-| Frontend pipeline projection | stale local 05/06 and 07/08 fallback state; #965 |
-| Login wake/shared self-profile | draft PR #974 candidate; current-main QA/merge/browser acceptance pending #931 |
+| Frontend pipeline projection | corrected in PR #993 source; exact-head QA/browser acceptance remain separate |
+| Public CTA/anchors/site map | corrected in PR #993 source; exact-head QA/browser acceptance remain separate |
+| Login wake/shared self-profile | merged source behavior; browser acceptance remains separate |
 | Browser verification | separate unresolved gate |
+
+Historical deployment revisions and workflow runs remain recorded in dated checkpoints and QA documents. They are not silently promoted into current deployment evidence for a later source revision.
 
 ## Current engineering sequence
 
-1. Complete #964 reconciliation of the existing root Render Blueprint with live/exported service requirements and configuration.
-2. Deliberately deploy/read back the reconciled exact revision and complete reopened #941 with the same controlled WAV.
+1. Complete exact-head source QA/review for PR #993 and preserve browser acceptance as a separate gate.
+2. Complete reopened #941 with the controlled WAV on an explicitly observed deployed revision.
 3. Execute cloud-primary diarization under #970 and persist speaker turns/provenance.
 4. Produce/persist transcript/audio/speaker alignment under #971.
 5. Complete #963 reopened-case audio/transcript/speaker/alignment/report rehydration through the existing authenticated playback route.
 6. Bound #930 intake reliability and complete #959 observability production acceptance.
-7. Correct the existing frontend pipeline projection under #965.
-8. Refresh draft PR #974 against current `main`, rerun current-base QA, merge after review and complete #931 auth/profile browser acceptance.
-9. Complete #932 release-critical public CTA/anchor/navigation behavior.
-10. Freeze one exact deployed candidate and complete two same-revision/configuration golden cases under #972.
-11. Continue task-specific scientific validation as a separate program.
+7. Complete #932/#965 authenticated desktop/mobile frontend acceptance before the final freeze.
+8. Freeze one exact deployed candidate and complete two same-revision/configuration golden cases under #972.
+9. Continue task-specific scientific validation as a separate program.
 
 ## Scientific status rule
 

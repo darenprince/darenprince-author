@@ -1,6 +1,6 @@
 # VoxVector Endpoint Registry
 
-**Effective:** 2026-09-10  
+**Effective:** 2026-09-11  
 **Status:** Canonical active endpoint map
 
 This document is the authoritative endpoint map for the current VoxVector deployment architecture.
@@ -11,15 +11,24 @@ This document is the authoritative endpoint map for the current VoxVector deploy
 
 GitHub Pages hosts the canonical public React application and Developer Console.
 
+Canonical public frontend routes and styled references are:
+
+- `/voxvector/` — public VoxVector landing application;
+- `/voxvector/site-map` — human-readable VoxVector page inventory rendered through the existing public React shell;
+- `/voxvector/pipeline.html` — styled 21-stage analysis-pipeline reference;
+- `/voxvector/methods.html` — styled analysis-method and data-point reference;
+- `/voxvector/image-index/` — published visual asset index;
+- `/voxvector/loading-demo.html` — published loading-state demonstration surface.
+
 Protected React routes include:
 
 - `/voxvector/login/` — canonical Supabase login and trusted-role router;
 - `/voxvector/developer/` — developer/admin Developer Console;
 - `/voxvector/app` — approved-user workspace.
 
-The physical Pages login entry resolves to the same React `AuthGate.jsx` implementation. It is not a duplicate login system.
+GitHub Pages has no SPA rewrite. The production Pages workflow therefore stages physical `index.html` entries for `developer`, `login`, `app`, and `site-map`, all pointing to the same built React shell. These are route aliases of one canonical application, not duplicate implementations. The styled pipeline, methods, image-index, and loading-demo surfaces are emitted from the existing `voxvector/public/` build inputs.
 
-Current `main` `AuthGate.jsx` does not yet issue the requested login-time API wake. Draft PR #974 under #931 contains that candidate repair and shared role-aware self-profile wiring. It is not merged/current behavior.
+Current `AuthGate.jsx` performs a non-blocking API wake request after successful password login and then routes the authenticated account through trusted VoxVector role metadata. A wake request is not provider execution, deployment verification, or proof that an analysis completed.
 
 ## Existing API
 
@@ -192,6 +201,8 @@ Returns the authenticated server-generated case/run debug ZIP. Retrieval availab
 
 PRs #961, #966 and #968 are merged into current `main`. Issue #959 remains open for production acceptance: automatic terminal Render capture, exact deployed-revision dual-store readback, real bundle inspection/redaction, restart durability, and browser verification.
 
+The frontend client in `voxvector/src/lib/api.js` maps the Developer Console to the existing `/health`, diagnostics, case CRUD, source upload, signed playback, case-analysis, Render status/logs/debug-bundle, and protected Render deploy routes. Focused frontend contract tests trace those client paths to `VoxVector/api/app.py` and the mounted `VoxVector/api/render_api.py` router. That is source-level wiring verification only; it is not provider execution or production browser verification.
+
 ## External diarization provider boundary
 
 The VoxVector backend may call pyannoteAI server-side when `VOXVECTOR_DIARIZATION_PROVIDER=pyannote_api` and the route invocation gate permits it. The cloud API key never reaches the public React application.
@@ -202,7 +213,7 @@ Issue #970 owns rechecking/correcting the current pyannoteAI media-upload/job co
 
 ## Frontend pipeline/status boundary
 
-The Developer Console consumes `/health` pipeline state. Current `voxvector/src/components/PipelineBuildCard.jsx` nevertheless retains stale local Stage 05/06 ordering and queued Stage 07/08 fallback text. Issue #965 owns correction in that existing component so `pipeline_build.status_by_stage` is preferred when available. No second pipeline endpoint or component should be created.
+The Developer Console consumes `/health` pipeline state through the existing `PipelineBuildCard.jsx`. In this revision the existing component uses the canonical Stage 05 Speech Segmentation → Stage 06 Speaker Identification / Diarization order and prefers `pipeline_build.status_by_stage` for mutable row state when the backend contract is available. Static data is retained only as a contract-matching fallback for offline/loading presentation, and that fallback state is explicitly labeled. Stage 07/08 fallback states now match the backend implemented-foundation contract. No second pipeline endpoint or component was created.
 
 ## Deployment and migration rule
 
