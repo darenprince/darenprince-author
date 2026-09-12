@@ -2,10 +2,6 @@
 
 ## Canonical 21-stage workflow
 
-VoxVector is organized around one connected analysis case. The source recording moves through preparation, speech/speaker understanding, transcription, alignment, specialized analysis, evidence synthesis, classification, validation, final disposition, and audit.
-
-The canonical product pipeline is:
-
 | # | Stage | Group | Primary output |
 |---:|---|---|---|
 | 01 | File Upload / Ingest | Prepare | Source asset |
@@ -30,152 +26,141 @@ The canonical product pipeline is:
 | 20 | Final Classification / Disposition | Decide | Final assessment |
 | 21 | Audit and Provenance Output | Decide | Audit package |
 
-The 05/06 order above mirrors the canonical backend contract. Historical dated records may preserve the prior numbering as historical evidence.
+The 05/06 order mirrors the canonical backend contract.
 
-## Frontend engineering alignment — PR #993
+## Current deployed validation
 
-The existing `voxvector/src/components/PipelineBuildCard.jsx` is the single Developer Console owner for the 21-stage engineering projection. PR #993 corrects that existing component rather than creating another pipeline surface.
+On 2026-09-12, backend **0.2.27** at revision `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80` completed one controlled 183.3-second run in **247,984 ms**.
 
-In the candidate source:
+Result:
 
-- Stage 05 is Speech Segmentation and Stage 06 is Speaker Identification / Diarization, matching the backend contract;
-- mutable row state prefers backend `pipeline_build.status_by_stage` whenever `/health` provides it;
-- `implemented*` foundation variants are normalized for presentation without converting readiness into provider execution evidence;
-- static stage metadata is used only as a contract-matching fallback while backend state is loading or unavailable, and the fallback is labeled explicitly;
-- Stage 07 and Stage 08 fallback states match the backend implemented-foundation contract rather than the obsolete queued presentation;
-- no stage is marked current unless a backend current-stage token identifies it;
-- the same `/health` contract and existing `PipelineBuildCard.jsx` remain in place, with no duplicate frontend or backend pipeline owner.
+- **17 stages complete**
+- **0 failed**
+- **4 intentionally not run**
+- Stage 05: 26 speech segments
+- Stage 06: not run, cloud diarization not invoked
+- Stage 07: faster-whisper completed in about 150.1 seconds
+- Stage 08: transcript/audio alignment available
+- Stage 10: admitted at 118.6 MB RSS and completed in about 73.8 seconds
+- no uncontrolled API restart
 
-This is software/source truth correction only. It is not provider execution, a deployment claim, authenticated browser verification, engineering-MVP completion, or scientific validation.
+Durable acquisition checkpoint:
 
-## Preserved deployment checkpoint — 2026-09-10
+- 58 transcript segments
+- 246 words
+- transcription state completed
+- alignment available
+- diarization not invoked
 
-At the 2026-09-10 checkpoint, canonical GitHub `main` was `420536771875c6948be51851118b58cb04a596e6`, the merge of PR #967. Exact-main VoxVector QA `34532394431` succeeded and GitHub Pages publication workflow `34532394423` succeeded.
+**#941 is complete.**
 
-Render deployment `dep-dahi2ics728c73b6ujug` was `live` on exact source `420536771875c6948be51851118b58cb04a596e6`, with production auto-deploy disabled. No fresh `/health` response for that exact deployment was recorded by that synchronization pass.
+## Source maturity versus runtime outcome
 
-The historical checkpoint recorded a Render dependency-profile drift under #964. Issue #964 was subsequently completed after repository/service reconciliation and sole-service inventory verification. The checkpoint is retained here as historical evidence and is not used as proof of the PR #993 frontend candidate.
+Fresh `/health` reports:
 
-## Historical controlled provider execution
+- 21 total
+- 16 implemented foundations
+- 1 queued
+- 4 conditional/not invoked
 
-A controlled 183.3-second case on older deployed source `f0dda13694bd17ae3347e9e0eaf73e54a379fbb2` completed:
-
-- source upload/private persistence;
-- Stage 05 Speech Segmentation with 26 segments;
-- Stage 07 faster-whisper using `base`, CPU/int8, beam 1, one CPU thread, one worker, isolated process;
-- transcription in about 113 seconds with 58 timestamped segments and 246 timestamped words;
-- Stage 08 transcript alignment state.
-
-The API process later restarted during the post-provider/downstream transition after memory entered the constrained runtime danger zone. The owner confirmed the incident was a memory problem. The source audio remained persisted, but the completed transcript/provider artifact was not durably attached to the run before Stage 10 on that historical deployed revision.
-
-This proves provider execution for that historical run. It does not prove current end-to-end stability, transcript correctness, browser verification, or scientific validation.
+The controlled run's 17/21 result is a runtime outcome, not a replacement for the source maturity contract.
 
 ## Prepare
 
-Stages 01 through 04 establish source intake, canonical audio, provenance, and recording/channel profile.
+Stages 01–04 establish source intake, normalized media, provenance and recording/channel profile.
 
 ## Understand
 
 **05 · Speech Segmentation** locates analyzable speech regions before heavyweight provider acquisition.
 
-**06 · Speaker Identification / Diarization** establishes speaker turns when the configured provider is invoked. The production primary architecture is pyannoteAI cloud; local Community-1 is optional fallback only.
+**06 · Speaker Identification / Diarization** establishes speaker turns when the configured provider is invoked. Production primary is pyannoteAI cloud. Fresh health reports it configured and execution-ready, but real current execution/persistence remains #970.
 
-**07 · Transcription Generation** creates timestamped transcript segments and words through faster-whisper when execution-ready.
+**07 · Transcription Generation** uses faster-whisper. Current same-revision execution is proven.
 
-**08 · Transcript Alignment** connects transcript timing to the audio timeline and to speaker turns when available.
+**08 · Transcript Alignment** connects transcript timing to the audio timeline. Current transcript/audio alignment is proven; speaker-inclusive alignment remains #971.
 
-**09 · Eligibility and Reliability** establishes the analytical eligibility/reliability state. It is separate from runtime resource admission.
+**09 · Eligibility and Reliability** is an analytical eligibility control, separate from runtime memory admission.
 
 ## Durable upstream checkpoint
 
-Merged source requires completed provider output to be persisted to the **same case run** before dependent heavyweight downstream analysis begins.
+The current controlled run proves provider output can be persisted to the same case run before Stage 10.
 
 The checkpoint preserves, when available:
 
-- transcription state and normalized transcript artifact;
-- diarization state and speaker records;
-- multimodal alignment timeline;
-- provider timings/provenance;
-- completed upstream stage state;
-- stable case/run/request/source identity;
-- process and hosting-instance provenance.
+- transcription state and normalized transcript artifact
+- diarization state and speaker records
+- alignment timeline
+- provider timing/provenance
+- completed upstream stage state
+- stable case/run/request/source identity
+- process and hosting-instance provenance
 
-Operational checkpoint logs use sanitized state/count metadata and do not copy raw transcript text into diagnostics.
+## Stage 10 memory admission
 
-The checkpoint exists so successfully completed speech work survives a later downstream failure or process restart. It is a durability boundary, not a second pipeline or second run.
+Current constrained reference:
 
-## Stage 10 memory admission and single-flight execution
+- memory limit: 512 MB
+- reserved headroom: 96 MB
+- admission ceiling: 416 MB
 
-Before Stage 10 Acoustic Feature Extraction is represented as running on the constrained Render path, the API must check process RSS against the configured operational admission threshold.
+September 12 proof:
 
-Current source reference:
+- transcription after-GC: 116.63 MB RSS
+- Stage 10 start: 118.6 MB RSS
+- Stage 10 completion: about 73.8 seconds
+- Stage 10 after-GC: 128.63 MB RSS
+- API restart: none
 
-- memory reference: 512 MiB
-- reserved headroom: 96 MiB
-- reference admission ceiling: 416 MiB
-
-Merged source also places the complete downstream composite analysis behind fail-fast process-wide single-flight admission. A competing request cannot wait behind an active heavyweight lock and later execute after its route has already failed. An admitted composite call rechecks RSS while owning the shared lock and retains that lock through complete composite execution.
-
-If current RSS is already at or above the ceiling, Stage 10 must not start. The run preserves completed upstream transcript/alignment evidence and records an explicit bounded downstream failure/not-run state.
-
-This is operational safety, not a scientific eligibility decision. Reopened #941 owns controlled production verification; #964 is complete and no longer blocks that proof gate.
+The intended provider → checkpoint → Stage 10 boundary is now production-proven for the validated revision.
 
 ## Analyze
 
-Stages 10 through 15 produce acoustic, prosodic, voice-quality, temporal, linguistic, interaction, and baseline observations only when their dependencies are available.
+Stages 10–15 produce acoustic, prosodic, voice-quality, temporal, linguistic, interaction and baseline observations when dependencies exist.
 
-A failed runtime resource gate must not be rewritten as an analytical finding.
+The controlled run completed Stages 10–13. Stage 14 was not run because question context was absent. Stage 15 was not run because no independent baseline was attached.
 
 ## Synthesize and Decide
 
-Stages 16 through 21 preserve evidence assembly, convergence/conflict, candidate assessment, validation/calibration boundary, guarded final disposition, and audit/provenance output.
+Stages 16–18 and 20–21 completed in the controlled run. Stage 19 Validation and Calibration was intentionally not invoked.
 
-The architecture keeps these distinct from raw evidence collection and eligibility/reliability.
+No engineering completion state is a scientific deception-validity claim.
 
-## Stable run identity and recovery
+## Workspace mapping and visual evidence
 
-One route-owned case run remains the persistence owner across provider checkpointing and downstream finalization. The stable ID is `run_id`.
+The September 12 Confidential IP screenshots visibly confirm:
 
-The pipeline-internal analytical UUID is retained separately as `pipeline_run_id`; it must not replace the persistent case run identity.
+- case creation/selection
+- source upload
+- protected playback
+- waveform and seek controls
+- live level meter
+- spectral analysis / spectrogram
+- pitch trajectory
+- decoded media metadata and provenance
+- correct Stage 05/06 ordering
+- Stage 06 `Not run`
+- Stage 07 live progression
 
-`process_instance_id` identifies the active Python process. `render_instance_id` preserves Render infrastructure identity separately because an internal Python restart may occur while the Render instance label remains the same.
+The visual 4:16 `1017 LA-524 2.wav` session is a separate browser case from the 183.3-second controlled proof and must not be conflated with it.
 
-## Workspace mapping
+## Observability finding
 
-The target case-centered workspace connects source metadata, audio playback, waveform, speech/speaker regions, transcript, analytical tracks, evidence timeline/explorer, pipeline state, assessment, reports, and history using one shared time axis.
+A real sanitized Debug Bundle exists for the successful controlled run with runtime health, Render status and 100 Render logs plus a Supabase Render-log mirror. Exact exported VoxVector event/error correlation remains open under #959.
 
-Reopened cases must use persisted source/run artifacts. #963 owns frontend playback/transcript/speaker/alignment/report rehydration after the upstream runtime/provider evidence gates establish those artifacts.
+A separate browser case reproduced `Failed to fetch`; Render evidence identified a case-read `TimeoutError` inside diagnostic persistence while `/health` remained 200 and later reads succeeded. #998 tracks isolation of telemetry persistence from product-request success.
 
-## Authenticated entry state
+## Current engineering dependency path
 
-Current merged `AuthGate.jsx` performs a non-blocking canonical API wake after successful password login before trusted-role routing settles. Shared role-aware profile handling remains part of the canonical account implementation.
-
-That wake is connectivity/readiness behavior only. It is not provider execution, a Render deployment, successful analysis, or scientific validation. Authenticated desktop/mobile browser acceptance remains a separate evidence class.
-
-## Engineering dependency path
-
-1. Reopened #941 — controlled durable transcription/Stage 10 proof.
-2. #970 — current pyannoteAI cloud contract, provider execution, persisted speaker evidence.
-3. #971 — persisted transcript/audio/speaker alignment.
-4. #963 — historical-case source/playback/artifact rehydration.
-5. #930 / #959 — intake reliability and production observability acceptance.
-6. #965 / PR #993 — truthful frontend pipeline projection; source QA and browser acceptance remain separate gates.
-7. #932 / PR #993 — release-critical public navigation and site-map wiring; browser acceptance remains separate.
-8. #972 — frozen candidate and two same-revision/configuration golden cases.
-9. Scientific validation as a separate program.
-
-## Related active work
-
-- #964: **completed** canonical Render Blueprint/runtime-profile reconciliation.
-- #941: reopened controlled production proof.
-- #970: cloud-primary diarization execution/persistence.
-- #971: persisted multimodal alignment.
-- #959: merged dual Render + Supabase logs and Debug Bundle source; production acceptance open.
-- #963: reopened persisted source/audio/transcript/speaker/alignment/report rehydration.
-- #965 / PR #993: frontend pipeline contract synchronization.
-- #932 / PR #993: public CTA/anchor/menu and site-map repair.
-- #972: final engineering-MVP repeatability gate.
+1. #970 cloud-primary diarization execution + persistence
+2. #971 persisted speaker/transcript/audio alignment
+3. #963 historical-case source/playback/artifact rehydration
+4. #930 intake reliability bounding
+5. #998 observability persistence isolation
+6. #959 complete dual-copy observability / Debug Bundle correlation
+7. authenticated desktop/mobile acceptance
+8. #972 frozen candidate + two same-revision/configuration golden cases
+9. scientific validation separately
 
 ## Authority
 
-`VoxVector/docs/` is the technical source of truth. This Crown Labs Bible page mirrors the canonical product architecture for executive/documentation use.
+`VoxVector/docs/` is the technical source of truth. This Crown Labs Bible page mirrors the current product architecture and runtime state for executive/documentation use.
