@@ -1,5 +1,13 @@
 # VoxVector audit progress
 
+## Synthetic local-to-cloud execution — 2026-09-12
+
+The owner authorized upload and analysis of a generated, non-private speech fixture. Case `3212ddaf-686e-4090-8a77-3b5d3731903d`, source `327c2c91-7c83-474e-93ce-16851d6cd43e`, and run `1da1b215-e5e2-46a1-a9b9-9112095f8231` were created through the authenticated local browser against the existing cloud API. The 33.68-second, 22,050 Hz mono WAV completed in approximately 1:47: 17 stages complete, four explicitly not run, zero failed. The saved workspace showed seven transcript segments, 83 timestamped words, 56 measurements and 56 neutral evidence records. Candidate state remained indeterminate and final disposition insufficient evidence. This smoke test is not scientific validation or the separately specified #941 golden-case acceptance.
+
+Browser execution also reproduced `ReferenceError: setProgress is not defined` during file selection. The parent owned the setter but did not pass it to `CaseWorkbench`; the existing upload fallback recovered the selected DOM file later. The canonical fix passes and destructures the existing setter in `voxvector/src/components/DeveloperConsole.jsx`, preserving the component and upload flow. No replacement page or upload implementation was introduced. Browser regression and final-head tests/build are required after this checkpoint. The unchanged backend reported source `1cc10f40bb6b94e0a8f3380c1b70529137e89d93` and process identity `42c9ba18-72e4-407d-bd68-78d73703023a` during the run.
+
+The measurement output included implausible intensity values (approximately -1050.61 dB average and 6142.18 dB range). These require a numerical feature audit; successful pipeline execution does not establish measurement validity. The full system audit requested immediately afterward includes that investigation. No production changes or issue closures were performed.
+
 ## Local development connectivity checkpoint — 2026-09-12
 
 Prompt: **VV-LOCAL-API-CONNECTIVITY**. Related to authenticated-entry acceptance [#931](https://github.com/darenprince/darenprince-author/issues/931) and tracker [#915](https://github.com/darenprince/darenprince-author/issues/915). Base: `0f01c77cd68e20b7fcf86429f186533948f7ffaf`. Local branch: `fix/voxvector-local-api-connectivity`. This is a local implementation checkpoint; no issue closure, merge, remote PR, or deployment is claimed. The previous dated task record below is preserved.
