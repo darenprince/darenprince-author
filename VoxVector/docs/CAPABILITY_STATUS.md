@@ -1,144 +1,84 @@
 # VoxVector Capability Status
 
-This living document separates product scope, current implementation, runtime evidence, engineering acceptance, and scientific validation.
+This living document separates source implementation, runtime proof, browser evidence and scientific validation.
 
-An unimplemented capability remains active product scope unless explicitly removed. A implemented foundation is not automatically production-verified or scientifically validated.
+## Current source and deployment context
 
-## Version and source context
-
-- backend release authority: **0.2.27**
-- frontend release authority: **0.2.37**
-- current engineering handoff: `CURRENT_ENGINEERING_STATE_2026-09-12.md`
-- 2026-09-12 reconciliation baseline before documentation/status commits: `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`
-- exact-baseline VoxVector QA `34679916767`: success
-
-Subsequent documentation/status commits legitimately make `main` newer. Do not rewrite the baseline SHA as a deployment claim.
+- backend: **0.2.27**
+- frontend: **0.2.37**
+- deployed backend revision: `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`
+- current controlled proof date: **2026-09-12**
 
 ## Capability matrix
 
-| Capability | Source state | Runtime / evidence state | Remaining acceptance |
+| Capability | Source state | Current evidence | Remaining acceptance |
 |---|---|---|---|
-| Case create/list/read/delete | implemented | active case API | owner-scoped browser/error edge cases continue through release gate |
-| Private source upload | implemented | historical/current successful persistence | #930 intermittent authenticated 400 bounding |
-| Source metadata + SHA-256 provenance | implemented | persisted in case/source path | final golden-case readback |
-| Protected playback | implemented | signed playback route | #963 historical reopen/playback proof |
-| Speech segmentation | implemented foundation | historical controlled execution | current golden-path persistence/readback |
-| Speaker diarization | cloud-primary path wired | pyannoteAI configured/readiness evidence | #970 real current execution + persisted speaker evidence |
-| Transcription | implemented integration | historical real faster-whisper beam-1 execution | #941 current same-revision repeatability/durability |
-| Transcript alignment | implemented foundation | historical/partial evidence | #971 persisted transcript/audio/speaker proof |
-| Eligibility / reliability | implemented foundation | source/tests | task/population validation remains separate |
-| Stage 10 acoustic extraction | implemented with admission controls | source/tests; historical constrained-memory incident | #941 controlled current production proof |
-| Prosodic / voice-quality analysis | implemented foundation | source/tests | scientific interpretation/validation separate |
-| Temporal / pause analysis | implemented foundation | source/tests | scientific interpretation/validation separate |
-| Linguistic / disfluency analysis | conditional | requires transcript evidence | current full-path run and scientific interpretation separate |
-| Question / answer alignment | conditional | requires question/context boundaries | product/runtime proof when inputs exist |
-| Within-speaker baseline | optional integrated | source/tests | runtime use requires independent baseline input |
-| Evidence assembly | implemented foundation | source/tests | complete persisted end-to-end evidence proof |
-| Convergence / conflict | implemented foundation | source/tests | scientific interpretation/calibration separate |
-| Candidate classification | guarded foundation | intentionally conservative | no validated deception inference claimed |
-| Validation / calibration gate | not invoked | scientific program required | explicit validated task/population/model evidence |
-| Final disposition | guarded foundation | source/tests | scientific authorization/calibration required for non-indeterminate inference |
-| Audit / provenance output | implemented foundation | source/run/diagnostic persistence | final golden-case completeness proof |
-| Historical case rehydration | partial foundation | source/case persistence exists | #963 complete reopen/playback/artifact/report proof |
-| Developer Console | implemented active surface | health/case/pipeline/diagnostics/docs/QA surfaces exist | authenticated desktop/mobile acceptance |
-| Public navigation/site map | merged | source + exact-baseline QA | rendered desktop/mobile acceptance |
-| Login-time API wake | current source | source/tests | cold/warm authenticated browser observation |
-| Shared self-profile | current source | source/tests | save/reload browser acceptance |
-| Dual operational observability | implemented foundation | active Supabase durable diagnostics + protected Render routes | #959 production dual-evidence/debug-bundle acceptance |
-| Golden-case engineering repeatability | not yet passed | historical partial/provider evidence only | #972 two complete runs on one frozen revision/configuration |
-| General deception validity | not established | no authorized claim | scientific validation program |
+| Case create/list/read/delete | implemented | active API + browser evidence | observability timeout isolation; edge cases |
+| Private source upload | implemented | successful September 12 persistence | #930 intermittent 400 bounding |
+| Source provenance | implemented | SHA-256 confirmed in current run | golden repeatability |
+| Protected playback | implemented | browser screenshot evidence | #963 historical reopen proof |
+| Speech segmentation | implemented | **current runtime proven: 26 segments** | golden repeatability |
+| Speaker diarization | cloud-primary path wired | readiness/configuration proven | **#970 real execution + persisted speaker evidence** |
+| Transcription | implemented | **current faster-whisper execution proven: ~150.1 s** | golden repeatability |
+| Transcript durability | implemented | **58 segments / 246 words checkpointed before Stage 10** | golden repeatability |
+| Transcript/audio alignment | implemented | **current runtime proven before Stage 10** | add speaker dimension under #971 |
+| Eligibility / reliability | implemented | current controlled run completed eligible | scientific validation separate |
+| Stage 10 admission | implemented | **118.6 MB RSS vs 416 MB ceiling / 512 MB limit** | golden repeatability |
+| Acoustic extraction | implemented | **current runtime proven ~73.8 s** | golden repeatability |
+| Prosodic / voice quality | implemented foundation | current run completed | scientific interpretation separate |
+| Temporal / pause | implemented foundation | current run completed | scientific interpretation separate |
+| Linguistic / disfluency | conditional on transcript | current run completed 8 observations / 8 evidence records | scientific interpretation separate |
+| Question / answer alignment | conditional | not run; no question context | runtime proof when context exists |
+| Within-speaker baseline | conditional | not run; no baseline | runtime proof when baseline exists |
+| Cross-method evidence | implemented | current run completed | golden repeatability |
+| Convergence / conflict | implemented | current run completed | scientific calibration separate |
+| Candidate classification | guarded | current run completed guarded state | no deception-validity claim |
+| Validation / calibration | not invoked | intentionally not run | scientific program |
+| Final disposition | guarded | current run completed guarded state | scientific authorization separate |
+| Audit / provenance | implemented | current run completed | golden completeness proof |
+| Debug Bundle | implemented foundation | real sanitized bundle generated | #959 missing exact exported VoxVector events/errors |
+| Developer Console | active | current visual evidence across dashboard, drawer, case/upload/playback/analysis | remaining role/mobile acceptance |
+| Golden repeatability | not passed | one current controlled run passed | #972 two-run proof |
+| General deception validity | not established | no authorized claim | scientific validation |
 
-## Canonical 21-stage order
+## #941 status
 
-1. File Upload / Ingest
-2. File Decode and Normalization
-3. Provenance and Integrity
-4. Channel and Recording Assessment
-5. Speech Segmentation
-6. Speaker Identification / Diarization
-7. Transcription Generation
-8. Transcript Alignment
-9. Eligibility and Reliability
-10. Acoustic Feature Extraction
-11. Prosodic and Voice Quality Analysis
-12. Temporal and Pause Analysis
-13. Linguistic and Disfluency Analysis
-14. Question / Answer Alignment
-15. Within Speaker Baseline
-16. Cross Method Evidence Assembly
-17. Evidence Convergence and Conflict
-18. Candidate Classification
-19. Validation and Calibration Gate
-20. Final Classification / Disposition
-21. Audit and Provenance Output
-
-Any living status surface that reverses Stage 05 and 06 is stale.
+**Complete.** The current deployed revision completed faster-whisper, durable acquisition checkpointing and Stage 10 without uncontrolled restart.
 
 ## Current provider truth
 
 ### Transcription
 
-Canonical provider: faster-whisper.
+Canonical provider: faster-whisper. Current same-revision execution is now proven on the deployed candidate. This is no longer a readiness-only claim.
 
-Historical real execution exists. Current controlled repeatability, durable upstream checkpointing and Stage 10 containment remain #941.
+### Diarization
 
-### Speaker diarization
-
-Canonical primary provider: pyannoteAI cloud.
-
-Wired/configured does not mean executed. #970 remains the current execution/persistence gate.
+Canonical primary provider: pyannoteAI cloud. Fresh `/health` reports the provider configured and execution-ready, but the controlled run intentionally did not invoke Stage 06. #970 remains the next P0 runtime gate.
 
 ### Hugging Face
 
-Connected identity: `crownlabs-voxvector`.
+Hugging Face remains optional/local/fallback infrastructure and does not prove the cloud-primary diarization path.
 
-Hugging Face is relevant to optional/local model and fallback workflows. It does not prove the pyannoteAI cloud-primary path. During the 2026-09-12 reconciliation, model/Space discovery actions returned connector-level not-found errors, so no Hub inventory is claimed from those calls.
+## Runtime reliability finding
 
-### Legacy LLM/Base44 status
+A separate browser validation case returned one HTTP 500 because diagnostic persistence timed out inside `DIAGNOSTICS.emit()` after the case request path. `/health` remained 200 and later reads succeeded. Observability must become non-fatal/best-effort so telemetry storage failures cannot create user-visible request failures.
 
-Old Base44 TranscribeAudio/InvokeLLM dashboard provider descriptions are retired from current canonical provider truth. Transcription is faster-whisper. Current evidence synthesis/classification is application-owned and guarded; no active LLM analysis provider is claimed by default.
+## Visual evidence
 
-## Current frontend status
+September 12 Confidential IP PDFs verify current Developer Console presentation for dashboard health, drawer navigation, case creation, upload, protected playback, waveform/spectral rendering and analysis-stage progression. They also capture the fetch failure associated with the observability timeout case.
 
-Merged/current source includes:
+## Current release queue
 
-- Request Access → canonical login;
-- route-qualified landing anchors and restored hash navigation;
-- human site map;
-- styled Pipeline and Analysis Methods destinations;
-- corrected Stage 05/06 projection;
-- backend-driven pipeline status where available;
-- canonical hero artwork/cascade ownership;
-- one-shot login-time API wake;
-- shared role-aware self-profile implementation.
+1. #970 cloud diarization
+2. #971 speaker-inclusive alignment
+3. #963 historical rehydration
+4. #930 upload bounding
+5. observability timeout isolation
+6. #959 full dual-copy/debug correlation
+7. authenticated desktop/mobile acceptance
+8. #972 two same-revision golden runs
+9. scientific validation
 
-The Developer Console startup step is labeled **Pipeline contract**. COMPLETE there verifies that the backend reported a 21-stage contract. The separate foundations count communicates maturity.
+## Boundary
 
-## Current operational evidence
-
-Connected Supabase reconciliation found:
-
-- ACTIVE_HEALTHY project on PostgreSQL 17.6;
-- RLS on inspected operational public tables;
-- `voxvector-user-admin` Edge Function ACTIVE at version 2 with JWT verification;
-- active request/error diagnostics;
-- 6,405 private log objects and 28 private media objects at inspection time;
-- current diagnostic request rows tagged with the reconciled source baseline `66f2ea...`.
-
-Current Supabase hardening advisories include the dashboard SECURITY DEFINER boundary, leaked-password protection, selected unindexed foreign keys, RLS auth-function reevaluation inefficiencies and unused error-report indexes.
-
-## Current release-critical queue
-
-1. #941 controlled current-revision transcription/durability/Stage 10 proof
-2. #970 real cloud-primary diarization + speaker persistence
-3. #971 persisted multimodal alignment
-4. #963 historical-case rehydration
-5. #930 upload reliability bounding
-6. #959 production observability/debug-bundle acceptance
-7. authenticated desktop/mobile acceptance for current frontend/auth behavior
-8. #972 two complete same-revision/configuration golden cases
-9. scientific validation separately
-
-## Evidence boundary
-
-Source implementation, test success, deployment, runtime health, provider execution, durable artifacts, browser acceptance, engineering repeatability and scientific validation are different evidence states. This document never promotes one into another without supporting evidence.
+One completed controlled run is strong engineering evidence. It is not scientific validation and does not establish general deception-detection accuracy.
