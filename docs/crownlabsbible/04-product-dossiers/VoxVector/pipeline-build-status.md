@@ -7,12 +7,30 @@ Canonical technical owner: `VoxVector/docs/PIPELINE_BUILD_STATUS.md`.
 ## Current maturity
 
 - Canonical contract: **21 stages**
-- Implemented analytical/runtime foundations: approximately **16**
-- Conditional or intentionally not-invoked stages: **4**
+- Health/source maturity: approximately **16 implemented analytical/runtime foundations**, **1 queued**, **4 conditional/not invoked**
+- Current controlled runtime result: **17 complete / 0 failed / 4 intentionally not run**
 - Current cloud-primary speaker execution/persistence: **open**
-- Historical faster-whisper execution: **proven on an older controlled run**
-- Current same-revision transcription/durability/Stage 10 proof: **open**
-- Scientific validation: **separate program; not implied by engineering maturity**
+- Current same-revision faster-whisper execution: **proven**
+- Current transcript durability/alignment before Stage 10: **proven**
+- Current bounded Stage 10 completion: **proven**
+- Scientific validation: **separate program**
+
+## September 12 proof
+
+The deployed 0.2.27 backend at `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80` completed one controlled 183.3-second run:
+
+- Stage 05: 26 speech segments
+- Stage 07: faster-whisper ~150.1 s
+- acquisition checkpoint: 58 transcript segments / 246 words
+- Stage 08 transcript/audio alignment available
+- Stage 10 start: 118.6 MB RSS
+- Stage 10 admission ceiling: 416 MB
+- service memory limit: 512 MB
+- Stage 10 acoustic extraction: ~73.8 s
+- Stage 10 after-GC RSS: 128.63 MB
+- no uncontrolled API restart
+
+#941 is complete.
 
 ## Canonical order
 
@@ -38,37 +56,31 @@ Canonical technical owner: `VoxVector/docs/PIPELINE_BUILD_STATUS.md`.
 20. Final Classification / Disposition
 21. Audit and Provenance Output
 
-## Frontend status projection
+## Runtime state by important stage
 
-The source correction previously tracked as PR #993 is **merged**.
-
-The existing Developer Console pipeline component now:
-
-- uses the canonical Stage 05 Speech Segmentation → Stage 06 Speaker Identification / Diarization order;
-- prefers backend `pipeline_build.status_by_stage` for mutable stage state;
-- presents explicit loading/offline fallback state;
-- does not hard-code Stage 07/08 as obsolete queued work when backend source reports implemented foundations;
-- keeps provider readiness separate from provider execution;
-- remains the single pipeline status owner rather than creating a second competing component.
-
-The Developer Console startup sequence also labels its 21-stage check as **Pipeline contract**. COMPLETE on that startup row means the backend reported the canonical contract. The separate foundations count remains the maturity indicator.
+- 01–05: completed in the controlled run
+- 06: intentionally not run; next P0 is #970
+- 07: completed
+- 08: completed
+- 09–13: completed
+- 14: not run because question context was absent
+- 15: not run because baseline was absent
+- 16–18: completed
+- 19: intentionally not invoked
+- 20–21: completed
 
 ## Current release path
 
-1. #941 controlled current-revision transcription/durability/Stage 10 proof
-2. #970 real cloud-primary diarization and speaker persistence
-3. #971 persisted transcript/audio/speaker alignment
-4. #963 historical-case artifact rehydration
-5. #930 upload reliability bounding
-6. #959 production observability/debug-bundle acceptance
-7. authenticated desktop/mobile acceptance for already-merged frontend/auth work
+1. #970 real cloud diarization and persisted speaker evidence
+2. #971 speaker-inclusive persisted alignment
+3. #963 historical-case artifact rehydration
+4. #930 upload reliability bounding
+5. #998 observability persistence isolation
+6. #959 full dual-copy/debug correlation
+7. authenticated desktop/mobile acceptance
 8. #972 two complete golden cases on one frozen revision/configuration
 9. scientific validation separately
 
-## Source baseline
-
-The 2026-09-12 reconciliation baseline was `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`; exact-baseline VoxVector QA run `34679916767` succeeded. Later documentation synchronization commits legitimately make `main` newer.
-
 ## Boundary
 
-A 21-stage contract is not 21 completed stages. Implemented foundations are not 16 validated deception indicators. Configuration is not provider execution. Engineering repeatability is not scientific validation.
+The source health maturity count and one-run runtime completion count answer different questions. Neither is a count of scientifically validated deception indicators.
