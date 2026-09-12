@@ -11,27 +11,43 @@ This map records current version authorities and evidence boundaries. Dated audi
 | Backend source release | `VoxVector/pyproject.toml` | **0.2.27** |
 | Backend package/runtime version | `VoxVector/src/voxvector/__init__.py` | must match backend source release |
 | Pipeline/API software version | `VoxVectorPipeline.software_version` | sourced from backend package version |
-| Public React application | `voxvector/package.json` | **0.2.37** |
-| Frontend lockfile root package | `voxvector/package-lock.json` | **0.2.37** |
+| Public React application | `voxvector/package.json` | **0.2.38** |
+| Frontend lockfile root package | `voxvector/package-lock.json` | **0.2.38** |
 | Result schema | engine result contract | **0.3** |
 | Observation layer | engine observation contract | **0.1** |
 | Validation registry | validation contract | **0.3** |
 
-Frontend and backend versions are intentionally independent. Do not force them into numeric lockstep. A documentation reconciliation does not itself create a new software release.
+Frontend and backend versions are intentionally independent. Frontend 0.2.38 is the Developer Dashboard/file-picker validation repair release. Backend remains 0.2.27 because the validated backend runtime was not changed by that frontend repair.
 
-## Current synchronization baseline
+## Current runtime proof boundary
 
-The engineering baseline reconciled by the 2026-09-12 systemwide information pass was GitHub `main` revision `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`, which includes the merged public navigation/site-map/pipeline projection repair from PR #993 and the merged landing-cascade repair from PR #997.
+The current controlled backend proof remains deployed revision `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80` on Render deployment `dep-daifrgoae00c73ebcc20`.
 
-Because documentation synchronization is itself committed after that baseline, the branch head can legitimately be newer. Use the package manifests for release numbers and Git history for exact source identity rather than treating this baseline SHA as a forever-current head pointer.
+Fresh September 12 runtime evidence for that deployed revision established:
 
-Exact-baseline VoxVector QA run `34679916767` completed successfully.
+- backend/API version **0.2.27**;
+- `/health` status `ok`;
+- runtime self-test `passed`;
+- faster-whisper execution-ready on the constrained CPU/int8 path;
+- pyannoteAI cloud-primary configured and execution-ready;
+- controlled 183.3-second run completed **17/21 stages**, with **0 failed** and **4 intentionally not run**;
+- faster-whisper completed and its transcript/alignment state was durably checkpointed before Stage 10;
+- Stage 10 completed without an uncontrolled API restart.
 
-## Runtime evidence boundary
+Issue **#941 is complete**. Current cloud-primary speaker execution/persistence remains #970.
 
-The latest previously recorded forced-fresh backend `/health` readback reported backend version **0.2.27**, `status=ok`, and `runtime_self_test=passed` on source `1cc10f40bb6b94e0a8f3380c1b70529137e89d93` on 2026-09-11.
+## Frontend 0.2.38 scope
 
-The 2026-09-12 connected Supabase diagnostic stream is receiving production API request records tagged with source revision `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`. Those records establish current diagnostic source attribution, not a substitute for a fresh `/health` response or a Render deployment record. `pipeline_version` remains `unknown` on the sampled request-log rows and must not be invented from source metadata.
+Frontend 0.2.38 updates the existing canonical `voxvector/src/components/DeveloperConsole.jsx`; it does not create a second dashboard or upload implementation.
+
+The release:
+
+- passes the existing upload-progress state setter into `CaseWorkbench`, repairing the file-picker React state path that had been masked by the existing DOM-file-input fallback;
+- makes the actual Developer Overview recognize the accepted controlled proof only when the live backend revision matches the proven deployed revision;
+- changes the Developer Overview transcription state from generic readiness wording to **PROVEN** when that proof match exists;
+- changes **Next Engineering Move** from stale `Transcription first` wording to **#970 diarization**;
+- stops presenting the legacy implementation-checklist percentage as release readiness;
+- adds a focused source-contract regression test for the upload setter and dashboard proof wording.
 
 ## Pipeline and capability versions
 
@@ -49,10 +65,10 @@ The 2026-09-12 connected Supabase diagnostic stream is receiving production API 
 | Transcript disfluency | 0.1 | optional integrated / observational |
 | MFCC / cepstral module | 0.1 | integrated / observational |
 | Evidence acquisition | 0.1 | implemented foundation |
-| faster-whisper adapter | configured | historical real beam-1 provider execution exists; current controlled repeatability remains #941 |
-| pyannoteAI cloud primary | configured | provider path wired; current real execution/persisted speaker evidence remains #970 |
+| faster-whisper adapter | configured + controlled proof | real current-revision provider execution and durable checkpoint proof established by #941 |
+| pyannoteAI cloud primary | configured | provider path ready; real current execution/persisted speaker evidence remains #970 |
 | local pyannote Community-1 fallback | optional | not part of the constrained cloud-primary path unless explicitly enabled |
-| Transcript/speaker alignment | 0.1 | foundation implemented; persisted multimodal proof remains #971 |
+| Transcript/audio alignment | 0.1 | current controlled transcript/audio alignment proven; speaker-aware persisted proof remains #971 |
 | Reliability gate | 0.1 | implemented analytical eligibility control |
 | Evidence grouping | 0.1 | implemented / neutral |
 | Candidate classification boundary | 0.1 | implemented guarded foundation |
@@ -73,9 +89,9 @@ Any undated living surface that reverses those stages is stale. Historical dated
 
 ## Frontend version presentation
 
-The Developer Console startup footer reads the frontend version from `voxvector/package.json` and reads the API version from the live `/health` payload. It must not hard-code a backend version in the React source.
+The Developer Console reads frontend version from `voxvector/package.json` and API version from the live `/health` payload. It must not hard-code a backend release number as frontend truth.
 
-The startup pipeline row verifies that the backend reports the canonical 21-stage contract. The maturity count shown beside it is a separate engineering status and must not be represented as all 21 stages being production-complete or scientifically validated.
+The startup pipeline row verifies that the backend reports the canonical 21-stage contract. The separate foundations count communicates source maturity. Controlled runtime proof and scientific validation remain separate evidence states.
 
 ## Current documentation authorities
 
@@ -89,6 +105,7 @@ Use these living records first:
 - `docs/CURRENT_ENGINEERING_STATE_2026-09-12.md`
 - `docs/CAPABILITY_STATUS.md`
 - `docs/MVP_RELEASE_GATE.md`
+- `docs/VALIDATION_SNAPSHOT_2026-09-12.md`
 
 The Crown Labs executive mirror is `docs/crownlabsbible/04-product-dossiers/VoxVector/`.
 
