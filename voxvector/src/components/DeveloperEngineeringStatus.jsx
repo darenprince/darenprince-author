@@ -15,7 +15,8 @@ const TRACE = {
   endpoints: { label: 'ENDPOINT REGISTRY', path: 'VoxVector/docs/ENDPOINT_REGISTRY.md', href: 'https://github.com/darenprince/darenprince-author/blob/main/VoxVector/docs/ENDPOINT_REGISTRY.md' },
 }
 
-const READY_STATES = ['HEALTHY','PASS','FUNCTIONAL','SUCCESS','READY','LIVE','ACTIVE']
+const CONTROLLED_PROOF_REVISION = '66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80'
+const READY_STATES = ['HEALTHY','PASS','FUNCTIONAL','SUCCESS','READY','LIVE','ACTIVE','PROVEN']
 const WARNING_STATES = ['BUILT','PARTIAL','PENDING','UNVERIFIED','CONDITIONAL','QUEUED','NOT VALIDATED','IN_PROGRESS','STALE','UNAVAILABLE','NOT REPORTED','NOT CONFIGURED','NOT INSTALLED','INSTALLED · EXECUTION UNVERIFIED','READY · EXECUTION UNVERIFIED','CONFIGURED','BUILD IN PROGRESS','UPDATE IN PROGRESS']
 function stateTone(state) { const normalized=String(state||''); if (READY_STATES.includes(normalized)) return 'healthy'; if (WARNING_STATES.includes(normalized) || normalized.includes('/21') || normalized.endsWith(' BUILT')) return 'warning'; return 'error' }
 function StateChip({ icon: Icon, label, value, tone }) { return <div className={`vv-eng-state ${tone || stateTone(value)}`}><Icon size={15}/><div className="min-w-0"><div className="vv-eng-state__label">{label}</div><strong>{value}</strong></div></div> }
@@ -47,6 +48,7 @@ export default function DeveloperEngineeringStatus({ mode = 'toolbar', accessTok
   const h=health.data?.payload||health.data||{}
   const runtime=h.runtime||{}
   const backendRevision=(runtime.source_revision||h.source_revision)&&((runtime.source_revision||h.source_revision)!=='unknown')?(runtime.source_revision||h.source_revision):''
+  const controlledProofMatches=backendRevision===CONTROLLED_PROOF_REVISION
   const frontendRevision=String(import.meta.env.VITE_GITHUB_SHA||'').trim()
   const workflows=useQuery({queryKey:['github-workflow-status',frontendRevision,backendRevision],queryFn:()=>getGitHubWorkflowStatus({frontendRevision,backendRevision}),refetchInterval:30000,staleTime:10000})
   const render=useQuery({queryKey:['engineering-render-status'],queryFn:()=>getRenderStatus(sessionToken,{logMinutes:30}),enabled:Boolean(sessionToken),refetchInterval:30000,staleTime:10000,retry:false})
@@ -66,7 +68,7 @@ export default function DeveloperEngineeringStatus({ mode = 'toolbar', accessTok
   const backendQaState=workflowEvidenceState(backendQa,workflows.data?.backendQaMatchesSource??null,workflows)
   const pagesState=workflowEvidenceState(pagesDeploy,workflows.data?.deploymentMatchesSource??null,workflows)
   const tested=frontendQaState==='PASS'&&backendQaState==='PASS'?'PASS':frontendQaState==='PENDING'||backendQaState==='PENDING'?'PENDING':frontendQaState==='UNAVAILABLE'||backendQaState==='UNAVAILABLE'?'UNAVAILABLE':frontendQaState==='STALE'||backendQaState==='STALE'?'STALE':frontendQaState==='FAIL'||backendQaState==='FAIL'?'FAIL':'UNVERIFIED'
-  const transcriptionState=transcription.configured_provider==='not_configured'?'NOT CONFIGURED':isReportedTrue(transcription.execution_ready)?'READY · EXECUTION UNVERIFIED':isReportedTrue(transcription.adapter_installed)?'INSTALLED · EXECUTION UNVERIFIED':'NOT INSTALLED'
+  const transcriptionState=transcription.configured_provider==='not_configured'?'NOT CONFIGURED':controlledProofMatches&&isReportedTrue(transcription.execution_ready)?'PROVEN':isReportedTrue(transcription.execution_ready)?'READY · EXECUTION UNVERIFIED':isReportedTrue(transcription.adapter_installed)?'INSTALLED · EXECUTION UNVERIFIED':'NOT INSTALLED'
   const diarizationProvider=String(diarization.configured_provider||'not_configured').toLowerCase()
   const cloudDiarization=['pyannote_api','pyannote.api','pyannoteai'].includes(diarizationProvider)
   const localAdapter=isReportedTrue(diarization.local_adapter_installed ?? diarization.adapter_installed)
@@ -93,19 +95,23 @@ export default function DeveloperEngineeringStatus({ mode = 'toolbar', accessTok
   const workflowsObservedAt=workflows.data?.fetchedAt||''
   const renderObservedAt=renderOperational.observed_at||renderPayload.observed_at||''
   const diarizationDetail=cloudDiarization
-    ? `${diarization.configured_provider || 'pyannote api'} · API key ${isReportedTrue(diarization.pyannote_api_key_configured)?'configured':'not detected'} · cloud provider execution ${isReportedTrue(diarization.execution_ready)?'ready but not verified':'not ready'}`
+    ? `${diarization.configured_provider || 'pyannote api'} · API key ${isReportedTrue(diarization.pyannote_api_key_configured)?'configured':'not detected'} · cloud provider execution ${isReportedTrue(diarization.execution_ready)?'ready but not verified':'not ready'} · next P0 is #970`
     : `${diarization.configured_provider || 'not configured'} · local adapter ${localAdapter?'installed':'not installed'} · HF token ${isReportedTrue(diarization.hf_token_configured)?'configured':'not detected'} · provider-backed execution still requires a controlled run`
+  const transcriptionDetail=controlledProofMatches
+    ? `${transcription.configured_provider || 'faster_whisper'} · current deployed revision passed controlled execution: ~150.1 s transcription, 58 segments / 246 words checkpointed, Stage 10 admitted at 118.6 MB RSS and completed without restart.`
+    : `${transcription.configured_provider || 'not configured'} · ${isReportedTrue(transcription.adapter_installed)?'package present; this runtime revision does not yet have a matched controlled proof snapshot':'adapter package unavailable; Render build is missing the transcription dependency'}`
   const qaChecks=[
     ['API HEALTH',apiState,apiState==='HEALTHY'?`Canonical /health endpoint responding${healthObservedAt?` · observed ${new Date(healthObservedAt).toLocaleString()}`:''}.`:'Current API health has not been confirmed.'],
     ['RUNTIME SELF TEST',runtimeState,runtimeState==='PASS'?'Canonical acoustic runtime smoke test passed.':'Runtime self test requires attention.'],
-    ['TRANSCRIPTION RUNTIME',transcriptionState,`${transcription.configured_provider || 'not configured'} · ${isReportedTrue(transcription.adapter_installed)?'package present; first successful provider execution still required':'adapter package unavailable; Render build is missing the transcription dependency'}`],
+    ['CONTROLLED RUNTIME PROOF',controlledProofMatches?'PASS':'STALE',controlledProofMatches?'September 12 controlled WAV completed 17/21 stages with 0 failed, durable transcript checkpointing and bounded Stage 10 completion on this exact backend revision.':'The recorded controlled proof belongs to 66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80; current runtime revision differs.'],
+    ['TRANSCRIPTION RUNTIME',transcriptionState,transcriptionDetail],
     ['DIARIZATION RUNTIME',diarizationState,diarizationDetail],
     ['FRONTEND QA',frontendQaState,frontendQa?`GitHub Actions #${frontendQa.runNumber||frontendQa.id} · ${workflows.data?.frontendQaMatchesSource===true?'matches frontend build revision':workflows.data?.frontendQaMatchesSource===false?'does not match frontend build revision':'frontend build revision unavailable'} · ${frontendQa.updatedAt?new Date(frontendQa.updatedAt).toLocaleString():'time unavailable'}`:'No VoxVector QA run was returned.',frontendQa?.url],
     ['BACKEND SOURCE QA',backendQaState,backendQa?`GitHub Actions #${backendQa.runNumber||backendQa.id} · ${workflows.data?.backendQaMatchesSource===true?'matches backend runtime revision':workflows.data?.backendQaMatchesSource===false?'does not match backend runtime revision':'backend runtime revision unavailable'} · ${backendQa.updatedAt?new Date(backendQa.updatedAt).toLocaleString():'time unavailable'}`:'No VoxVector QA run was returned.',backendQa?.url],
     ['PAGES DEPLOYMENT',pagesState,pagesDeploy?`GitHub Actions #${pagesDeploy.runNumber||pagesDeploy.id} · ${workflows.data?.deploymentMatchesSource===true?'matches frontend build revision':workflows.data?.deploymentMatchesSource===false?'does not match frontend build revision':'frontend build revision unavailable'} · ${pagesDeploy.updatedAt?new Date(pagesDeploy.updatedAt).toLocaleString():'time unavailable'}`:'No Pages deployment run was returned.',pagesDeploy?.url],
     ['RENDER SERVICE',`${renderServiceState} · ${renderDeployState}`,render.isError?`Render status unavailable: ${render.error?.message||'query failed'}`:`${renderService.name||'voxvector-api'} · ${renderService.region||'region not reported'} · deployment ${renderDeployState}${renderCommit?` · ${renderCommit.slice(0,12)}${renderRevisionMatch===true?' matches backend runtime revision':renderRevisionMatch===false?' differs from backend runtime revision':''}`:''}${renderObservedAt?` · observed ${new Date(renderObservedAt).toLocaleString()}`:''}`,undefined,renderStatusState.tone],
-    ['21-STAGE BUILD',`${pipeline.total===21?pipeline.implemented_foundations||0:0}/21 BUILT`,`${pipeline.queued||0} queued · ${pipeline.conditional_or_not_invoked||0} conditional/not invoked.`],
-    ['SCIENTIFIC VALIDATION','NOT VALIDATED','Build, deployment, provider readiness, and software tests are not scientific validation.'],
+    ['21-STAGE BUILD',`${pipeline.total===21?pipeline.implemented_foundations||0:0}/21 BUILT`,`${pipeline.queued||0} queued · ${pipeline.conditional_or_not_invoked||0} conditional/not invoked. Source maturity is separate from the 17/21 controlled runtime result.`],
+    ['SCIENTIFIC VALIDATION','NOT VALIDATED','Build, deployment, provider execution, and software tests are not scientific validation.'],
   ]
   const deployNow=()=>{
     if(!sessionToken){setDeployNotice('Developer session token unavailable.');return}
