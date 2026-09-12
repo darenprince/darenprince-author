@@ -9,13 +9,13 @@ This document defines the deployment boundary for VoxVector so developers, autom
 
 ## Canonical deployment surfaces
 
-| Surface | Canonical system | Current endpoint / responsibility |
-|---|---|---|
-| Public frontend | GitHub Pages | `https://darenprince.com/voxvector/` |
-| Original API | Render | `https://voxvector.crownlabs.tech` |
-| AWS API environment | AWS ALB + ECS Fargate | `https://awsapi.crownlabs.tech` |
-| Authentication, persistence, diagnostics, private media | Supabase | Existing configured VoxVector project |
-| Repository source and QA | GitHub / GitHub Actions | Canonical source, review and workflow evidence |
+| Surface                                                 | Canonical system        | Current endpoint / responsibility              |
+| ------------------------------------------------------- | ----------------------- | ---------------------------------------------- |
+| Public frontend                                         | GitHub Pages            | `https://darenprince.com/voxvector/`           |
+| Original API                                            | Render                  | `https://voxvector.crownlabs.tech`             |
+| AWS API environment                                     | AWS ALB + ECS Fargate   | `https://awsapi.crownlabs.tech`                |
+| Authentication, persistence, diagnostics, private media | Supabase                | Existing configured VoxVector project          |
+| Repository source and QA                                | GitHub / GitHub Actions | Canonical source, review and workflow evidence |
 
 The original Render API domain is preserved. The AWS endpoint is a separate environment and does not silently replace Render.
 
@@ -102,6 +102,16 @@ The canonical Blueprint therefore owns an explicit production allowlist:
 `https://darenprince.com,https://www.darenprince.com,https://voxvector.crownlabs.tech`
 
 This covers the canonical Pages origin, the preserved www origin and the preserved API hostname without using wildcard CORS for the Blueprint-managed production profile.
+
+### Local frontend development
+
+`voxvector/vite.config.js` owns the development API proxy. During `npm run dev`, the existing frontend client uses the same-origin `/voxvector-api` prefix. Vite forwards those requests to `VITE_VOXVECTOR_API_URL` from the selected mode/environment, defaulting to `https://voxvector.crownlabs.tech`, and removes only that prefix. Configure an absolute API URL, not the proxy prefix itself.
+
+This allows localhost development without adding localhost or wildcard entries to production CORS. Bearer authentication, API permission checks, request bodies, query strings, response status and request identifiers remain intact. Supabase sign-in continues to use the configured public project URL and publishable key. Never put service-role or provider credentials in a `VITE_` variable.
+
+From `voxvector/` on Windows, run `npm.cmd ci`, then `npm.cmd run dev -- --host 127.0.0.1 --port 5173 --strictPort`, and open `http://127.0.0.1:5173/voxvector/`. The existing canonical assets must be staged as described by the Pages workflow and development workflow. The API target selects real services: with the default target, uploads and cases use the existing cloud storage. This is not an isolated backend environment.
+
+`npm run build` retains the configured absolute API URL; the development prefix is not injected into production artifacts. `vite preview` serves that production artifact and consequently uses production CORS rules. Use the development server for local authenticated API work.
 
 ## Secret environment ownership
 
