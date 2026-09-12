@@ -2,62 +2,64 @@
 
 ## Purpose
 
-This document defines the shortest dependency-ordered path from the current repository state to a complete connected engineering MVP. It is subordinate to `MVP_RELEASE_GATE.md` for the final exit criteria.
+This document defines the shortest dependency-ordered path from the current repository state to a complete connected engineering MVP. `MVP_RELEASE_GATE.md` remains the final exit checklist.
 
 ## Current starting state
 
 - backend release: **0.2.27**
 - frontend release: **0.2.37**
+- deployed backend revision: `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`
 - current engineering handoff: `CURRENT_ENGINEERING_STATE_2026-09-12.md`
+- current runtime snapshot: `VALIDATION_SNAPSHOT_2026-09-12.md`
 - canonical 21-stage order uses Stage 05 Speech Segmentation and Stage 06 Speaker Identification / Diarization
-- public navigation/site-map/pipeline projection source work is merged
-- login-time API wake and shared account-profile source behavior are present in current `main`
-- no duplicate frontend/backend implementation should be created to finish the remaining gates
+- #941 controlled transcription/durability/Stage 10 proof: **passed and closed**
 
-## Already connected
+## Already connected and currently proven
 
 The current product foundation includes:
 
 - case creation/list/read
 - private source upload/persistence
 - source metadata/provenance
-- authenticated signed playback route
-- case-bound analysis route
+- authenticated signed playback
+- case-bound analysis
 - persisted run/stage/provenance structures
-- deterministic speech segmentation foundation
-- faster-whisper integration with historical real provider execution
-- pyannoteAI cloud-primary diarization architecture
-- transcript/alignment foundations
-- acoustic/prosodic/temporal/evidence foundations
-- Stage 10 bounded-admission source foundation
+- deterministic speech segmentation
+- faster-whisper integration
+- **current same-revision faster-whisper execution proof**
+- **durable transcript checkpoint before Stage 10**
+- **current transcript/audio alignment proof**
+- **bounded Stage 10 admission and completion proof**
+- pyannoteAI cloud-primary diarization architecture/readiness
+- acoustic/prosodic/temporal/linguistic/evidence foundations
 - guarded classification/disposition architecture
 - Developer Console health/case/pipeline/diagnostic/documentation surfaces
 - durable Supabase request/error evidence
+- real sanitized Debug Bundle foundation
 - public/authenticated React shell and current navigation paths
 
 ## Shortest remaining dependency chain
 
-### 1. #941 — controlled current-revision speech/durability/Stage 10 proof
+### 1. #970 — real cloud-primary speaker execution
 
-Use the known controlled 183.3-second source through the authenticated canonical Analysis Workspace on the intended deployed revision.
+This is now the first P0 runtime gate.
 
 Acceptance:
 
-- transcription completes or fails within the explicit bounded provider contract;
-- upstream transcript/provider/alignment state is durably checkpointed before Stage 10;
-- Stage 10 either completes or is refused cleanly by memory admission;
-- no uncontrolled API restart;
-- case/run/request/process/memory evidence is correlated.
+- confirm current pyannoteAI cloud request/response contract;
+- deliberately invoke the provider on the controlled source;
+- capture sanitized provider/run provenance;
+- normalize speaker regions;
+- persist speaker evidence to the same case/source/run;
+- read the speaker artifact back;
+- keep provider failure explicit and bounded;
+- record timing/cost/limits for the constrained MVP path.
 
-### 2. #970 — real cloud-primary speaker execution
+### 2. #971 — persisted multimodal alignment
 
-Recheck the current pyannoteAI provider contract, deliberately enable the intended route gate, run the real cloud-primary provider, normalize/persist speaker evidence, and read it back from the same run.
+Consume the persisted transcript and persisted speaker evidence from the same source/run. Persist/read back the canonical transcript/audio/speaker timeline with ambiguity represented explicitly.
 
-### 3. #971 — persisted multimodal alignment
-
-Consume the persisted transcript and persisted speaker evidence from the same source/run. Build/persist/read back the canonical transcript/audio/speaker timeline with ambiguity represented explicitly.
-
-### 4. #963 — historical case rehydration
+### 3. #963 — historical case rehydration
 
 Reopen a persisted case without re-upload and restore:
 
@@ -67,17 +69,38 @@ Reopen a persisted case without re-upload and restore:
 - report/failure/provenance state;
 - correct source/case switching without stale browser-local state.
 
-### 5. #930 — bound intake reliability
+### 4. #930 — bound intake reliability
 
-Use current candidate uploads to either reproduce and identify the intermittent pre-handler 400 or record enough consecutive successful attempts plus sanitized request-envelope evidence to bound the residual risk honestly.
+Use current candidate uploads to either reproduce and identify the intermittent pre-handler 400 or tightly bound the residual risk with repeated successful attempts and sanitized request-envelope evidence.
 
-### 6. #959 — production observability acceptance
+### 5. #998 — isolate observability persistence from product success
 
-For one controlled run, prove the intended correlated evidence appears through the operational logging boundaries and generate/inspect one real sanitized Debug Bundle. Preserve the distinction between Render-native evidence, Supabase durable evidence and browser presentation.
+A September 12 browser validation case returned HTTP 500 because `DIAGNOSTICS.emit()` timed out while persisting a completed-request record. `/health` stayed healthy and later case reads succeeded.
+
+Acceptance:
+
+- external diagnostic persistence is best-effort/non-fatal;
+- product GET success remains success if telemetry storage times out;
+- local/Render evidence still records the degradation;
+- no recursive diagnostic failure loop;
+- regression coverage exists;
+- Render/browser verification confirms the repair.
+
+### 6. #959 — complete production observability acceptance
+
+A real sanitized Debug Bundle now exists with case/run state, runtime health, Render status and 100 Render logs plus a Supabase Render-log mirror.
+
+Remaining acceptance:
+
+- exact durable VoxVector event correlation;
+- correlated error-report behavior where applicable;
+- final secret/redaction review;
+- non-fatal observability behavior from #998;
+- Developer Console browser readback of the completed evidence path.
 
 ### 7. Authenticated browser acceptance
 
-Verify already-merged/current-source behavior rather than creating replacement implementations:
+Verify the current canonical implementation:
 
 - login wake ordering and cold/warm readiness presentation;
 - developer/admin/user routing and unauthorized denial;
@@ -86,11 +109,14 @@ Verify already-merged/current-source behavior rather than creating replacement i
 - pipeline projection against live backend data;
 - Request Access, anchors, site map and nested-route navigation;
 - current landing hero treatment;
+- error recovery after #998;
 - desktop/mobile accessibility and responsive behavior.
+
+The September 12 PDFs already provide direct visual evidence for dashboard, drawer, case creation, upload, protected playback, waveform/spectral rendering and live analysis progression.
 
 ### 8. #972 — freeze and prove two golden cases
 
-Freeze one exact candidate revision/configuration. Run exact-head QA, intentionally deploy/publish, obtain fresh runtime identity, then complete two full golden cases without candidate-affecting changes between them.
+Freeze one exact candidate revision/configuration. Run exact-head QA, deliberately deploy/publish, obtain fresh runtime identity, then complete two full golden cases without candidate-affecting changes between them.
 
 ### 9. Scientific validation
 
@@ -98,12 +124,10 @@ Continue task/population-specific validation separately. Do not convert an engin
 
 ## Current stage maturity context
 
-The canonical 21-stage pipeline currently has approximately 16 implemented analytical/runtime foundations, four conditional/not-invoked stages, and an open current cloud-primary speaker-execution gate. This is a planning/maturity map, not a validated-indicator count.
+Fresh health reports approximately 16 implemented analytical/runtime foundations, one queued stage and four conditional/not-invoked stages.
 
-## Non-blocking work
-
-Unless it becomes a direct golden-path blocker, defer convenience/polish work such as richer notification-center UX, additional operator controls, broad visual refinements and nonessential secondary dashboards until the P0 dependency chain is accepted.
+The September 12 controlled run separately completed 17/21 stages with zero failures and four intentionally not run. These are different metrics and must not be collapsed into a single completion percentage.
 
 ## Engineering rule
 
-Finish existing canonical owners. Do not create patch layers, duplicate case stores, alternate analysis pipelines, second authentication systems, replacement workspaces or competing status modules to satisfy these steps.
+Finish existing canonical owners. Do not create patch layers, duplicate case stores, alternate analysis pipelines, second authentication systems, replacement workspaces or competing status modules.
