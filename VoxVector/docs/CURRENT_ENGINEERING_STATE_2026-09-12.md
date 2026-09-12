@@ -1,57 +1,113 @@
 # VoxVector Current Engineering State — 2026-09-12
 
-## Purpose
-
-This is the current engineering handoff and reconciliation record for VoxVector. It supersedes older files named `CURRENT_ENGINEERING_STATE_*` for current-state decisions while preserving those older records as historical evidence.
-
-## Canonical ownership
+## Authority
 
 - Repository: `darenprince/darenprince-author`
 - Branch: `main`
-- Backend/API/analysis engine: `VoxVector/`
-- Public/authenticated React application: `voxvector/`
+- Backend/API/analysis: `VoxVector/`
+- React frontend: `voxvector/`
 - Crown Labs executive mirror: `docs/crownlabsbible/04-product-dossiers/VoxVector/`
 - Backend source release: **0.2.27**
 - Frontend source release: **0.2.37**
-- Engineering baseline reconciled before this documentation pass: `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`
-- Exact-baseline VoxVector QA run: `34679916767` — **success**
+- Current deployed backend revision: `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`
 
-The synchronization commits created after that baseline may make `main` newer without changing the authoritative package versions.
+This is the living engineering handoff. Older dated state files remain historical evidence.
 
-## What is currently real
+## September 12 validation snapshot
 
-VoxVector has a working case-centered software foundation with:
+A controlled 183.3-second WAV completed the deployed constrained-production path on backend **0.2.27** and source revision `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`.
 
-- public product landing and reference pages;
-- email/password authentication with trusted role routing;
-- one-shot login-time API wake behavior;
-- protected user and Developer Console surfaces;
-- shared self-profile editing for supported roles;
-- case creation, private source persistence, signed playback and case-bound analysis routes;
-- a canonical 21-stage pipeline contract;
-- structured stage/run/provenance persistence;
-- faster-whisper transcription integration with historical real provider execution;
-- pyannoteAI cloud-primary diarization architecture;
-- acoustic, prosodic, voice-quality, temporal, linguistic and evidence-assembly foundations;
-- guarded candidate/final disposition architecture;
-- Supabase authentication, private storage, diagnostics and operational persistence;
-- Developer Console health, pipeline, diagnostics, case workflow and engineering status surfaces;
-- GitHub QA and Pages workflows;
-- current public navigation, Request Access, human site map and canonical landing artwork.
+Identifiers:
 
-## What is not yet proven
+- case `ecdc428a-7009-47ed-99de-7b58baf52860`
+- source `9c464d7b-89f0-41ea-b1eb-8707f12c9b2b`
+- request `8e43718cb11746f3852863da4dbe536a`
+- run `d05dc0bb-0f04-4c15-bb0e-6da1dba38935`
 
-Do not represent the following as complete:
+Result:
 
-- current-revision controlled same-WAV Stage 10 proof;
-- current cloud-primary pyannoteAI execution with persisted speaker evidence;
-- current persisted transcript/audio/speaker alignment proof;
-- full historical-case reopen/playback/artifact/report rehydration;
-- fully bounded intermittent upload 400 behavior;
-- complete production Render + Supabase dual-copy/debug-bundle acceptance;
-- complete authenticated desktop/mobile role/profile/navigation/browser matrix;
-- two same-revision/configuration complete golden cases;
-- scientifically validated general deception classification.
+- run status: **completed**
+- elapsed: **247,984 ms**
+- **17/21 stages completed**
+- **0 stages failed**
+- **4 stages intentionally not run**
+- Stage 05 detected **26 speech segments**
+- faster-whisper completed in about **150.1 seconds**
+- durable acquisition checkpoint recorded **58 timestamped transcript segments / 246 words**
+- transcript/audio alignment was available before Stage 10
+- transcription post-GC RSS: **116.63 MB**
+- Stage 10 admission RSS: **118.6 MB** under the **416 MB** admission ceiling / **512 MB** memory limit
+- Stage 10 acoustic extraction completed in about **73.8 seconds**
+- Stage 10 after-GC RSS: **128.63 MB**
+- the same Render instance remained active; no uncontrolled API restart occurred
+
+Issue **#941 is complete**. Current controlled transcription durability and Stage 10 production proof are now established for this deployed revision.
+
+## Intentionally not run in the successful case
+
+- Stage 06 Speaker Identification / Diarization: cloud provider was not invoked in the constrained Render analysis path
+- Stage 14 Question / Answer Alignment: no question context attached
+- Stage 15 Within Speaker Baseline: no independent baseline attached
+- Stage 19 Validation and Calibration Gate: inferential validation gate not invoked
+
+These are not failures.
+
+## Fresh Render state
+
+Connected Render inspection on September 12 established:
+
+- service: `voxvector-api`
+- service status: live / not suspended
+- region: Oregon
+- health check: `/health`
+- production auto-deploy: disabled
+- live deployment: `dep-daifrgoae00c73ebcc20`
+- deployed commit: `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`
+- fresh `/health`: HTTP 200, `status=ok`, runtime self-test passed
+- pipeline version: **0.2.27**
+- health contract: 21 total, 16 implemented foundations, 1 queued, 4 conditional/not invoked
+- faster-whisper: base, CPU/int8, beam 1, one thread, one worker, isolated process, 165-second timeout, execution ready
+- pyannoteAI cloud primary: configured and execution ready
+
+Recent runtime resource use was low, roughly 79–110 MB memory with low CPU outside the heavy controlled analysis window.
+
+## Runtime defect discovered during visual validation
+
+A separate Developer Console browser session exposed a real case-read failure while the service itself remained healthy. At 2026-09-12 08:28 UTC:
+
+- `/health` continued returning 200
+- `GET /v1/cases/1813af9d-9d8b-4090-a4b3-0acff4551f81` encountered `TimeoutError: The read operation timed out`
+- the traceback originated while diagnostic middleware persisted the completed-request record through `observability.py`
+- that request returned HTTP 500
+- subsequent reads of the same case returned HTTP 200
+
+This is currently classified as an **observability persistence timeout leaking into the request path**, not a pipeline-analysis failure. It must be fixed so diagnostic persistence is best-effort/non-fatal to successful product requests.
+
+## Visual/browser evidence
+
+The September 12 Confidential IP screenshot set visually confirms current Developer Console surfaces for:
+
+- dashboard/health and engineering state
+- navigation drawer
+- case creation
+- source upload and persistence progress
+- protected playback
+- waveform and spectral visualization
+- analysis engine stage progression
+
+The screenshot set also reproduces the visible fetch failure described above. Visual evidence is product/browser evidence, not scientific validation.
+
+## Debug Bundle status
+
+A sanitized debug bundle was generated for the successful controlled run. It includes:
+
+- case/run record
+- runtime health snapshot
+- Render service/deploy status
+- 100 Render logs for the bounded analysis window
+- a Supabase Render-log mirror path
+
+The bundle intentionally excludes raw audio and transcript text. Its manifest currently reports zero correlated VoxVector event rows and zero correlated error-report rows in the exported bundle, so **#959 remains open** until the dual-copy correlation path is complete.
 
 ## Canonical stage order
 
@@ -77,109 +133,18 @@ Do not represent the following as complete:
 20. Final Classification / Disposition
 21. Audit and Provenance Output
 
-Any living UI or documentation that presents Speaker Identification / Diarization as Stage 05 and Speech Segmentation as Stage 06 is stale.
+## Current release-critical order
 
-## Current pipeline maturity
+1. **#970** real cloud-primary pyannoteAI execution and persisted speaker evidence
+2. **#971** persisted transcript/audio/speaker alignment using the same run/source
+3. **#963** historical-case reopen/playback/artifact/report rehydration
+4. **#930** bound intermittent authenticated upload 400 behavior
+5. **observability request-path timeout**: make diagnostic persistence non-fatal to product requests
+6. **#959** complete dual-copy observability and Debug Bundle correlation
+7. authenticated desktop/mobile acceptance for current auth/profile/navigation/pipeline UI
+8. **#972** two complete same-revision/configuration golden cases
+9. scientific validation separately
 
-The engineering maturity model remains:
+## Evidence boundary
 
-- approximately 16 stages with implemented analytical/runtime foundations;
-- four stages conditional or intentionally not invoked without required inputs/authorization;
-- speaker-provider execution still requiring current cloud-primary proof;
-- historical faster-whisper provider execution established, but current controlled repeatability and downstream memory behavior remain open;
-- validation/calibration remains a separate scientific program.
-
-## Current frontend state
-
-The merged React source now includes:
-
-- Request Access → canonical login;
-- route-safe public anchors;
-- restored direct hash/refresh/back-forward section navigation;
-- human `/voxvector/site-map` surface;
-- styled Pipeline and Analysis Methods destinations;
-- corrected pipeline Stage 05/06 order;
-- pipeline row state preferring backend `pipeline_build.status_by_stage` where available;
-- current canonical hero artwork without obsolete legacy overlay/darkening rules;
-- login-time `wakeApi()` call through the canonical API client;
-- shared role-aware self-profile implementation.
-
-The remaining frontend gate is real authenticated desktop/mobile acceptance, not another competing source implementation.
-
-## Developer Console truth model
-
-Developer Console status must be evidence-backed.
-
-- `WEB v…` comes from the frontend package manifest.
-- `API v…` comes from live `/health`, not a hard-coded React value.
-- the startup `Pipeline contract` row verifies that the backend reported the canonical 21-stage contract; it does not mean all 21 stages are complete.
-- mutable pipeline maturity comes from backend health data when available.
-- offline/fallback state must be visible rather than silently presenting stale success.
-- deployment, health, provider execution, persistence and browser acceptance remain different status categories.
-
-## Current Supabase state
-
-Connected inspection on this reconciliation pass:
-
-- project: `VoxVector` / `tawtkawmjqabydnatavx`;
-- project health: `ACTIVE_HEALTHY`;
-- database: PostgreSQL 17.6;
-- RLS enabled on the inspected operational tables;
-- migrations present through 2026-09-05;
-- `voxvector-user-admin` Edge Function ACTIVE, version 2, JWT verification enabled;
-- current private storage: 6,405 log objects and 28 media objects;
-- current media metadata total: approximately 407.97 MB;
-- last 24 hours: 1,393 API request records, one 5xx response, 271 4xx responses;
-- two open error records in the same window;
-- current diagnostic request rows carry source revision `66f2ea8049e2139a22c453d1e0ab9d6e18a9ca80`.
-
-Current hardening findings include a SECURITY DEFINER dashboard summary RPC accessible to authenticated users, leaked-password protection disabled, several unindexed foreign keys, RLS auth-function reevaluation warnings and unused error-report indexes.
-
-## Provider state
-
-### Transcription
-
-Canonical provider: faster-whisper.
-
-Historical real execution exists for a controlled beam-1 run. The current release gate is to repeat the controlled path on the intended candidate and prove durable upstream checkpointing plus bounded Stage 10 behavior without uncontrolled restart.
-
-### Speaker diarization
-
-Canonical primary provider: pyannoteAI cloud.
-
-Architecture/readiness is not execution. #970 remains responsible for current provider contract confirmation, real execution and persisted speaker evidence.
-
-### Hugging Face
-
-The connected Hugging Face identity is `crownlabs-voxvector`. Hugging Face remains relevant to optional local model/fallback tooling. The current cloud-primary pyannoteAI path is not proven merely by Hugging Face authentication.
-
-During this pass, model/Space discovery actions returned connector-level not-found errors. No unverified Hub inventory is promoted into project documentation.
-
-## Current operational risk queue
-
-### P0
-
-- #941 controlled transcription/durability/Stage 10 production proof
-- #970 cloud-primary diarization execution/persistence
-- #971 persisted multimodal alignment
-- #963 historical case rehydration
-- #930 intermittent upload 400 bounding
-- #959 production observability/debug-bundle acceptance
-- authenticated browser acceptance for merged auth/profile/navigation/pipeline changes
-- #972 same-revision two-run golden release gate
-
-### P1/P2
-
-Operator cancellation, secure-deletion receipt/UI completion, notification/storage-monitor work and remaining convenience/visual verification continue behind the core golden path unless they become direct blockers.
-
-## Version policy
-
-Backend **0.2.27** and frontend **0.2.37** are independently versioned. This synchronization aligns every living informational surface to those actual source authorities. It does not fabricate a new release number merely because documentation changed.
-
-## Verification discipline
-
-Keep these states separate:
-
-`source → exact-head QA → publication/deployment → fresh runtime readback → provider execution → durable artifact readback → authenticated browser verification → repeated golden cases → scientific validation`
-
-A later state may use evidence from earlier states. An earlier state must never be documented as proof of a later one.
+Current evidence proves a real, completed, same-revision controlled transcription + Stage 10 run. It does **not** prove speaker diarization, general deception validity, transcript truthfulness, legal admissibility, or scientific accuracy.
