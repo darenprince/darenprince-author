@@ -26,24 +26,6 @@ The GitHub application repositories remain the technical source of truth for imp
 - `05-corporate-infrastructure/`
 - `docs/`
 
-## VoxVector synchronization
-
-VoxVector is a canonical active Crown Labs product entry.
-
-- Product inventory: `02-products/voxvector.md`
-- Master product dossier: `04-product-dossiers/VoxVector.md`
-- Companion dossier: `04-product-dossiers/VoxVector/`
-- Technical source of truth: `VoxVector/` in `darenprince-author`
-- Public application: `https://darenprince.com/voxvector/`
-- Original API: `https://voxvector.crownlabs.tech`
-- AWS API environment: `https://awsapi.crownlabs.tech`
-
-The public landing/application is currently served from the `/voxvector/` path on darenprince.com. The original API domain remains preserved. The AWS hostname is a separately addressed API environment behind an AWS Application Load Balancer and ECS Fargate.
-
-The companion dossier now follows the established Crown Labs product pattern with overview, executive summary, monetization, valuation, licensing, positioning, architecture, website copy, and ecosystem-role sections.
-
-The VoxVector technical documentation distinguishes implemented capabilities, primary-pipeline integration, planned research, and validated inference. Planned features must not be removed simply because implementation is pending.
-
 ## Editorial standards
 
 Documentation should:
@@ -58,10 +40,8 @@ Documentation should:
 
 ## Synchronization rule
 
-When a material VoxVector runtime or architecture change occurs, update `VoxVector/docs/` and the relevant Crown Labs Bible product records. The parallel `crowndocs/content/` mirror should remain synchronized where the same product dossier is maintained. Do not allow the executive mirror to contradict the canonical repository.
-
-For endpoint changes, `VoxVector/docs/ENDPOINT_REGISTRY.md` is the canonical endpoint map. Active product records should preserve the distinction between the public application, the original API domain, and the separately addressed AWS API environment.
+When a material product or architecture change occurs, update the product's canonical repository and the relevant Crown Labs Bible records. Keep any parallel public mirror synchronized, and do not allow the executive mirror to contradict its canonical repository.
 
 ## Status
 
-Active and maintained. VoxVector endpoint architecture synchronization added 2026-09-03.
+Active and maintained.

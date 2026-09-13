@@ -4,27 +4,12 @@ _Last updated: 2026-08-22_
 
 This doc captures how assets are generated locally and served via GitHub Pages. Follow it before adjusting npm scripts or automation.
 
-## VoxVector workflow authority
-
-VoxVector has a dedicated canonical development and deployment procedure in `VoxVector/docs/DEVELOPMENT_WORKFLOW.md`.
-
-For VoxVector:
-
-- `voxvector/` is the canonical public React application.
-- `main` is the only production frontend deployment source.
-- `.github/workflows/deploy-pages.yml` is the production Pages workflow.
-- `.github/workflows/voxvector-pr-preview.yml` builds PR previews without deploying them to production.
-- Existing VoxVector pages must be edited surgically. Do not recreate or overwrite an existing page unless explicitly authorized.
-- Do not create duplicate versions of existing pages. A new page is permitted only when it is genuinely a new product surface.
-- GitHub's supported custom Pages workflow skips deployment for `pull_request` runs. A public browser preview therefore requires a separate isolated Pages site/repository; PR builds are currently retained as downloadable artifacts until that isolated preview target is established.
-- Do not deploy a feature branch to the production Pages environment.
-
 ## NPM scripts
 
 | Script                | Command                                                                      | Purpose                                                                                                                                                                | Notes                                                                                                                        |
 | --------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------ |
 | `build:search`        | `node ./src/search/build-index.mjs`                                          | Build Minisearch index + docs payload (`public/search/*.json`).                                                                                                        | Requires Markdown under `/content/`; currently indexes 0 docs until content exists.                                          |
-| `generate:icons`     | `node scripts/generate-icons.mjs`                                            | Produce favicons, Apple touch icons, and inline head snippet from `assets/icons/icon-master.PNG`.                                                                      | Updates `/assets/icons/generated` and refreshes head markup inside HTML templates.                                           |
+| `generate:icons`      | `node scripts/generate-icons.mjs`                                            | Produce favicons, Apple touch icons, and inline head snippet from `assets/icons/icon-master.PNG`.                                                                      | Updates `/assets/icons/generated` and refreshes head markup inside HTML templates.                                           |
 | `generate:images`     | `node scripts/generate-image-manifest.js`                                    | Catalog repo imagery (`**/*.{png,jpg,jpeg,gif,svg,webp}`; excludes node_modules/build artifacts) into `assets/image-manifest.json` as `{ path, description }` entries. | Powers `image-index.html` and press tooling with copy-ready URLs.                                                            |
 | `lint:metadata`       | `node scripts/check-deploy-metadata.mjs`                                     | Validate deploy-critical metadata and social asset references (OG/Twitter images, favicons, Apple icon, and `theme-color`) on key public pages.                        | Fails fast if GitHub Pages would ship missing metadata assets or non-brand browser chrome colors.                            |
 | `build`               | `npm run build:site && node scripts/prepare-nexuswho-html.mjs && vite build` | Full local build (static site + Vibe Prism bundle).                                                                                                                    | Copies `src/nexuswho/index.html` → `nexuswho.html`, then Vite outputs `nexuswho.html` + `nexuswho-assets/` at the repo root. |
@@ -60,7 +45,7 @@ For VoxVector:
 
 - Configure **Settings → Pages** to use **GitHub Actions** as the Pages source.
 - `.github/workflows/deploy-pages.yml` deploys production only from `main` or by explicit `workflow_dispatch`.
-- Pull request builds do not deploy to the production Pages environment. `.github/workflows/voxvector-pr-preview.yml` builds the VoxVector PR frontend and stores it as an artifact for review.
+- Pull request builds do not deploy to the production Pages environment.
 - A public browser preview for a PR must use a separate isolated Pages site/repository. Do not deploy PR artifacts to the production Pages target.
 - `CNAME` maps the custom domain. Keep it updated if the domain changes.
 - Add `DOMAIN` (e.g. `https://www.darenprince.com`) so `seo-enrich.js` can generate canonical URLs, sitemap entries, and structured data.
