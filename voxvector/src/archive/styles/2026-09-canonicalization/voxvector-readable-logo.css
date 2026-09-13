@@ -1,5 +1,0 @@
-/* Header logo readability override: preserves the 60% lockup allocation while restoring legible icon and wordmark sizing. */
-.vv-header-brand{width:60%!important;max-width:60%!important;flex:0 0 60%!important;min-width:0!important}
-.vv-header-icon{width:54px!important;height:54px!important;flex:0 0 54px!important;object-fit:contain!important}
-.vv-header-wordmark{width:calc(100% - 64px)!important;height:40px!important;max-width:none!important;min-width:0!important;object-fit:contain!important;object-position:left center!important}
-@media(max-width:767px){.vv-header-icon{width:52px!important;height:52px!important;flex-basis:52px!important}.vv-header-wordmark{width:calc(100% - 62px)!important;height:34px!important}}

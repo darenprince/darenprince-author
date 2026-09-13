@@ -248,20 +248,6 @@ A configured provider is not a proven provider execution. Successful software ex
 
 Where a validated inferential model is not established for the relevant task and population, an agreement should not promise universal deception detection, guaranteed accuracy, or a scientifically proven lie verdict.
 
-## VoxVector Licensing Posture
-
-VoxVector has a product-specific licensing and valuation policy because its vocal/audio intelligence and deception-research positioning creates both enterprise opportunity and elevated scientific/data-rights diligence.
-
-Current canonical records:
-
-- [VoxVector Licensing](../../../crowndocs/content/product-dossiers/voxvector/licensing.md)
-- [VoxVector Monetization](../../../crowndocs/content/product-dossiers/voxvector/monetization.md)
-- [VoxVector Current Valuation Assessment](../../../VoxVector/docs/CURRENT_VALUATION_ASSESSMENT.md)
-
-VoxVector commercial structures should preserve Crown Labs background IP, carve out third-party technologies, define customer-data/model-training rights expressly, protect non-public proprietary assets where supportable, and keep scientific claims inside the validated evidence boundary.
-
-The current VoxVector valuation does not assign an incremental premium merely for unverified patents, registered marks, proprietary trained weights, a rights-cleared labeled deception corpus, customer contracts, or ARR.
-
 ## Strategic Licensing Position
 
 Licensing is treated as a long-term strategic multiplier.
