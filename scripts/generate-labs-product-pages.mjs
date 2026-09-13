@@ -1,8 +1,10 @@
 import { mkdir, rm, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import productsPayload from '../data/products.json' with { type: 'json' }
 
 const outputDir = new URL('../labs/products/', import.meta.url)
+const outputPath = fileURLToPath(outputDir)
 
 const escapeHtml = (value = '') =>
   String(value)
@@ -133,7 +135,7 @@ await rm(outputDir, { recursive: true, force: true })
 await mkdir(outputDir, { recursive: true })
 
 for (const product of productsPayload.products) {
-  await writeFile(path.join(outputDir.pathname, `${product.id}.html`), template(product))
+  await writeFile(path.join(outputPath, `${product.id}.html`), template(product))
 }
 
 console.log(`Generated ${productsPayload.products.length} canonical Labs product pages.`)

@@ -124,32 +124,6 @@ Managed-service language must remain within the verified capability and scientif
 
 Product dossiers may maintain detailed, dated commercial-planning assumptions when those assumptions are clearly labeled and synchronized with the relevant product valuation record.
 
-### VoxVector
-
-The current VoxVector commercial model is maintained in:
-
-- [VoxVector Monetization](../../../crowndocs/content/product-dossiers/voxvector/monetization.md)
-- [VoxVector Current Valuation Assessment](../../../VoxVector/docs/CURRENT_VALUATION_ASSESSMENT.md)
-
-The near-term commercial wedge is **auditable vocal/audio evidence intelligence and professional workflow**, not an automated universal lie verdict.
-
-Current planning pathways include professional/team subscriptions, enterprise licensing, API usage, managed analytical services, research/evaluation engagements, private or institutional deployments, OEM/embedded licensing, and a later task-specific validated tier if the scientific evidence supports it.
-
-The current audit uses the following **illustrative planning assumptions only**:
-
-| VoxVector model | Illustrative planning range |
-|---|---:|
-| Professional workspace | **$250–$500/month/user-equivalent** |
-| Advanced/team workspace | **$1.5K–$3K/month/team** |
-| Enterprise/institutional | **$50K–$150K+/year ACV** |
-| Managed analysis | **$1.5K–$7.5K+/case** |
-| Research/validation engagement | **$25K–$150K+/project** |
-| OEM/private deployment | **$50K–$250K+ base plus usage/support** |
-| API | Usage-based plus potential minimum commitment |
-| Future validated task-specific tier | Premium enterprise pricing only after validation |
-
-These are **not current list prices, booked revenue, customer contracts, or evidence of willingness to pay**. Final commercial pricing must be based on real compute cost, support/implementation burden, security obligations, customer willingness to pay, usage, retention, and production capability.
-
 ## Evidence Required Before Revenue-Based Valuation
 
 Revenue-based valuation methods become more useful when evidence exists for:

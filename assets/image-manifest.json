@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-06-01T03:49:24.565Z",
-  "imageCount": 356,
+  "generatedAt": "2026-09-13T07:04:47.791Z",
+  "imageCount": 418,
   "images": [
     {
       "path": "3CDFD294-60F1-40E2-8BA9-8E06E5CE0876.png",
@@ -77,6 +77,27 @@
       ]
     },
     {
+      "path": "assets/audiobook.png",
+      "description": "Audiobook — book cover or publication visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/author-graphite-mobile-v1.webp",
+      "description": "Author Graphite Mobile V1 — site image asset (WEBP).",
+      "tags": [
+        "webp"
+      ]
+    },
+    {
+      "path": "assets/author-graphite-v2.png",
+      "description": "Author Graphite V2 — site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
       "path": "assets/badges/all_badges_logos.png",
       "description": "All Badges Logos — brand logo treatment (PNG).",
       "tags": [
@@ -130,6 +151,146 @@
       "description": "Gameonspread2 — book cover or publication visual (JPG).",
       "tags": [
         "jpg"
+      ]
+    },
+    {
+      "path": "assets/daren-profile.jpg",
+      "description": "Daren Profile — profile portrait visual (JPG).",
+      "tags": [
+        "jpg"
+      ]
+    },
+    {
+      "path": "assets/detail-authenticity-wins-v1.png",
+      "description": "Detail Authenticity Wins V1 — site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/detail-who-dating-v1.png",
+      "description": "Detail Who Dating V1 — site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/detail-who-relationships-v1.png",
+      "description": "Detail Who Relationships V1 — site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/detail-who-self-growth-v1.png",
+      "description": "Detail Who Self Growth V1 — site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/detail-who-starting-over-v1.png",
+      "description": "Detail Who Starting Over V1 — site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/details-football-field-desktop-v1.png",
+      "description": "Details Football Field Desktop V1 — site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/details-football-field-mobile-v1.png",
+      "description": "Details Football Field Mobile V1 — site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/details-game-plan-panel-mobile-v2.webp",
+      "description": "Details Game Plan Panel Mobile V2 — site image asset (WEBP).",
+      "tags": [
+        "webp"
+      ]
+    },
+    {
+      "path": "assets/details-game-plan-panel-v2.webp",
+      "description": "Details Game Plan Panel V2 — site image asset (WEBP).",
+      "tags": [
+        "webp"
+      ]
+    },
+    {
+      "path": "assets/digital-cropped.png",
+      "description": "Digital Cropped — site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/final-stadium-mobile-v1.webp",
+      "description": "Final Stadium Mobile V1 — site image asset (WEBP).",
+      "tags": [
+        "webp"
+      ]
+    },
+    {
+      "path": "assets/final-stadium.png",
+      "description": "Final Stadium — site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/formats-limestone-paper.png",
+      "description": "Formats Limestone Paper — site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/game-on-cover.png",
+      "description": "Game On Cover — book cover or publication visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/gameon-book-hero-transparent.png",
+      "description": "Gameon Book Hero Transparent — hero banner visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/hardcover-cropped.png",
+      "description": "Hardcover Cropped — book cover or publication visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/hero-tunnel-mobile-v1.webp",
+      "description": "Hero Tunnel Mobile V1 — hero banner visual (WEBP).",
+      "tags": [
+        "webp"
+      ]
+    },
+    {
+      "path": "assets/hero-tunnel-mobile-v2-chalk.webp",
+      "description": "Hero Tunnel Mobile V2 Chalk — hero banner visual (WEBP).",
+      "tags": [
+        "webp"
+      ]
+    },
+    {
+      "path": "assets/hero-tunnel.png",
+      "description": "Hero Tunnel — hero banner visual (PNG).",
+      "tags": [
+        "png"
       ]
     },
     {
@@ -1328,6 +1489,55 @@
       ]
     },
     {
+      "path": "assets/images/Game on/06AB2409-7D26-4115-A50B-A413EA3C1560.png",
+      "description": "06AB2409 7D26 4115 A50B A413EA3C1560 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/Game on/32C3B9C2-580C-487C-956B-6CC0FC4D066F.png",
+      "description": "32C3B9C2 580C 487C 956B 6CC0FC4D066F — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/Game on/53CECC70-19F6-4A27-9E93-79B75A970011.png",
+      "description": "53CECC70 19F6 4A27 9E93 79B75A970011 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/Game on/80709D22-B140-4052-AECF-1D396961489A.png",
+      "description": "80709D22 B140 4052 AECF 1D396961489A — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/Game on/Copy of STEP YOUR GAME UP (1080 x 1920 px).png",
+      "description": "Copy Of STEP YOUR GAME UP (1080 X 1920 Px) — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/Game on/FA034B1C-2750-4C3B-9007-0C30B72D0D98.png",
+      "description": "FA034B1C 2750 4C3B 9007 0C30B72D0D98 — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/images/Game on/Untitled design.png",
+      "description": "Untitled Design — core site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
       "path": "assets/images/game-on-back-cover.jpg",
       "description": "Game On Back Cover — book cover or publication visual (JPG).",
       "tags": [
@@ -2152,6 +2362,230 @@
     {
       "path": "assets/logos/tagline.png",
       "description": "Tagline — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/manifesto-strategy-room-mobile-v1.webp",
+      "description": "Manifesto Strategy Room Mobile V1 — site image asset (WEBP).",
+      "tags": [
+        "webp"
+      ]
+    },
+    {
+      "path": "assets/manifesto-strategy-room.png",
+      "description": "Manifesto Strategy Room — site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/original-header-logo.png",
+      "description": "Original Header Logo — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/playbook-folio-mobile-v1.webp",
+      "description": "Playbook Folio Mobile V1 — book cover or publication visual (WEBP).",
+      "tags": [
+        "webp"
+      ]
+    },
+    {
+      "path": "assets/playbook-folio.png",
+      "description": "Playbook Folio — book cover or publication visual (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/retailers/amazon-logo-light.png",
+      "description": "Amazon Logo Light — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/retailers/amazon-logo.png",
+      "description": "Amazon Logo — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/retailers/apple-books-logo-light.png",
+      "description": "Apple Books Logo Light — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/retailers/apple-books-logo.png",
+      "description": "Apple Books Logo — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/retailers/apple-books-standard-white.svg",
+      "description": "Apple Books Standard White — book cover or publication visual (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/retailers/bam-logo-dark.svg",
+      "description": "Bam Logo Dark — brand logo treatment (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/retailers/bam-logo-white.svg",
+      "description": "Bam Logo White — brand logo treatment (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/retailers/goodreads-logo-light.png",
+      "description": "Goodreads Logo Light — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/retailers/goodreads-logo.png",
+      "description": "Goodreads Logo — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/retailers/google-play-logo-light.png",
+      "description": "Google Play Logo Light — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/retailers/google-play-logo.png",
+      "description": "Google Play Logo — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/retailers/thriftbooks-logo-green.svg",
+      "description": "Thriftbooks Logo Green — brand logo treatment (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/retailers/thriftbooks-logo-white.svg",
+      "description": "Thriftbooks Logo White — brand logo treatment (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/retailers/walmart-wordmark-blue.svg",
+      "description": "Walmart Wordmark Blue — site image asset (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/retailers/walmart-wordmark-white.svg",
+      "description": "Walmart Wordmark White — site image asset (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/retailers/waterstones-logo-dark.svg",
+      "description": "Waterstones Logo Dark — brand logo treatment (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/retailers/waterstones-logo-white-horizontal.png",
+      "description": "Waterstones Logo White Horizontal — brand logo treatment (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/retailers/waterstones-logo-white.svg",
+      "description": "Waterstones Logo White — brand logo treatment (SVG).",
+      "tags": [
+        "svg"
+      ]
+    },
+    {
+      "path": "assets/reviews-stone-mobile-v1.webp",
+      "description": "Reviews Stone Mobile V1 — site image asset (WEBP).",
+      "tags": [
+        "webp"
+      ]
+    },
+    {
+      "path": "assets/reviews-stone-v2.png",
+      "description": "Reviews Stone V2 — site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/social/game-on-og-1200x630.png",
+      "description": "Game On Og 1200x630 — social sharing preview graphic (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/social/game-on-og-1200x630.webp",
+      "description": "Game On Og 1200x630 — social sharing preview graphic (WEBP).",
+      "tags": [
+        "webp"
+      ]
+    },
+    {
+      "path": "assets/social/game-on-social-square-1200.png",
+      "description": "Game On Social Square 1200 — site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/social/game-on-social-square-1200.webp",
+      "description": "Game On Social Square 1200 — site image asset (WEBP).",
+      "tags": [
+        "webp"
+      ]
+    },
+    {
+      "path": "assets/social/game-on-twitter-1200x630.png",
+      "description": "Game On Twitter 1200x630 — site image asset (PNG).",
+      "tags": [
+        "png"
+      ]
+    },
+    {
+      "path": "assets/social/game-on-twitter-1200x630.webp",
+      "description": "Game On Twitter 1200x630 — site image asset (WEBP).",
+      "tags": [
+        "webp"
+      ]
+    },
+    {
+      "path": "assets/tactical-texture.png",
+      "description": "Tactical Texture — site image asset (PNG).",
       "tags": [
         "png"
       ]

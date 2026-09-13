@@ -1,7 +1,8 @@
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-const repoRoot = path.resolve(new URL('..', import.meta.url).pathname)
+const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const bibleRoot = path.join(repoRoot, 'docs', 'crownlabsbible')
 const dossierRoot = path.join(bibleRoot, '04-product-dossiers')
 const dataDir = path.join(repoRoot, 'data')
@@ -190,6 +191,7 @@ const build = async () => {
     .filter((item) => item.isDirectory())
     .sort((a, b) => a.name.localeCompare(b.name))) {
     const overviewPath = path.join(dossierRoot, entry.name, 'overview.md')
+    if (!(await readIfExists(overviewPath))) continue
     products.push(
       await buildProduct({
         slug: entry.name,
