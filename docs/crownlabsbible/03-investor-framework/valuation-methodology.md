@@ -139,30 +139,6 @@ A product may maintain a dated internal current-valuation record when:
 5. unverified revenue, customers, data, model, patent, or licensing claims are not assumed;
 6. material updates are synchronized with affected investor/product mirrors.
 
-### VoxVector
-
-The current synchronized internal assessment is maintained in:
-
-- [VoxVector Current Valuation Assessment](../../../VoxVector/docs/CURRENT_VALUATION_ASSESSMENT.md)
-
-Effective 2026-09-08, the investor framework records the following internal analytical posture:
-
-| Valuation basis | Range | Central assessment |
-|---|---:|---:|
-| Replacement / recreation | **$0.85M–$1.80M** | **$1.30M** |
-| Orderly asset sale | **$0.55M–$1.30M** | **$0.85M** |
-| Strategic as-is enterprise / IP | **$2.50M–$5.00M** | **$3.50M** |
-| Connected engineering MVP | **$5.50M–$9.50M** | **$7.50M** |
-| Paid pilots / early ARR | **$8M–$16M** | **$12M** |
-| Validated proprietary model/data system | **$15M–$35M+** | Milestone-dependent |
-| 36-month base scenario | **~$24.8M–$33.0M** | **~$29M** |
-| 36-month high-growth scenario | **$99M–$126M** | Scenario only |
-| Five-year conditional base zone | **$60M–$90M** | **~$75M** |
-
-These values are an internal analytical assessment, not an independent appraisal, fairness opinion, investment recommendation, evidence of revenue, or scientific validation.
-
-The current VoxVector range intentionally assigns no additional premium merely for unverified proprietary model weights, a rights-cleared labeled deception corpus, patents/registrations, customer contracts, or ARR.
-
 ## Investor Communication Standards
 
 All valuation discussions must:

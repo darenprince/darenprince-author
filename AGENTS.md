@@ -166,10 +166,3 @@ Do not use file naming, age, aesthetic preference, or architectural preference a
 When these rules conflict with agent convenience, generation limits, or a desire to produce a smaller diff, **these rules win**.
 
 The application architecture is more important than making the edit easy for the AI.
-
-See the detailed VoxVector rules in:
-
-- `VoxVector/docs/CHATGPT_PROJECT_INSTRUCTIONS.md`
-- `VoxVector/docs/AI_EDITING_GUARDRAILS.md`
-- `VoxVector/docs/DEVELOPMENT_WORKFLOW.md`
-- `VoxVector/docs/OPERATING_CHARTER.md`

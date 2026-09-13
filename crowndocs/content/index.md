@@ -28,12 +28,6 @@ Each product and system is documented individually to:
 - support legal and investor review
 - allow clean synchronization with the Crown Labs website ecosystem
 
-## VoxVector
-
-VoxVector is maintained as a dedicated audio-intelligence and deception-research product dossier under `product-dossiers/voxvector/`.
-
-The technical source of truth remains `VoxVector/` in the repository. The executive mirror must distinguish implemented observational methods, planned research, and validated inference status.
-
 ## Editorial Standards
 
 All documentation inside this system must:
@@ -61,4 +55,4 @@ This documentation system will eventually feed:
 
 ## Status
 
-Active legacy mirror. VoxVector dossier synchronization added 2026-08-19.
+Active legacy mirror.

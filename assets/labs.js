@@ -3,8 +3,12 @@
   const dataUrl = currentScript?.dataset?.labsData || 'assets/labs-data.json'
 
   const canonicalDocsHref = (sourcePath = '') => {
-    const path = String(sourcePath || '').replace(/^\/+/, '').replace(/^docs\/crownlabsbible\//, '')
-    return path ? `../docs/crownlabsbible/docs/viewer.html?doc=${encodeURIComponent(path)}` : '../docs/crownlabsbible/docs/index.html'
+    const path = String(sourcePath || '')
+      .replace(/^\/+/, '')
+      .replace(/^docs\/crownlabsbible\//, '')
+    return path
+      ? `../docs/crownlabsbible/docs/viewer.html?doc=${encodeURIComponent(path)}`
+      : '../docs/crownlabsbible/docs/index.html'
   }
 
   const assetMap = {
@@ -12,13 +16,15 @@
     'ai-cherry-pie': { src: '../assets/images/icon-master.PNG', alt: 'AI Cherry Pie' },
     'crown-psychology': { src: '../assets/images/Untitled%20design.png', alt: 'Crown Psychology' },
     'crown-sos': { src: '../emergency-911/CrownSOS-icon.PNG', alt: 'Crown SOS' },
-    'sentinel-vault': { src: '../assets/images/893D3E8C-43EC-4D55-B640-795BFCBFCCF8.png', alt: 'Sentinel Vault' },
-    'voxvector': { src: '../VoxVector/Assets/voxvector_icon_2_cropped.png', alt: 'VoxVector' }
+    'sentinel-vault': {
+      src: '../assets/images/893D3E8C-43EC-4D55-B640-795BFCBFCCF8.png',
+      alt: 'Sentinel Vault',
+    },
   }
 
   const iconMap = {
     'crown-watchtower': 'tabler:tower',
-    'crowncast': 'tabler:podcast'
+    crowncast: 'tabler:podcast',
   }
 
   const createElement = (tag, className, text) => {
@@ -54,32 +60,28 @@
   const appendProductIdentity = (article, product) => {
     const asset = assetMap[product.id]
     const identity = createElement('div', 'product-identity')
-    if (asset && product.id === 'voxvector') {
+    if (asset) {
       const img = document.createElement('img')
       img.src = asset.src
       img.alt = asset.alt
       img.loading = 'lazy'
       img.decoding = 'async'
-      img.className = 'product-mark-image product-mark-image--raw'
-      identity.append(img)
+      const media = createElement('div', 'product-mark')
+      media.append(img)
+      identity.append(media)
+    } else if (iconMap[product.id]) {
+      const media = createElement('div', 'product-mark')
+      const icon = document.createElement('iconify-icon')
+      icon.setAttribute('icon', iconMap[product.id])
+      icon.setAttribute('aria-hidden', 'true')
+      icon.className = 'product-mark-icon'
+      media.append(icon)
+      identity.append(media)
     } else {
       const media = createElement('div', 'product-mark')
-      if (asset) {
-        const img = document.createElement('img')
-        img.src = asset.src
-        img.alt = asset.alt
-        img.loading = 'lazy'
-        img.decoding = 'async'
-        media.append(img)
-      } else if (iconMap[product.id]) {
-        const icon = document.createElement('iconify-icon')
-        icon.setAttribute('icon', iconMap[product.id])
-        icon.setAttribute('aria-hidden', 'true')
-        icon.className = 'product-mark-icon'
-        media.append(icon)
-      } else {
-        media.append(createElement('span', 'product-mark-placeholder', (product.name || '?').slice(0, 1)))
-      }
+      media.append(
+        createElement('span', 'product-mark-placeholder', (product.name || '?').slice(0, 1))
+      )
       identity.append(media)
     }
     article.prepend(identity)
@@ -91,12 +93,24 @@
 
     const top = createElement('div', 'featured-product-top')
     top.append(createElement('span', 'badge', product.status || 'Documented'))
-    top.append(createElement('span', 'readiness-chip', product.readiness ? `${product.readiness}%` : 'Documented'))
+    top.append(
+      createElement(
+        'span',
+        'readiness-chip',
+        product.readiness ? `${product.readiness}%` : 'Documented'
+      )
+    )
 
     article.append(top)
     appendProductIdentity(article, product)
     article.append(createElement('h3', null, product.name || product.id))
-    article.append(createElement('p', 'subtitle', product.categoryLabel || product.category || 'Crown Labs product'))
+    article.append(
+      createElement(
+        'p',
+        'subtitle',
+        product.categoryLabel || product.category || 'Crown Labs product'
+      )
+    )
     article.append(createElement('p', null, product.oneLiner || product.tagline || ''))
 
     const actions = createElement('div', 'card-actions')
@@ -115,17 +129,24 @@
     const avg = document.getElementById('avg-readiness')
     if (!total || !beta || !avg) return
     total.textContent = String(items.length)
-    beta.textContent = String(items.filter((item) => /beta|active|functional/i.test(item.status || '')).length)
+    beta.textContent = String(
+      items.filter((item) => /beta|active|functional/i.test(item.status || '')).length
+    )
     const readiness = items.map((item) => Number(item.readiness || 0)).filter(Number.isFinite)
-    const avgValue = readiness.length ? Math.round(readiness.reduce((sum, value) => sum + value, 0) / readiness.length) : 0
+    const avgValue = readiness.length
+      ? Math.round(readiness.reduce((sum, value) => sum + value, 0) / readiness.length)
+      : 0
     avg.textContent = `${avgValue}%`
   }
 
   const loadProducts = async () => {
-    const response = await fetch(`${dataUrl}${dataUrl.includes('?') ? '&' : '?'}v=${Date.now()}`, { cache: 'no-store' })
+    const response = await fetch(`${dataUrl}${dataUrl.includes('?') ? '&' : '?'}v=${Date.now()}`, {
+      cache: 'no-store',
+    })
     if (!response.ok) throw new Error(`Portfolio data request failed: ${response.status}`)
     const payload = await response.json()
-    if (!Array.isArray(payload.products)) throw new Error('Portfolio data payload is missing products')
+    if (!Array.isArray(payload.products))
+      throw new Error('Portfolio data payload is missing products')
     return payload.products.slice().sort((a, b) => (b.priority || 0) - (a.priority || 0))
   }
 
@@ -151,7 +172,8 @@
     const empty = document.getElementById('empty-state')
     if (empty) {
       empty.hidden = false
-      empty.textContent = 'Portfolio data could not be loaded right now. Open the canonical portfolio record for the current product inventory.'
+      empty.textContent =
+        'Portfolio data could not be loaded right now. Open the canonical portfolio record for the current product inventory.'
       const link = document.createElement('a')
       link.className = 'text-link'
       link.href = '../docs/crownlabsbible/docs/index.html'

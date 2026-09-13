@@ -1,22 +1,14 @@
 # CANONICAL PRODUCTION FRONTEND DEPLOYMENT
-# VoxVector public frontend is deployed ONLY through GitHub Pages Actions.
 # Production deployment is sourced from main only.
-# Vercel and Netlify are retired from the VoxVector frontend architecture.
-# Backend API remains on Render at https://voxvector.crownlabs.tech.
 name: Deploy GitHub Pages
 
 on:
   push:
     branches:
       - main
-    # Pages owns the public site, React application, and published documentation.
-    # Backend-only VoxVector runtime changes are deliberately excluded because Render
-    # is manually controlled through the protected deploy hook.
+    # Pages owns the public author site and published documentation.
     paths:
       - '**'
-      - '!VoxVector/**'
-      - 'VoxVector/Assets/**'
-      - 'VoxVector/docs/**'
       - '.github/workflows/deploy-pages.yml'
   workflow_dispatch:
 
@@ -51,63 +43,6 @@ jobs:
       - name: Build existing site
         run: npm run deploy:github-pages
 
-      # Canonical source assets live only under VoxVector/Assets.
-      # They are staged into the React public directory before Vite builds.
-      # Keep these paths case-sensitive and do not introduce permanent copies
-      # under VoxVector/ or another competing asset directory.
-      - name: Stage VoxVector canonical public assets
-        run: |
-          set -euo pipefail
-          CONSOLE_SOURCE="VoxVector/Assets/voxvector-audio-analysis-console.png"
-          WORDMARK_SOURCE="VoxVector/Assets/voxvector_wordmark.svg"
-          APP_ICON_SOURCE="VoxVector/Assets/voxvector_icon_2_cropped.png"
-          LOGO_ICON_SOURCE="VoxVector/Assets/voxvector_logo_icon.png"
-          HERO_DESKTOP_SOURCE="VoxVector/Assets/voxvector-hero-desktop.svg"
-          HERO_MOBILE_SOURCE="VoxVector/Assets/voxvector-hero-mobile.svg"
-
-          test -f "$CONSOLE_SOURCE"
-          test -f "$WORDMARK_SOURCE"
-          test -f "$APP_ICON_SOURCE"
-          test -f "$LOGO_ICON_SOURCE"
-          test -f "$HERO_DESKTOP_SOURCE"
-          test -f "$HERO_MOBILE_SOURCE"
-
-          # Fail loudly if an obsolete permanent source copy is reintroduced.
-          if test -e "VoxVector/voxvector-audio-analysis-console.png"; then
-            echo "ERROR: obsolete duplicate console asset path exists: VoxVector/voxvector-audio-analysis-console.png"
-            echo "Use the canonical source: $CONSOLE_SOURCE"
-            exit 1
-          fi
-          if test -e "VoxVector/voxvector_wordmark.svg"; then
-            echo "ERROR: obsolete duplicate wordmark path exists: VoxVector/voxvector_wordmark.svg"
-            echo "Use the canonical source: $WORDMARK_SOURCE"
-            exit 1
-          fi
-
-          mkdir -p voxvector/public/assets
-          cp "$CONSOLE_SOURCE" voxvector/public/voxvector-audio-analysis-console.png
-          cp "$WORDMARK_SOURCE" voxvector/public/voxvector_wordmark.svg
-          cp "$APP_ICON_SOURCE" voxvector/public/voxvector_icon_2_cropped.png
-          cp "$LOGO_ICON_SOURCE" voxvector/public/voxvector_logo_icon.png
-          cp "$HERO_DESKTOP_SOURCE" voxvector/public/assets/voxvector-hero-desktop.svg
-          cp "$HERO_MOBILE_SOURCE" voxvector/public/assets/voxvector-hero-mobile.svg
-          test -f voxvector/public/voxvector-audio-analysis-console.png
-          test -f voxvector/public/voxvector_wordmark.svg
-          test -f voxvector/public/voxvector_icon_2_cropped.png
-          test -f voxvector/public/voxvector_logo_icon.png
-          test -f voxvector/public/assets/voxvector-hero-desktop.svg
-          test -f voxvector/public/assets/voxvector-hero-mobile.svg
-          echo "Canonical VoxVector image assets staged before Vite build."
-
-      - name: Build VoxVector React application
-        working-directory: voxvector
-        env:
-          VITE_SUPABASE_URL: ${{ secrets.VOXVECTOR_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ secrets.VOXVECTOR_SUPABASE_ANON_KEY }}
-          VITE_VOXVECTOR_API_URL: https://voxvector.crownlabs.tech
-          VITE_GITHUB_SHA: ${{ github.sha }}
-        run: npm ci --no-audit --no-fund && npm run build
-
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
@@ -115,7 +50,7 @@ jobs:
         run: |
           set -euo pipefail
           rm -rf _site
-          mkdir -p _site/voxvector
+          mkdir -p _site
           # The root site Vite configuration intentionally emits its production
           # files in-place (outDir: ".") for the existing NexusWho entrypoint.
           # Stage the published runtime surface explicitly instead of assuming ./dist.
@@ -123,8 +58,6 @@ jobs:
             --exclude '_site/**' \
             --exclude '.git/**' \
             --exclude 'node_modules/**' \
-            --exclude 'voxvector/**' \
-            --exclude 'VoxVector/**' \
             --exclude 'docs/**' \
             --exclude 'src/**' \
             --exclude 'scripts/**' \
@@ -134,35 +67,15 @@ jobs:
             --exclude 'package*.json' \
             --exclude 'vite.config.*' \
             --exclude 'tsconfig*.json'
-          rsync -a --delete ./voxvector/dist/ _site/voxvector/
           mkdir -p _site/docs/crownlabsbible
           rsync -a ./docs/crownlabsbible/ _site/docs/crownlabsbible/
-          mkdir -p _site/VoxVector/docs
-          rsync -a ./VoxVector/docs/ _site/VoxVector/docs/
-          mkdir -p _site/VoxVector/Assets
-          cp ./VoxVector/Assets/voxvector_icon_2_cropped.png ./_site/VoxVector/Assets/voxvector_icon_2_cropped.png
-          cp ./VoxVector/Assets/voxvector_logo_icon.png ./_site/VoxVector/Assets/voxvector_logo_icon.png
-          cp ./VoxVector/Assets/voxvector_wordmark.svg ./_site/VoxVector/Assets/voxvector_wordmark.svg
-          test -f ./_site/VoxVector/Assets/voxvector_icon_2_cropped.png
-          test -f ./_site/VoxVector/Assets/voxvector_logo_icon.png
-          test -f ./_site/VoxVector/Assets/voxvector_wordmark.svg
-
-          # GitHub Pages has no SPA rewrite. These physical entries all serve the
-          # same built React shell so canonical client routes work on direct load,
-          # refresh, and role-based redirects without creating duplicate apps.
-          for route in developer login app site-map; do
-            mkdir -p "_site/voxvector/$route"
-            cp ./voxvector/dist/index.html "_site/voxvector/$route/index.html"
-            test -f "_site/voxvector/$route/index.html"
-          done
-          cp ./voxvector/dist/index.html ./_site/voxvector/404.html
 
       - name: Report staged Pages artifact
         run: |
           set -euo pipefail
           echo "Pages artifact staged successfully."
-          du -sh _site _site/voxvector || true
-          find _site/voxvector -maxdepth 2 -type f | sort | head -80 || true
+          du -sh _site || true
+          find _site -maxdepth 2 -type f | sort | head -80 || true
 
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
