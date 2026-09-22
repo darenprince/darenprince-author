@@ -1,0 +1,97 @@
+/* Crown Labs app icon presentation standard.
+   Squircle geometry is derived from the referenced CodePen objectBoundingBox path:
+   M0.5,0 C0.90,0 1,0.09 1,0.5 C1,0.91 0.9,1 0.5,1 C0.09,1 0,0.9 0,0.5 C0,0.09 0.09,0 0.5,0Z */
+:root {
+  --cl-app-icon-squircle-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='black' d='M50 0C90 0 100 9 100 50C100 91 90 100 50 100C9 100 0 90 0 50C0 9 9 0 50 0Z'/%3E%3C/svg%3E");
+}
+.cl-product-logo,
+.cl-product-card-fallback,
+.cl-app-icon-preview,
+.cl-app-icon-copy-preview {
+  -webkit-mask: var(--cl-app-icon-squircle-mask) center / 100% 100% no-repeat;
+  mask: var(--cl-app-icon-squircle-mask) center / 100% 100% no-repeat;
+  background: var(--surface-2, #121217);
+}
+.cl-product-logo {
+  object-fit: cover;
+  padding: 0;
+}
+.cl-product-card-fallback {
+  color: var(--heading, #f2f3f5);
+}
+.cl-app-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+  margin-top: 26px;
+}
+.cl-app-icon-card {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.cl-app-icon-card-header {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.cl-app-icon-preview {
+  width: 76px;
+  height: 76px;
+  flex: 0 0 76px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.cl-app-icon-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  margin: 0;
+  border: 0;
+  background: transparent;
+}
+.cl-app-icon-preview .ms-icon {
+  font-size: 40px;
+  color: var(--heading);
+}
+.cl-app-icon-card h2,
+.cl-app-icon-card h3 {
+  margin: 0;
+}
+.cl-app-icon-card p {
+  margin: 0;
+  color: var(--muted);
+}
+.cl-app-icon-path {
+  display: grid;
+  gap: 8px;
+}
+.cl-app-icon-path code {
+  display: block;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  padding: 10px;
+}
+.cl-copy-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  font-weight: 700;
+  padding: 7px 10px;
+}
+.cl-copy-button:hover,
+.cl-copy-button:focus-visible {
+  border-color: var(--accent);
+}
+@media(max-width:520px){
+  .cl-app-icon-card-header{align-items:flex-start;}
+  .cl-app-icon-preview{width:64px;height:64px;flex-basis:64px;}
+}

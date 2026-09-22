@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Crown Labs app icon asset library with squircle previews and copyable direct resource paths.">
+<title>App Icon Asset Library | Crown Labs</title>
+<link rel="icon" type="image/png" href="https://www.darenprince.com/app%20icons/crownicon.PNG">
+<link rel="stylesheet" href="assets/css/platform.css">
+<link rel="stylesheet" href="assets/css/app-icons.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100,0,-25">
+</head>
+<body>
+<div class="cl-scrim" id="scrim"></div>
+<div class="cl-app" id="app">
+<aside class="cl-sidebar">
+<div class="cl-sidebar-header"><img class="cl-logo" src="https://www.darenprince.com/labs/assets/crown-labs-logo.png" alt="Crown Labs"><button class="cl-icon-btn" id="navToggle" aria-label="Toggle navigation"><span class="ms-icon">menu</span></button></div>
+<div class="cl-title">Crown Labs Documentation</div>
+<div class="cl-subtitle">Canonical product records, assets, and operating documentation.</div>
+<nav class="cl-quicklinks">
+<a href="viewer.html#Company%20Overview"><span class="ms-icon">home</span>Overview</a>
+<a href="viewer.html"><span class="ms-icon">description</span>Documentation Hub</a>
+<a href="categories.html"><span class="ms-icon">grid_view</span>Categories</a>
+<a href="products.html"><span class="ms-icon">deployed_code</span>Products</a>
+<a href="app-icon-assets.html" class="is-active"><span class="ms-icon">apps</span>App Icons</a>
+<a href="investor-mode.html"><span class="ms-icon">account_balance_wallet</span>Investor</a>
+<a href="executive-dashboard.html"><span class="ms-icon">monitoring</span>Executive</a>
+<a href="ecosystem-map.html"><span class="ms-icon">map</span>Ecosystem Map</a>
+<a href="roadmap-tracker.html"><span class="ms-icon">route</span>Release Roadmap</a>
+</nav>
+</aside>
+<main class="cl-main"><div class="cl-reader">
+<header class="cl-toolbar"><div class="cl-toolbar-body"><div class="cl-toolbar-meta"><div class="cl-toolbar-head"><img class="cl-header-logo" src="https://www.darenprince.com/labs/assets/crown-labs-logo.png" alt="Crown Labs"><button class="cl-icon-btn cl-mobile-menu" id="mobileMenu" aria-label="Open navigation"><span class="ms-icon">menu</span></button></div><div class="cl-breadcrumbs"><a href="index.html">Portal</a><span>/</span><a href="products.html">Products</a><span>/</span><span class="current">App Icon Assets</span></div></div><div class="cl-tools"><button class="cl-tool-btn" id="themeToggle"><span class="ms-icon">dark_mode</span><span>Theme</span></button><a class="cl-tool-btn" href="products.html"><span class="ms-icon">deployed_code</span><span>Products</span></a></div></div><button class="cl-icon-btn cl-toolbar-toggle" id="toolbarToggle"><span class="ms-icon">expand_less</span></button></header>
+<article class="cl-content page">
+<h1>Crown Labs app icons</h1>
+<p class="page-intro">Canonical app icon previews for Crown Labs public and documentation surfaces. Source image files remain unchanged. The shared squircle crop is applied at render time using the same geometry from the referenced CodePen template. VoxVector is not included here.</p>
+<div class="quick-actions"><a href="products.html"><span class="ms-icon">deployed_code</span>Back to Product Portfolio</a><a href="viewer.html"><span class="ms-icon">description</span>Open Documentation Viewer</a></div>
+<div class="cl-app-icon-grid" id="appIconGrid"></div>
+</article>
+<footer class="cl-footer"><div class="cl-footer-grid"><div><img src="https://www.darenprince.com/labs/assets/crown-labs-logo.png" alt="Crown Labs"><p>Institutional documentation, product intelligence, and operational infrastructure for the Crown Labs ecosystem.</p></div></div></footer>
+</div></main></div>
+<script src="assets/js/navigation.js"></script>
+<script>
+const icons = [
+  { name: 'CrownCode.ai', category: 'Shared intelligence and engineering layer', path: 'https://www.darenprince.com/assets/images/Updated%20icon.PNG', type: 'image' },
+  { name: 'AI Cherry Pie', category: 'Writing reconstruction and language refinement platform', path: 'https://www.darenprince.com/assets/images/icon-master.PNG', type: 'image' },
+  { name: 'Crown Psychology', category: 'Behavioral intelligence and self improvement platform', path: 'https://www.darenprince.com/assets/images/Untitled%20design.png', type: 'image' },
+  { name: 'Crown SOS', category: 'Emergency coordination and crisis response platform', path: 'https://www.darenprince.com/emergency-911/CrownSOS-icon.PNG', type: 'image' },
+  { name: 'Sentinel Vault', category: 'Security, survivability, and evidence continuity platform', path: 'https://www.darenprince.com/assets/images/893D3E8C-43EC-4D55-B640-795BFCBFCCF8.png', type: 'image' },
+  { name: 'CrownCam', category: 'Live monitoring and remote continuity platform', path: 'material-symbols:photo_camera', type: 'symbol', note: 'Fallback symbol until a dedicated raster app icon is committed.' },
+  { name: 'Crown WatchTower', category: 'Environmental intelligence and operational visibility platform', path: 'material-symbols:cell_tower', type: 'symbol', note: 'Fallback symbol until a dedicated raster app icon is committed.' },
+  { name: 'CrownCast', category: 'Media and communication product stack', path: 'material-symbols:podcasts', type: 'symbol', note: 'Fallback symbol until a dedicated raster app icon is committed.' }
+]
+const grid = document.getElementById('appIconGrid')
+const escapeHtml = (value = '') => String(value).replace(/[&<>\"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;' }[char]))
+const iconMarkup = (item) => item.type === 'image'
+  ? `<img src="${escapeHtml(item.path)}" alt="${escapeHtml(item.name)} app icon" loading="lazy">`
+  : `<span class="ms-icon" aria-hidden="true">${escapeHtml(item.path.replace('material-symbols:', ''))}</span>`
+const cards = icons.map(item => `
+  <article class="cl-app-icon-card">
+    <div class="cl-app-icon-card-header">
+      <div class="cl-app-icon-preview">${iconMarkup(item)}</div>
+      <div><h2>${escapeHtml(item.name)}</h2><p>${escapeHtml(item.category)}</p></div>
+    </div>
+    ${item.note ? `<p>${escapeHtml(item.note)}</p>` : ''}
+    <div class="cl-app-icon-path">
+      <strong>Direct resource path</strong>
+      <code>${escapeHtml(item.path)}</code>
+      <button class="cl-copy-button" type="button" data-copy="${escapeHtml(item.path)}">Copy path</button>
+    </div>
+  </article>
+`).join('')
+grid.innerHTML = cards
+document.querySelectorAll('[data-copy]').forEach(button => {
+  button.addEventListener('click', async () => {
+    await navigator.clipboard.writeText(button.dataset.copy)
+    const original = button.textContent
+    button.textContent = 'Copied'
+    setTimeout(() => { button.textContent = original }, 1400)
+  })
+})
+</script>
+</body></html>
