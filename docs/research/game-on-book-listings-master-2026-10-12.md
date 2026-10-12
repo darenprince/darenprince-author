@@ -70,3 +70,74 @@
 - [ ] Maintain separate records for edition, storefront URL, and underlying retailer/seller to prevent duplicate counts.
 
 **Research integrity note:** This document records discovered leads and earlier indexed observations. It is a working master inventory, not a claim that every listed page remains in stock or that all global listings have been found.
+
+
+---
+
+## Expanded verification pass — October 12, 2026
+
+This section adds direct-page evidence from another search pass and corrects earlier price/availability snapshots where fresher page content was available. The inventory remains open-ended: this is a comprehensive working register, not proof that every global outlet has been discovered.
+
+### Freshly rechecked and additional evidence
+
+| Source / channel | What the page currently supports | Direct URL | Classification / caveat |
+|---|---|---|---|
+| Books-A-Million | Paperback; ISBN 9798303844407; $19.99; page says in stock; 258 pages; December 2024 publication | https://www.booksamillion.com/p/Game-Master-Conversation-Win-Her/Daren-Prince/9798303844407 | Direct retailer offer. Page crawled about three months before this research snapshot, so recheck checkout status before treating as live stock. |
+| Walmart Business | Paperback; ISBN 9798303844407; $19.99; 258 pages; page showed 0 reviews and seller Walmart.com | https://business.walmart.com/ip/Game-On-Master-The-Conversation-amp-Win-Her-Heart-The-Comprehensive-Men-apos-s-Playbook-for-Flirting-Seduction-Dating-amp-Am-Paperback-9798303844407/14835807268 | Direct product page; delivery was location-specific in the captured result. |
+| Atlantic Books | Paperback imported edition; ₹1,685 after discount; 10% discount; ships in 18–21 days; ISBN 9798303844407; 258 pages | https://atlanticbooks.com/products/game-on-master-the-conversation-win-her-heart-the-comprehensive-mens-playbook-for-flirting-seduction-dating-amazing-relationships-9798303844407 | Direct retailer page. Product feed also returned $17.45; treat this as a feed/currency discrepancy, not a second price for the same storefront. |
+| bol.com Netherlands | Paperback; ISBN 9798303844407; €20.99; listed as deliverable; estimated 3–4 weeks; no reviews shown | https://www.bol.com/nl/nl/p/game-on-master-the-conversation-win-her-heart/9300000221436297/ | Direct retailer page. Current Dutch storefront price differs from earlier €19/€20 Belgian snapshots. |
+| bol.com Belgium | Paperback; ISBN 9798303844407; page showed €19 and expected delivery in about four weeks; no reviews shown | https://www.bol.com/be/nl/p/game-on-master-the-conversation-win-her-heart/9300000221436297/ | Same bol.com product ID in a country-specific storefront, not an independent edition or distribution deal. |
+| Better World Books | New print copy listed at $21.20; page also hands off ebook purchases to eBooks.com and audiobook purchases to AudiobooksNow.com; links to WorldCat for libraries | https://www.betterworldbooks.com/product/detail/game-on-master-the-conversation-win-her-heart-the-comprehensive-men-s-playbook-for-flirting-seductio-9798303844407?curcode=USD&shipto=US | Direct retailer page for print; eBooks.com, AudiobooksNow, and WorldCat are partner handoffs. Do not count those handoffs as confirmed live listings without opening their destination pages. |
+| Apple Books | Ebook at $4.99; 5.0 from 4 ratings; 181 pages; three written reviews visible in the captured page | https://books.apple.com/us/book/game-on-master-the-conversation-win-her-heart/id6745466900 | Direct digital retailer. The 181-page ebook record differs from the print page count; do not treat this alone as an error or a separate print edition. |
+| Google Play Books | Ebook; 5.0 from 2 reviews; 256 pages; December 2024 listing | https://play.google.com/store/books/details/Daren_Prince_Game_On_Master_The_Conversation_Win_H?id=BYFbEQAAQBAJ | Direct digital retailer. Rating applies only to this ebook listing. |
+| Google Books print record | Print bibliographic record: ISBN 9798303844407, 258 pages, December 20, 2024 | https://books.google.com/books/about/Game_On_Master_The_Conversation_Win_Her.html?hl=en&id=wxEH0QEACAAJ&output=html_text | Bibliographic discovery record, not a separate retailer. |
+| Google Books ebook record | Ebook bibliographic record: 256 pages, December 20, 2024 | https://books.google.com/books/about/Game_On_Master_The_Conversation_Win_Her.html?id=BYFbEQAAQBAJ | Bibliographic discovery record; sale page is Google Play Books. |
+
+### Retailer / partner channels requiring direct destination verification
+
+Better World Books surfaces these partner paths, but the partner product pages were not independently confirmed in this pass:
+
+- eBooks.com — linked from the Better World Books listing for the ebook.
+- AudiobooksNow.com — linked from the Better World Books listing for the audiobook.
+- WorldCat — library discovery link from the Better World Books page; library holdings need an ISBN/title search and should be logged separately from commercial listings.
+
+Do not add these to the confirmed retailer count until the destination page itself resolves to this exact book and author.
+
+### Negative-search register
+
+The following retailers/catalogs were not confirmed by the current search results. This is **not proof that a listing does not exist**; it records the search gap so future passes can target it:
+
+- Barnes & Noble
+- Kobo
+- Bookshop.org
+- AbeBooks
+- Alibris
+- Biblio
+- Fishpond
+- Booktopia
+- WorldCat holdings record (partner link surfaced, but a matching holdings record was not independently verified)
+- eBooks.com direct product page
+- AudiobooksNow.com direct audiobook page
+- Audible direct audiobook product page
+
+### More comprehensive follow-up procedure
+
+For each candidate result, record (1) exact title and subtitle, (2) author identity, (3) ISBN/ASIN or platform product ID, (4) format/edition, (5) country-specific URL, (6) price and currency, (7) stock/shipping statement, (8) rating and review count, (9) seller of record, (10) direct verification timestamp, and (11) source class: direct retailer, marketplace seller, catalog, author promotion, or editorial coverage.
+
+Deduplicate at three levels rather than one:
+- **Edition:** distinct format/edition identifier.
+- **Storefront:** country-specific product page.
+- **Underlying seller/distributor:** marketplace and syndicated listings may point to the same inventory.
+
+### Sources for this pass
+
+- Books-A-Million: https://www.booksamillion.com/p/Game-Master-Conversation-Win-Her/Daren-Prince/9798303844407
+- Walmart Business: https://business.walmart.com/ip/Game-On-Master-The-Conversation-amp-Win-Her-Heart-The-Comprehensive-Men-apos-s-Playbook-for-Flirting-Seduction-Dating-amp-Am-Paperback-9798303844407/14835807268
+- Atlantic Books: https://atlanticbooks.com/products/game-on-master-the-conversation-win-her-heart-the-comprehensive-mens-playbook-for-flirting-seduction-dating-amazing-relationships-9798303844407
+- bol.com Netherlands: https://www.bol.com/nl/nl/p/game-on-master-the-conversation-win-her-heart/9300000221436297/
+- bol.com Belgium: https://www.bol.com/be/nl/p/game-on-master-the-conversation-win-her-heart/9300000221436297/
+- Better World Books: https://www.betterworldbooks.com/product/detail/game-on-master-the-conversation-win-her-heart-the-comprehensive-men-s-playbook-for-flirting-seductio-9798303844407?curcode=USD&shipto=US
+- Apple Books: https://books.apple.com/us/book/game-on-master-the-conversation-win-her-heart/id6745466900
+- Google Play Books: https://play.google.com/store/books/details/Daren_Prince_Game_On_Master_The_Conversation_Win_H?id=BYFbEQAAQBAJ
+- Google Books print record: https://books.google.com/books/about/Game_On_Master_The_Conversation_Win_Her.html?hl=en&id=wxEH0QEACAAJ&output=html_text
+- Google Books ebook record: https://books.google.com/books/about/Game_On_Master_The_Conversation_Win_Her.html?id=BYFbEQAAQBAJ
