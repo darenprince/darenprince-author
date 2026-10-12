@@ -166,3 +166,57 @@ No reliable exact-match product page was returned for Barnes & Noble, Kobo, Book
 ### Coverage and deduplication rule
 
 Count direct retailer pages, marketplace offers, bibliographic records, author promotion, and partner handoffs separately. Multiple country storefronts or marketplace offers may use the same seller or distribution source; they are not automatically separate editions or independent distribution agreements. The next priority is direct verification of Amazon formats and metrics, the exact audiobook product page, and library holdings by ISBN.
+
+
+---
+
+## International expansion pass — October 12, 2026
+
+### Country-by-country retailer and marketplace findings
+
+This pass searched the exact print ISBN **9798303844407**, title variants, and author name across multiple country markets. “Not found” means no dependable exact-match result surfaced in this pass; it does not establish that a store cannot special-order the title or that a page does not exist.
+
+| Market | Store / channel | Finding | URL | Classification |
+|---|---|---|---|---|
+| United Kingdom | Ryefield Books | Exact title and author appear in the author-filtered catalog; page reports “In Stock” and £15.50. The result did not expose a unique item URL/ISBN in the captured snippet. | https://www.ryefieldbooks.com/products/books?author=daren+prince | Matching retailer catalog result; product-level identifier still to capture. |
+| United Kingdom / international | Waterstones | Product URL is linked by the author’s promotional video, but current live product stock was not independently confirmed in this pass. | https://www.waterstones.com/book/game-on-master-the-conversation-and-win-her-heart/daren-prince/9798303844407 | Retailer lead; stock unconfirmed. |
+| United Kingdom / international | ThriftBooks | Exact title, author, ISBN-13 9798303844407, 258 pages; current result offers a new copy from $19.99 and says it ships within 2–3 days. | https://www.thriftbooks.com/w/game-on-master-the-conversation--win-her-heart-the-comprehensive-mens-playbook-for-flirting-seduction-dating--amazing-relationships_daren-prince/54448380/ | Confirmed retailer product page; displayed price in USD even though customers may be international. |
+| Germany | eBay Germany — Rarewaves Outlet | Existing exact-title marketplace item; ISBN/EAN 9798303844407. Seller/inventory may overlap with other Rarewaves country listings. | https://www.ebay.de/itm/820015335581 | Confirmed marketplace offer; do not count as a separate edition. |
+| Spain | eBay Spain — Rarewaves-Europe | Exact title, Daren Prince, ISBN/EAN 9798303844407; €26.14 in the captured result; condition new; more than 10 available; seller based in the UK; listing says it does not ship to the United States. | https://www.ebay.es/itm/198628876092 | Confirmed marketplace offer. Price/stock/shipping are seller- and destination-specific. |
+| Netherlands | bol.com | Exact title/author; paperback, English, ISBN 9798303844407, 258 pages. Current indexed country storefront previously showed €20.99 and estimated 3–4 week delivery. | https://www.bol.com/nl/nl/p/game-on-master-the-conversation-win-her-heart/9300000221436297/ | Confirmed country-specific retailer page. |
+| Belgium | bol.com | Same bol.com product ID and ISBN; earlier country storefront snapshot showed €19 and estimated delivery around four weeks. | https://www.bol.com/be/nl/p/game-on-master-the-conversation-win-her-heart/9300000221436297/ | Confirmed country-specific storefront, not a new edition. |
+| India | Atlantic Books | Exact title/author/ISBN; imported paperback; ₹1,685 discounted from ₹1,866; 258 pages; ships in 18–21 days. | https://atlanticbooks.com/products/game-on-master-the-conversation-win-her-heart-the-comprehensive-mens-playbook-for-flirting-seduction-dating-amazing-relationships-9798303844407 | Confirmed retailer page for imported edition. |
+| South Africa | Exclusive Books | Previously surfaced as a product-page lead for ISBN 9798303844407; current stock and local price not revalidated in this pass. | https://exclusivebooks.co.za/products/9798303844407 | Provisional retailer lead. |
+| United States | Books-A-Million | Exact print ISBN; page lists $19.99, paperback, 258 pages and “In Stock” in indexed content. | https://www.booksamillion.com/p/Game-Master-Conversation-Win-Her/Daren-Prince/9798303844407 | Confirmed retailer page; indexed capture may lag checkout inventory. |
+| United States | Walmart | Exact ISBN, paperback, 258 pages; page currently shows $19.99 and no customer ratings/reviews. A secondary seller offer was also displayed. | https://www.walmart.com/ip/14835807268 | Confirmed product page; distinguish Walmart's offer from third-party marketplace offers. |
+| International digital | Apple Books | Exact title and author; US storefront ebook $4.99, 5.0 from 4 ratings; 181 pages shown. | https://books.apple.com/us/book/game-on-master-the-conversation-win-her-heart/id6745466900 | Confirmed digital retailer. Other country storefronts should be tested individually; do not assume global availability from the US URL. |
+| International digital | Google Play Books | Exact title and author; ebook, 256 pages, 5.0 from 2 reviews in indexed page. | https://play.google.com/store/books/details/Daren_Prince_Game_On_Master_The_Conversation_Win_H?id=BYFbEQAAQBAJ | Confirmed digital retailer; country availability and pricing can vary. |
+| International digital | Google Play Audiobooks | Author-linked audiobook page, earlier indexed snapshot $5.99, 5.0 from 1 review, runtime 5h 7m. | https://play.google.com/store/audiobooks/details?id=AQAAAEBKO1R7DM | Confirmed digital audiobook lead; recheck current storefront, country access and narration metadata. |
+
+### International stores searched but not confirmed for this exact ISBN/title
+
+The following were included in exact-title/ISBN discovery searches, but no reliable matching product page was found in this pass. These are **open verification targets**, not definitive negative results:
+
+- **Canada:** Indigo / Chapters; general Canadian bookstore search.
+- **Australia:** Booktopia; Dymocks; Angus & Robertson; The Nile.
+- **New Zealand:** local bookstore search; no exact-title product page confirmed.
+- **South Africa:** Takealot and Loot; no exact-title page confirmed in this pass; Exclusive Books remains a provisional lead.
+- **India:** Amazon India and other local marketplace searches did not surface an independently confirmed exact-match page beyond Atlantic Books.
+- **Europe:** FNAC France, Decitre France, Thalia Germany, and Buch.de did not return a reliable exact-match page in the search results used here.
+- **Japan, Singapore, Malaysia, UAE:** exact-ISBN searches did not surface a reliable local product page in this pass.
+- **North America / digital:** Amazon UK, Canada, Australia and India regional product pages were not independently resolved to the exact title; Audible direct product page remains unconfirmed.
+- **Library catalogs:** a WorldCat handoff appears on Better World Books, but a matching WorldCat holdings record has not been independently established.
+
+For all these stores, an unsuccessful web-index search is not proof of unavailability. Follow-up should include each site's own internal search, ISBN search, and—where appropriate—its special-order or marketplace pathway.
+
+### New seller-level detail: eBay Spain / Rarewaves-Europe
+
+The eBay Spain page supplies useful seller data that was absent from the earlier inventory: seller **Rarewaves-Europe**, professional seller, 98.1% positive feedback in the captured page, item condition new, €26.14, more than 10 available, item located in Rushden, United Kingdom, and no shipping to the United States. This confirms an actual offer on that storefront but does not prove separate Spanish stock or a local Spanish distributor.
+
+### International coverage caveats
+
+- Country storefronts can show different currencies, shipping restrictions, taxes, delivery estimates, or seller inventory while representing the same US print edition.
+- Retailers may syndicate metadata from a common distributor or catalog feed. Count unique product pages separately from unique editions and from independent sellers.
+- A country-specific digital store page should be logged only after it resolves to this exact book and author; general platform availability is insufficient.
+- The print ISBN is the most useful search key for physical copies. Digital formats use platform-specific identifiers and should be tracked separately.
+- Do not treat the generic title *Game On* by other authors as a match. Identity must match Daren Prince, Louisiana author, and preferably the complete subtitle or ISBN.
