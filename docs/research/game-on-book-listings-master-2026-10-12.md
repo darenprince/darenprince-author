@@ -141,3 +141,28 @@ Deduplicate at three levels rather than one:
 - Google Play Books: https://play.google.com/store/books/details/Daren_Prince_Game_On_Master_The_Conversation_Win_H?id=BYFbEQAAQBAJ
 - Google Books print record: https://books.google.com/books/about/Game_On_Master_The_Conversation_Win_Her.html?hl=en&id=wxEH0QEACAAJ&output=html_text
 - Google Books ebook record: https://books.google.com/books/about/Game_On_Master_The_Conversation_Win_Her.html?id=BYFbEQAAQBAJ
+
+
+---
+
+## Additional retailer sweep — October 12, 2026
+
+### Newly rechecked store pages
+
+| Store | Direct evidence | URL | Confidence |
+|---|---|---|---|
+| ThriftBooks | Exact title and Daren Prince match; ISBN 9798303844407; 258 pages; a new copy shown from $19.99, shipping in 2–3 days; no customer reviews displayed. | https://www.thriftbooks.com/w/game-on-master-the-conversation--win-her-heart-the-comprehensive-mens-playbook-for-flirting-seduction-dating--amazing-relationships_daren-prince/54448380/ | Confirmed retailer page; stock can change. |
+| Ryefield Books | Author-filtered result displays the exact book, Daren Prince, “In Stock,” and £15.50. | https://www.ryefieldbooks.com/products/books?author=daren+prince | Matching listing result; unique product URL and ISBN still need confirmation. |
+| eBay Germany / Rarewaves Outlet | Exact title, author and ISBN/EAN 9798303844407; item described as new. | https://www.ebay.de/itm/820015335581 | Confirmed marketplace offer; not a separate edition. |
+| bol.com Netherlands | Exact title/author; paperback, English, ISBN 9798303844407, 258 pages; €20.99, deliverable, estimated 3–4 weeks, no reviews displayed. | https://www.bol.com/nl/nl/p/game-on-master-the-conversation-win-her-heart/9300000221436297/ | Direct retailer page; price and delivery are time-sensitive. |
+| Atlantic Books | Exact title/author/ISBN; paperback, 258 pages; ₹1,685 discounted from ₹1,866; imported edition ships in 18–21 days. | https://atlanticbooks.com/products/game-on-master-the-conversation-win-her-heart-the-comprehensive-mens-playbook-for-flirting-seduction-dating-amazing-relationships-9798303844407 | Direct retailer page. |
+| Google Play Books | Exact title and Daren Prince; ebook, 256 pages, 5.0 stars from 2 reviews in the captured result. | https://play.google.com/store/books/details/Daren_Prince_Game_On_Master_The_Conversation_Win_H?id=BYFbEQAAQBAJ | Direct digital retailer page. |
+| Apple Books | Exact title and Daren Prince; ebook $4.99, 5.0 stars from 4 ratings, 181 pages in the captured US storefront. | https://books.apple.com/us/book/game-on-master-the-conversation-win-her-heart/id6745466900 | Direct digital retailer page. Keep ratings separate by platform. |
+
+### Additional targets not confirmed in this search pass
+
+No reliable exact-match product page was returned for Barnes & Noble, Kobo, Bookshop.org, AbeBooks, Alibris, Biblio, Fishpond, Booktopia, Audible direct, eBooks.com direct, or AudiobooksNow direct. This is a record of search gaps, **not proof that no listing exists**. Generic *Game On* results by other authors were excluded. Better World Books links to eBooks.com, AudiobooksNow and WorldCat, but those handoffs were not independently verified as matching product or holdings records.
+
+### Coverage and deduplication rule
+
+Count direct retailer pages, marketplace offers, bibliographic records, author promotion, and partner handoffs separately. Multiple country storefronts or marketplace offers may use the same seller or distribution source; they are not automatically separate editions or independent distribution agreements. The next priority is direct verification of Amazon formats and metrics, the exact audiobook product page, and library holdings by ISBN.
