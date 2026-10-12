@@ -220,3 +220,30 @@ The eBay Spain page supplies useful seller data that was absent from the earlier
 - A country-specific digital store page should be logged only after it resolves to this exact book and author; general platform availability is insufficient.
 - The print ISBN is the most useful search key for physical copies. Digital formats use platform-specific identifiers and should be tracked separately.
 - Do not treat the generic title *Game On* by other authors as a match. Identity must match Daren Prince, Louisiana author, and preferably the complete subtitle or ISBN.
+
+
+## Search update — 12 October 2026 (additional source capture)
+
+This section records the latest captured offer details and links from the follow-up worldwide search. These are snapshots, not guarantees of current checkout availability. Seller feedback must not be represented as a rating of the book.
+
+| ID | Retailer / source | Market | Latest captured offer details | Direct URL | Evidence / limits |
+|---|---|---|---|---|---|
+| U001 | eBay Spain — Rarewaves-Europe | Spain / marketplace | €26.14; new; 10+ available in search capture; seller feedback 98.1% positive | https://www.ebay.es/itm/198628876092 | Exact title/author/ISBN match. Listing stated no shipping to the United States. Seller feedback is not a book rating. Price and stock can change. |
+| U002 | eBay Germany — Rarewaves Outlet | Germany / marketplace | €27.14; new; 10+ available in search capture; seller feedback 98.5% positive | https://www.ebay.de/itm/820015335581 | Exact title/author/ISBN match. Listing stated no shipping to the United States. Seller feedback is not a book rating. Price and stock can change. |
+| U003 | bol.com | Netherlands | €20.99; marked available; estimated delivery 3–4 weeks; no reviews shown | https://www.bol.com/nl/nl/p/game-on-master-the-conversation-win-her-heart/9300000221436297/ | Exact ISBN/title match. bol.com Netherlands and Belgium are regional storefronts of the same retail group, not independent companies. |
+| U004 | bol.com | Belgium | €19.00; marked available; estimated delivery about four weeks; no reviews shown | https://www.bol.com/be/nl/p/game-on-master-the-conversation-win-her-heart/9300000221436297/ | Exact ISBN/title match. Regional storefront, not an independent seller from bol.com Netherlands. |
+| U005 | Atlantic Books | India | ₹1,685 (shown as 10% off ₹1,866); imported edition; stated shipping window 18–21 days | https://atlanticbooks.com/products/game-on-master-the-conversation-win-her-the-comprehensive-mens-playbook-for-flirting-seduction-dating-amazing-relationships-9798303844407 | Exact ISBN/title match. Use retailer's displayed INR price as primary; search/product feeds showed converted prices that did not agree. Verify total and delivery at checkout. |
+
+### Additional identity and verification notes
+
+- **Walmart:** https://www.walmart.com/ip/14835807268 — prior captured offer was $19.99, sold and shipped by Walmart.com; 0 ratings and 0 reviews displayed. The Walmart Business URL points to the same item ID and should not be counted as another retailer.
+- **Books-A-Million:** https://www.booksamillion.com/p/Game-Master-Conversation-Win-Her/Daren-Prince/9798303844407 — prior captured offer was $19.99 and in stock. Previously observed feedback was 7 star ratings and 6 written reviews; do not describe this as 7 written reviews.
+- **ThriftBooks:** https://www.thriftbooks.com/w/game-on-master-the-conversation--win-her-heart-the-comprehensive-mens-playbook-for-flirting-seduction-dating--amazing-relationships_daren-prince/54448380/ — prior captured new paperback offer from $19.99. Its page metadata incorrectly labels ASIN B0DR5QN7LR as an ISBN while separately showing ISBN-13 9798303844407.
+- **Better World Books:** https://www.betterworldbooks.com/product/detail/game-on-master-the-conversation-win-her-heart-the-comprehensive-mens-playbook-for-flirting-seductio-9798303844407?curcode=USD&shipto=US — prior captured new paperback offer $21.20. Links to eBooks.com, AudiobooksNow.com and WorldCat are leads only; do not count those as confirmed sales listings without verifying the partner pages.
+- **Waterstones:** https://www.waterstones.com/book/game-on-master-the-conversation-and-win-her-heart/daren-prince/9798303844407 — retailer URL identified via author promotion, but live price and stock remain unverified.
+- **Google Books print catalog:** https://books.google.com/books/about/Game_On_Master_The_Conversation_Win_Her.html?hl=en&id=wxEH0QEACAAJ&output=html_text — bibliographic corroboration, not a retailer.
+- **Author promotional video:** https://vimeo.com/1120030283 — author-controlled retailer-link directory, not independent coverage or proof of current stock at every linked store.
+
+### Counts and interpretation
+
+This update adds **five source rows** to the dated capture section (two eBay marketplace offers, two bol.com regional storefronts, and one Atlantic Books India offer). The two bol.com rows represent one retail group operating in two markets. These five rows therefore must not be described as five independent retailer companies. Price, stock and delivery details are search-capture snapshots and need direct checkout revalidation before publication.
