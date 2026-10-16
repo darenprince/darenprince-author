@@ -17,6 +17,7 @@
   const accuracy = panel.querySelector('[data-location-accuracy]');
   const mapLink = panel.querySelector('[data-location-map]');
   const copyButton = panel.querySelector('[data-location-copy]');
+  const shareButton = panel.querySelector('[data-location-share]');
   const startButton = panel.querySelector('[data-location-start]');
   const stopButton = panel.querySelector('[data-location-stop]');
   let watchId = null;
@@ -27,7 +28,8 @@
     const { latitude, longitude, accuracy: metres } = position.coords;
     const lat = latitude.toFixed(6);
     const lon = longitude.toFixed(6);
-    latestMapUrl = 'https://maps.google.com/?q=' + encodeURIComponent(lat + ',' + lon);
+    const point = lat + ',' + lon;
+    latestMapUrl = 'https://maps.google.com/?q=' + encodeURIComponent(point);
     if (coordinates) coordinates.textContent = lat + ', ' + lon;
     if (accuracy) accuracy.textContent = '±' + Math.round(metres) + ' metres';
     if (updated) updated.textContent = new Date(position.timestamp).toLocaleString();
@@ -44,6 +46,7 @@
       frame.setAttribute('aria-label', 'Map centered on the latest GPS fix');
     });
     if (copyButton) copyButton.disabled = false;
+    if (shareButton) shareButton.disabled = false;
     setStatus(watchId === null ? 'Location updated on this device. It has not been sent to anyone.' : 'Live GPS updates are active on this device only.');
   };
   const onError = (error) => {
@@ -81,6 +84,22 @@
     if (startButton) startButton.disabled = false;
     if (stopButton) stopButton.disabled = true;
     setStatus(latestMapUrl ? 'Live updates stopped. Last fix remains on this device.' : 'Live updates stopped. No location fix received.');
+  });
+  shareButton?.addEventListener('click', async () => {
+    if (!latestMapUrl) return;
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: 'My current location', text: 'My latest GPS location. Accuracy and timestamp are shown on the SOS page.', url: latestMapUrl });
+        setStatus('Location link shared using your device share sheet. It is a one-time GPS fix, not continuous tracking.');
+        return;
+      } catch (error) {
+        if (error && error.name === 'AbortError') {
+          setStatus('Sharing cancelled. Your location was not shared from this action.');
+          return;
+        }
+      }
+    }
+    setStatus('Direct sharing is unavailable here. Use Copy Map Link, then choose a trusted contact.');
   });
   copyButton?.addEventListener('click', async () => {
     if (!latestMapUrl) return;
