@@ -31,11 +31,18 @@
     if (coordinates) coordinates.textContent = lat + ', ' + lon;
     if (accuracy) accuracy.textContent = '±' + Math.round(metres) + ' metres';
     if (updated) updated.textContent = new Date(position.timestamp).toLocaleString();
-    if (mapLink) {
-      mapLink.href = latestMapUrl;
-      mapLink.hidden = false;
-      mapLink.setAttribute('aria-disabled', 'false');
-    }
+    panel.querySelectorAll('[data-location-map]').forEach((link) => {
+      link.href = latestMapUrl;
+      link.hidden = false;
+      link.setAttribute('aria-disabled', 'false');
+    });
+    panel.closest('.emergency-card')?.querySelectorAll('[data-location-map-frame]').forEach((frame) => {
+      const isWaze = frame.hasAttribute('data-location-waze');
+      frame.src = isWaze
+        ? 'https://embed.waze.com/iframe?zoom=15&q=' + encodeURIComponent(point)
+        : 'https://maps.google.com/maps?q=' + encodeURIComponent(point) + '&z=16&output=embed';
+      frame.setAttribute('aria-label', 'Map centered on the latest GPS fix');
+    });
     if (copyButton) copyButton.disabled = false;
     setStatus(watchId === null ? 'Location updated on this device. It has not been sent to anyone.' : 'Live GPS updates are active on this device only.');
   };
