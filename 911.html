@@ -282,8 +282,8 @@
             </div>
             <div class="dashboard-alert__body">
               <p class="dashboard-alert__eyebrow">PRIMARY DEVICE</p>
-              <p class="dashboard-alert__title">iPhone 16 Pro Max</p>
-              <p class="dashboard-alert__meta">Device identifiers are intentionally not displayed.</p>
+              <p class="dashboard-alert__title">Device details not verified</p>
+              <p class="dashboard-alert__meta">No live device telemetry is connected to this page.</p>
             </div>
           </article>
           <article class="dashboard-alert dashboard-alert--network" role="listitem">
@@ -292,15 +292,15 @@
             </div>
             <div class="dashboard-alert__body">
               <p class="dashboard-alert__eyebrow">NETWORK STATUS</p>
-              <p class="dashboard-alert__title">Google Fi</p>
-              <p class="dashboard-alert__meta">Wi-Fi network name hidden &middot; Cellular: status not verified</p>
+              <p class="dashboard-alert__title">Not connected to live telemetry</p>
+              <p class="dashboard-alert__meta">Carrier, Wi-Fi, and cellular status are not verified by this page.</p>
             </div>
           </article>
         </div>
         <div class="dashboard-grid">
           <section class="dashboard-panel" aria-labelledby="device-status-title">
             <div class="dashboard-panel__header">
-              <h3 class="dashboard-panel__title" id="device-status-title">Device &amp; Signal Health</h3>
+              <h3 class="dashboard-panel__title" id="device-status-title">Device Information</h3>
               <span class="network-badge" role="img" aria-label="Network: Google Fi">
                 <span class="network-badge__logo" aria-hidden="true">
                   <svg viewBox="0 0 48 24" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
@@ -313,6 +313,7 @@
                 <span class="network-badge__text">Google Fi</span>
               </span>
             </div>
+            <p class="device-data__notice">Device and network details below are not automatically detected. Do not rely on them as live status.</p>
             <dl class="device-data">
               <div class="device-data__row">
                 <dt>
@@ -335,95 +336,10 @@
                 </dt>
                 <dd>Apple iPhone 16 Pro Max</dd>
               </div>
-              <div class="device-data__row">
-                <dt>
-                  <span class="device-data__icon" aria-hidden="true"><i class="fi fi-rr-sim-card"></i></span>
-                  <span class="device-data__label">EID</span>
-                </dt>
-                <dd>Hidden for privacy</dd>
-              </div>
-              <div class="device-data__row">
-                <dt>
-                  <span class="device-data__icon" aria-hidden="true"><i class="fi fi-rr-barcode"></i></span>
-                  <span class="device-data__label">IMEI</span>
-                </dt>
-                <dd>Hidden for privacy</dd>
-              </div>
+
             </dl>
-            <div class="device-metrics" data-device-telemetry>
-              <div
-                class="device-metric device-metric--battery"
-                data-metric="battery"
-                data-level="0"
-                data-status="unknown"
-              >
-                <div class="device-metric__label">Battery</div>
-                <div
-                  class="device-metric__visual"
-                  data-battery-visual
-                  role="img"
-                  aria-live="polite"
-                  aria-label="Battery status not verified"
-                >
-                  <span class="battery-icon" aria-hidden="true">
-                    <span class="battery-icon__fill" data-battery-fill></span>
-                    <span class="battery-icon__cap"></span>
-                    <span class="battery-icon__bolt" data-battery-bolt aria-hidden="true"></span>
-                  </span>
-                </div>
-                <div class="device-metric__value" data-battery-output aria-live="polite">Not verified</div>
-              </div>
-              <div
-                class="device-metric device-metric--wifi"
-                data-metric="wifi"
-                data-state="unknown"
-                data-strength="0"
-                data-ssid="not-shared"
-              >
-                <div class="device-metric__label">Wi-Fi Network</div>
-                <div
-                  class="device-metric__visual"
-                  data-wifi-visual
-                  role="img"
-                  aria-live="polite"
-                  aria-label="Wi-Fi status not verified"
-                >
-                  <span class="wifi-indicator" data-wifi-indicator aria-hidden="true">
-                    <span class="wifi-indicator__arc wifi-indicator__arc--outer"></span>
-                    <span class="wifi-indicator__arc wifi-indicator__arc--middle"></span>
-                    <span class="wifi-indicator__arc wifi-indicator__arc--inner"></span>
-                    <span class="wifi-indicator__dot"></span>
-                    <span class="wifi-indicator__slash"></span>
-                  </span>
-                </div>
-                <div class="device-metric__value" data-wifi-output aria-live="polite">Not verified</div>
-              </div>
-              <div
-                class="device-metric device-metric--cell"
-                data-metric="cell"
-                data-state="no-sim"
-                data-strength="0"
-                data-label="No SIM"
-              >
-                <div class="device-metric__label">Cellular Signal</div>
-                <div
-                  class="device-metric__visual"
-                  data-cell-visual
-                  role="img"
-                  aria-live="polite"
-                  aria-label="No SIM detected"
-                >
-                  <span class="cell-signal" data-cell-indicator data-strength="0" data-state="no-sim" aria-hidden="true">
-                    <span class="cell-signal__bar"></span>
-                    <span class="cell-signal__bar"></span>
-                    <span class="cell-signal__bar"></span>
-                    <span class="cell-signal__bar"></span>
-                    <span class="cell-signal__badge" data-cell-badge aria-hidden="true"></span>
-                  </span>
-                </div>
-                <div class="device-metric__value" data-cell-output aria-live="polite">No SIM</div>
-              </div>
-            </div>
+            <p class="device-data__notice">Battery level, Wi-Fi strength, and cellular signal are not available as live readings from this static page.</p>
+
           </section>
         </div>
       </div>
