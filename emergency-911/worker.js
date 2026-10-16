@@ -1,0 +1,1 @@
+export default { async fetch() { return new Response('911 live sharing API scaffold', { headers: { 'cache-control': 'no-store' } }); } };
