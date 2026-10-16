@@ -59,6 +59,11 @@ export default {
     }
     if (!ALLOWED_ORIGINS.has(origin)) return respond({ error: "Origin not allowed." }, 403, "");
     if (url.pathname === "/api/sessions" && request.method === "POST") {
+      const ip = request.headers.get("cf-connecting-ip") || "unknown";
+      const rateKey = "rate:" + await digest(ip + ":" + new Date().toISOString().slice(0, 13));
+      const rateCount = Number(await env.SOS_SESSIONS.get(rateKey) || 0);
+      if (rateCount >= 8) return respond({ error: "Too many share sessions. Try again later." }, 429, origin);
+      await env.SOS_SESSIONS.put(rateKey, String(rateCount + 1), { expirationTtl: 3600 });
       let body;
       try { body = await request.json(); } catch { return respond({ error: "Invalid request." }, 400, origin); }
       const { id, ownerToken, viewerToken } = body || {};
@@ -86,11 +91,13 @@ export default {
       let body;
       try { body = await request.json(); } catch { return respond({ error: "Invalid location." }, 400, origin); }
       const { latitude, longitude, accuracy, timestamp } = body || {};
+      if (session.lastUpdateAt && Date.now() - session.lastUpdateAt < 1000) return respond({ error: "Location updates are arriving too quickly." }, 429, origin);
       if (![latitude, longitude, accuracy].every(Number.isFinite) || latitude < -90 || latitude > 90 ||
           longitude < -180 || longitude > 180 || accuracy < 0 || accuracy > 100000) {
         return respond({ error: "Invalid location." }, 400, origin);
       }
       session.location = { latitude, longitude, accuracy, timestamp: Number.isFinite(timestamp) ? timestamp : Date.now() };
+      session.lastUpdateAt = Date.now();
       await saveSession(env, session);
       return respond({ ok: true, expiresAt: session.expiresAt }, 200, origin);
     }
