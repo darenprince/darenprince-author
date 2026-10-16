@@ -19,8 +19,8 @@
 <section class="panel"><div class="row"><h2>Emergency Information</h2><button id="signout" class="secondary">Sign Out</button></div>
 <p>Put all information you want a trusted SOS recipient to see into this profile. The SOS link returns the complete saved JSON object, not just location. Do not include passwords or account secrets.</p>
 <label for="profile">Full Emergency Profile (JSON)</label><textarea id="profile" spellcheck="false" aria-label="Full emergency profile JSON">{
-  "fullName": "Daren Prince",
-  "currentWith": "Haley Holden",
+  "fullName": "",
+  "currentWith": "",
   "emergencySummary": "",
   "currentSituation": "",
   "locationContext": "",
@@ -60,7 +60,7 @@ const $=id=>document.getElementById(id);let session=null,shareId=null,watchId=nu
 function status(text,error=false){$('status').textContent=text;$('status').classList.toggle('danger',error)}
 async function api(path,options={}){if(!session)throw new Error('Sign in required');const response=await fetch(API+path,{...options,headers:{apikey:SUPABASE_KEY,authorization:'Bearer '+session.access_token,'content-type':'application/json',...(options.headers||{})},cache:'no-store'});const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error||'Request failed');return data}
 function showSession(userSession){session=userSession;$('auth').classList.toggle('hidden',!!session);$('workspace').classList.toggle('hidden',!session);if(session)loadProfile()}
-async function loadProfile(){try{const data=await api('/profile');const initial={fullName:'Daren Prince',currentWith:'Haley Holden',emergencySummary:'',currentSituation:'',locationContext:'',emergencyContacts:[],medical:{conditions:[],allergies:[],medications:[],bloodType:'',physicians:[],insurance:'',otherRelevantInformation:''},communicationNeeds:[],safetyInstructions:[],recentContext:[],importantLinks:[],evidenceAndMedia:[],pets:[],vehicles:[],additionalInformation:''};$('profile').value=Object.keys(data.profile||{}).length?JSON.stringify(data.profile,null,2):JSON.stringify(initial,null,2);status('Signed in. Review and verify every emergency-profile field before relying on it.')}catch(e){status(e.message,true)}}
+async function loadProfile(){try{const data=await api('/profile');const initial={fullName:'',currentWith:'',emergencySummary:'',currentSituation:'',locationContext:'',emergencyContacts:[],medical:{conditions:[],allergies:[],medications:[],bloodType:'',physicians:[],insurance:'',otherRelevantInformation:''},communicationNeeds:[],safetyInstructions:[],recentContext:[],importantLinks:[],evidenceAndMedia:[],pets:[],vehicles:[],additionalInformation:''};$('profile').value=Object.keys(data.profile||{}).length?JSON.stringify(data.profile,null,2):JSON.stringify(initial,null,2);status('Signed in. Review and verify every emergency-profile field before relying on it.')}catch(e){status(e.message,true)}}
 async function auth(action){const email=$('email').value.trim(),password=$('password').value;if(!email||password.length<8){status('Enter a valid email and a password with at least 8 characters.',true);return}status('Working…');const result=action==='signup'?await supabase.auth.signUp({email,password}):await supabase.auth.signInWithPassword({email,password});if(result.error){status(result.error.message,true);return}if(action==='signup'&&!result.data.session){status('Account created. Check your email to confirm the address, then sign in.');return}showSession(result.data.session);if(result.data.session)status('Signed in successfully.')}
 $('signin').onclick=()=>auth('signin');$('signup').onclick=()=>auth('signup');
 $('signout').onclick=async()=>{stopGPS();await supabase.auth.signOut();showSession(null);status('Signed out.')};
