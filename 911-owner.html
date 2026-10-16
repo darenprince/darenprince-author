@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive"><meta name="referrer" content="no-referrer">
+<title>Crown SOS | Emergency Profile</title>
+<style>
+:root{color-scheme:dark;--bg:#111318;--panel:#1b1e25;--line:#3b404b;--text:#f3f4f6;--muted:#b5bac5;--copper:#e8bfa3;--danger:#ff7d76}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,sans-serif}main{max-width:900px;margin:auto;padding:28px 18px 60px}h1{margin:0;font-size:clamp(1.7rem,4vw,2.4rem)}h2{font-size:1.2rem;margin:0 0 10px}p{color:var(--muted)}.panel{border:1px solid var(--line);background:var(--panel);padding:18px;margin:18px 0;border-radius:8px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}label{display:grid;gap:6px;font-weight:650}input,textarea,select{width:100%;background:#101216;color:var(--text);border:1px solid #535966;border-radius:4px;padding:11px;font:inherit}textarea{min-height:300px;resize:vertical;font-family:ui-monospace,monospace;font-size:.9rem}button{border:1px solid var(--copper);background:var(--copper);color:#211a16;font:inherit;font-weight:750;padding:11px 15px;border-radius:4px;cursor:pointer}button.secondary{background:transparent;color:var(--text);border-color:#555b67}button:disabled{opacity:.45;cursor:not-allowed}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.status{padding:10px 12px;background:#252a32;border-left:3px solid var(--copper);overflow-wrap:anywhere}.danger{color:var(--danger)}.hidden{display:none!important}.share-url{overflow-wrap:anywhere;word-break:break-word}.small{font-size:.88rem}.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+</style>
+</head>
+<body><main>
+<header><h1>Crown SOS</h1><p>Private emergency profile and secure SOS sharing</p></header>
+<div id="status" class="status" role="status" aria-live="polite">Connect to Crown SOS to manage your emergency profile.</div>
+<section id="auth" class="panel"><h2>Sign In Or Create Your Account</h2><p>Only you can manage the saved emergency profile. Recipients of a valid SOS link do not need an account.</p>
+<div class="grid"><label>Email<input id="email" type="email" autocomplete="email" required></label><label>Password<input id="password" type="password" autocomplete="current-password" minlength="8" required></label></div>
+<div class="actions"><button id="signin">Sign In</button><button id="signup" class="secondary">Create Account</button></div></section>
+<section id="workspace" class="hidden">
+<section class="panel"><div class="row"><h2>Emergency Information</h2><button id="signout" class="secondary">Sign Out</button></div>
+<p>Put all information you want a trusted SOS recipient to see into this profile. The SOS link returns the complete saved JSON object, not just location. Do not include passwords or account secrets.</p>
+<label for="profile">Full Emergency Profile (JSON)</label><textarea id="profile" spellcheck="false" aria-label="Full emergency profile JSON">{
+  "fullName": "",
+  "currentWith": "",
+  "emergencySummary": "",
+  "currentSituation": "",
+  "locationContext": "",
+  "emergencyContacts": [],
+  "medical": {
+    "conditions": [],
+    "allergies": [],
+    "medications": [],
+    "bloodType": "",
+    "physicians": [],
+    "insurance": "",
+    "otherRelevantInformation": ""
+  },
+  "communicationNeeds": [],
+  "safetyInstructions": [],
+  "recentContext": [],
+  "importantLinks": [],
+  "evidenceAndMedia": [],
+  "pets": [],
+  "vehicles": [],
+  "additionalInformation": ""
+}</textarea>
+<div class="actions"><button id="save">Save Emergency Profile</button></div></section>
+<section class="panel"><h2>Secure SOS Link</h2><p>The link grants access to the entire saved emergency profile plus the latest location shared in this session. Anyone who obtains the link can access that information until it expires or you revoke it.</p>
+<label for="hours">Link expiration<select id="hours"><option value="1">1 hour</option><option value="2" selected>2 hours</option><option value="4">4 hours</option><option value="8">8 hours</option><option value="12">12 hours</option><option value="24">24 hours</option></select></label>
+<div class="actions"><button id="create">Create SOS Link</button><button id="copy" class="secondary" disabled>Copy SOS Link</button><button id="start" class="secondary" disabled>Start Live Location</button><button id="stop" class="secondary" disabled>Stop GPS Updates</button><button id="revoke" class="secondary" disabled>Revoke SOS Link</button></div>
+<p id="share" class="share-url"></p><p class="small">Live location requires browser permission and an open page. If the device goes offline, the recipient sees the last update and its timestamp, not a guaranteed live position.</p></section>
+</section>
+</main>
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.95.0';
+const SUPABASE_URL='https://zzrmnmwnaovcqgodiesc.supabase.co';
+const SUPABASE_KEY='sb_publishable_q03gjlEk274X9aXjZkVEeQ_ze6gzTlO';
+const API=SUPABASE_URL+'/functions/v1/crown-sos';
+const supabase=createClient(SUPABASE_URL,SUPABASE_KEY);
+const $=id=>document.getElementById(id);let session=null,shareId=null,watchId=null;
+function status(text,error=false){$('status').textContent=text;$('status').classList.toggle('danger',error)}
+async function api(path,options={}){if(!session)throw new Error('Sign in required');const response=await fetch(API+path,{...options,headers:{apikey:SUPABASE_KEY,authorization:'Bearer '+session.access_token,'content-type':'application/json',...(options.headers||{})},cache:'no-store'});const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error||'Request failed');return data}
+function showSession(userSession){session=userSession;$('auth').classList.toggle('hidden',!!session);$('workspace').classList.toggle('hidden',!session);if(session)loadProfile()}
+async function loadProfile(){try{const data=await api('/profile');const initial={fullName:'',currentWith:'',emergencySummary:'',currentSituation:'',locationContext:'',emergencyContacts:[],medical:{conditions:[],allergies:[],medications:[],bloodType:'',physicians:[],insurance:'',otherRelevantInformation:''},communicationNeeds:[],safetyInstructions:[],recentContext:[],importantLinks:[],evidenceAndMedia:[],pets:[],vehicles:[],additionalInformation:''};$('profile').value=Object.keys(data.profile||{}).length?JSON.stringify(data.profile,null,2):JSON.stringify(initial,null,2);status('Signed in. Review and verify every emergency-profile field before relying on it.')}catch(e){status(e.message,true)}}
+async function auth(action){const email=$('email').value.trim(),password=$('password').value;if(!email||password.length<8){status('Enter a valid email and a password with at least 8 characters.',true);return}status('Working…');const result=action==='signup'?await supabase.auth.signUp({email,password}):await supabase.auth.signInWithPassword({email,password});if(result.error){status(result.error.message,true);return}if(action==='signup'&&!result.data.session){status('Account created. Check your email to confirm the address, then sign in.');return}showSession(result.data.session);if(result.data.session)status('Signed in successfully.')}
+$('signin').onclick=()=>auth('signin');$('signup').onclick=()=>auth('signup');
+$('signout').onclick=async()=>{stopGPS();await supabase.auth.signOut();showSession(null);status('Signed out.')};
+$('save').onclick=async()=>{try{const profile=JSON.parse($('profile').value);if(!profile||Array.isArray(profile)||typeof profile!=='object')throw new Error('Profile must be a JSON object.');await api('/profile',{method:'PUT',body:JSON.stringify({profile})});status('Emergency profile saved securely.')}catch(e){status(e.message,true)}};
+$('create').onclick=async()=>{try{const data=await api('/shares',{method:'POST',body:JSON.stringify({hours:Number($('hours').value)})});shareId=data.shareId;$('share').textContent='SOS link: '+data.shareUrl+' · Expires: '+new Date(data.expiresAt).toLocaleString();$('share').dataset.url=data.shareUrl;$('copy').disabled=false;$('revoke').disabled=false;$('start').disabled=false;status('SOS link created. Copy and send it only to the trusted recipient.');}catch(e){status(e.message,true)}};
+$('copy').onclick=async()=>{const value=$('share').dataset.url;if(value){try{await navigator.clipboard.writeText(value);status('SOS link copied.')}catch{status('Clipboard access failed. Select and copy the SOS link shown above.',true)}}};
+function stopGPS(){if(watchId!==null)navigator.geolocation.clearWatch(watchId);watchId=null;$('start').disabled=!shareId;$('stop').disabled=true}
+$('start').onclick=()=>{if(!shareId||!navigator.geolocation){status('Location is not available in this browser.',true);return}if(watchId!==null)return;status('Requesting location permission…');watchId=navigator.geolocation.watchPosition(async pos=>{try{await api('/shares/'+shareId+'/location',{method:'PUT',body:JSON.stringify({location:{latitude:pos.coords.latitude,longitude:pos.coords.longitude,accuracy:pos.coords.accuracy,timestamp:new Date(pos.timestamp).toISOString()}})});status('Location updated at '+new Date(pos.timestamp).toLocaleTimeString()+'.')}catch(e){status(e.message,true)}},err=>status('Location unavailable: '+err.message,true),{enableHighAccuracy:true,maximumAge:5000,timeout:20000});$('start').disabled=true;$('stop').disabled=false};
+$('stop').onclick=()=>{stopGPS();status('GPS updates stopped. Existing SOS link remains active until revoked or expired.')};
+$('revoke').onclick=async()=>{if(!shareId)return;try{await api('/shares/'+shareId+'/revoke',{method:'POST',body:'{}'});stopGPS();shareId=null;$('share').textContent='';$('share').dataset.url='';$('copy').disabled=true;$('revoke').disabled=true;$('start').disabled=true;status('SOS link revoked.')}catch(e){status(e.message,true)}};
+const {data:{session:existing}}=await supabase.auth.getSession();showSession(existing);
+supabase.auth.onAuthStateChange((_event,newSession)=>showSession(newSession));
+</script>
+</body></html>
