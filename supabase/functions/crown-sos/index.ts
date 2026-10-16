@@ -49,7 +49,11 @@ function publicShare(row: any, profile: any) {
 
 Deno.serve(async (req: Request) => {
   const origin = req.headers.get("origin");
-  if (req.method === "OPTIONS") return response({ ok: true }, 204, origin);
+  if (req.method === "OPTIONS") {
+    const headers: Record<string, string> = { ...jsonHeaders, "access-control-allow-methods": "GET,POST,PUT,OPTIONS", "access-control-allow-headers": "authorization,content-type,x-share-token,apikey" };
+    if (origin && ALLOWED_ORIGINS.has(origin)) headers["access-control-allow-origin"] = origin;
+    return new Response(null, { status: 204, headers });
+  }
   if (origin && !ALLOWED_ORIGINS.has(origin)) return fail("Origin not allowed", 403, null);
   if (!SUPABASE_URL || !ANON_KEY || !SERVICE_KEY) return fail("Server configuration incomplete", 503, origin);
 
