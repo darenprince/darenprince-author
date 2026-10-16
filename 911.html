@@ -360,6 +360,11 @@
               <button type="button" class="location-card__link" data-location-stop disabled>Stop Live Updates</button>
               <button type="button" class="location-card__link" data-location-copy disabled>Copy Map Link</button>
               <button type="button" class="location-card__link" data-location-share disabled>Share Location Link</button>
+              <button type="button" class="location-card__link" data-remote-start disabled>Start Secure Live Sharing</button>
+              <button type="button" class="location-card__link" data-remote-stop disabled>Stop And Revoke Sharing</button>
+              <button type="button" class="location-card__link" data-remote-copy disabled>Copy Private Viewer Link</button>
+              <input type="text" data-remote-link aria-label="Private live location viewer link" readonly hidden style="width:100%;min-width:0;padding:.65rem;background:var(--color-surface-alt);color:var(--color-text-primary);border:1px solid rgba(255,255,255,.2)">
+              <p class="live-location-panel__status" data-remote-status role="status" aria-live="polite">Secure remote sharing is off. Get a GPS fix first, then explicitly start sharing.</p>
               <a class="location-card__link" data-location-map href="#" target="_blank" rel="noopener" hidden aria-disabled="true">Open Current GPS Fix in Maps</a>
             </div>
             <p class="live-location-panel__fineprint">Live updates run only while this page is open. Copying a map link creates a one-time location link; it does not continuously share your movement. Do not rely on this page as a substitute for calling 911.</p>
@@ -1094,5 +1099,6 @@ div>
 
   <script src="emergency-911/dist/911.js" defer></script>
 <script src="emergency-911/live-location.js" defer></script>
+<script src="emergency-911/remote-live-sharing.js" defer></script>
 </body>
 </html>
