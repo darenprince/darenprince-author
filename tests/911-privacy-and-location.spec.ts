@@ -42,7 +42,7 @@ describe('911 portal privacy and location behavior', () => {
     expect($('[data-location-copy]').length).toBe(1)
     expect($('[data-location-share]').length).toBe(1)
     expect($('[data-live-location]').text()).toContain('not automatically transmitted')
-    expect($('[data-live-location]').text()).toContain('not continuous tracking')
+    expect($('[data-live-location]').text()).toContain('not continuously share your movement')
   })
 
   it('keeps browser GPS local and passes JavaScript syntax validation', () => {
