@@ -18,7 +18,31 @@
 <section id="workspace" class="hidden">
 <section class="panel"><div class="row"><h2>Emergency Information</h2><button id="signout" class="secondary">Sign Out</button></div>
 <p>Put all information you want a trusted SOS recipient to see into this profile. The SOS link returns the complete saved JSON object, not just location. Do not include passwords or account secrets.</p>
-<label for="profile">Full Emergency Profile (JSON)</label><textarea id="profile" spellcheck="false" aria-label="Full emergency profile JSON"></textarea>
+<label for="profile">Full Emergency Profile (JSON)</label><textarea id="profile" spellcheck="false" aria-label="Full emergency profile JSON">{
+  "fullName": "Daren Prince",
+  "currentWith": "Haley Holden",
+  "emergencySummary": "",
+  "currentSituation": "",
+  "locationContext": "",
+  "emergencyContacts": [],
+  "medical": {
+    "conditions": [],
+    "allergies": [],
+    "medications": [],
+    "bloodType": "",
+    "physicians": [],
+    "insurance": "",
+    "otherRelevantInformation": ""
+  },
+  "communicationNeeds": [],
+  "safetyInstructions": [],
+  "recentContext": [],
+  "importantLinks": [],
+  "evidenceAndMedia": [],
+  "pets": [],
+  "vehicles": [],
+  "additionalInformation": ""
+}</textarea>
 <div class="actions"><button id="save">Save Emergency Profile</button></div></section>
 <section class="panel"><h2>Secure SOS Link</h2><p>The link grants access to the entire saved emergency profile plus the latest location shared in this session. Anyone who obtains the link can access that information until it expires or you revoke it.</p>
 <label for="hours">Link expiration<select id="hours"><option value="1">1 hour</option><option value="2" selected>2 hours</option><option value="4">4 hours</option><option value="8">8 hours</option><option value="12">12 hours</option><option value="24">24 hours</option></select></label>
