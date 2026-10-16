@@ -52,6 +52,25 @@ describe('911 portal privacy and location behavior', () => {
     expect(locationScript).toContain('navigator.geolocation.clearWatch')
   })
 
+  it('requires explicit consent for remote live sharing and provides revocation controls', () => {
+    const remote = readFileSync(path.join(repoRoot, 'emergency-911/remote-live-sharing.js'), 'utf8')
+    const worker = readFileSync(path.join(repoRoot, 'emergency-911/worker.js'), 'utf8')
+    const viewer = readFileSync(path.join(repoRoot, '911-share.html'), 'utf8')
+    expect($('[data-remote-start]').length).toBe(1)
+    expect($('[data-remote-stop]').length).toBe(1)
+    expect($('[data-remote-copy]').length).toBe(1)
+    expect(remote).toContain("addEventListener('sos:gps-update'")
+    expect(remote).toContain("method: 'DELETE'")
+    expect(remote).toContain('Start a private location share')
+    expect(worker).toContain('ownerHash')
+    expect(worker).toContain('viewerHash')
+    expect(worker).toContain('const TTL = 7200')
+    expect(worker).toContain('await env.SOS_SESSIONS.delete("s:" + id)')
+    expect(viewer).toContain('location.hash.slice(1)')
+    expect(viewer).toContain('history.replaceState(null, \'\', location.pathname)')
+    expect(viewer).toContain('noindex, nofollow, noarchive')
+  })
+
   it('labels the client-side access code as non-security', () => {
     expect($('#gate-title').text()).toBe('Incident Code')
     expect($('#gate-subtitle').text()).toContain('not real authentication')
