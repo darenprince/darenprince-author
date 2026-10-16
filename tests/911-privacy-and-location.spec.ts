@@ -61,7 +61,7 @@ describe('911 portal privacy and location behavior', () => {
     expect($('[data-remote-copy]').length).toBe(1)
     expect(remote).toContain("addEventListener('sos:gps-update'")
     expect(remote).toContain("method: 'DELETE'")
-    expect(remote).toContain('Start a private location share')
+    expect(remote).toContain('Starting a private location share')
     expect(worker).toContain('ownerHash')
     expect(worker).toContain('viewerHash')
     expect(worker).toContain('const TTL = 7200')
