@@ -293,7 +293,7 @@
             <div class="dashboard-alert__body">
               <p class="dashboard-alert__eyebrow">NETWORK STATUS</p>
               <p class="dashboard-alert__title">Google Fi</p>
-              <p class="dashboard-alert__meta">Wi-Fi: Familywifi &middot; Cellular: No SIM detected</p>
+              <p class="dashboard-alert__meta">Wi-Fi network name hidden &middot; Cellular: status not verified</p>
             </div>
           </article>
         </div>
@@ -354,8 +354,8 @@
               <div
                 class="device-metric device-metric--battery"
                 data-metric="battery"
-                data-level="85"
-                data-status="discharging"
+                data-level="0"
+                data-status="unknown"
               >
                 <div class="device-metric__label">Battery</div>
                 <div
@@ -363,7 +363,7 @@
                   data-battery-visual
                   role="img"
                   aria-live="polite"
-                  aria-label="Battery level 85 percent"
+                  aria-label="Battery status not verified"
                 >
                   <span class="battery-icon" aria-hidden="true">
                     <span class="battery-icon__fill" data-battery-fill></span>
@@ -371,13 +371,13 @@
                     <span class="battery-icon__bolt" data-battery-bolt aria-hidden="true"></span>
                   </span>
                 </div>
-                <div class="device-metric__value" data-battery-output aria-live="polite">85%</div>
+                <div class="device-metric__value" data-battery-output aria-live="polite">Not verified</div>
               </div>
               <div
                 class="device-metric device-metric--wifi"
                 data-metric="wifi"
-                data-state="connected"
-                data-strength="3"
+                data-state="unknown"
+                data-strength="0"
                 data-ssid="not-shared"
               >
                 <div class="device-metric__label">Wi-Fi Network</div>
@@ -396,7 +396,7 @@
                     <span class="wifi-indicator__slash"></span>
                   </span>
                 </div>
-                <div class="device-metric__value" data-wifi-output aria-live="polite">Familywifi</div>
+                <div class="device-metric__value" data-wifi-output aria-live="polite">Not verified</div>
               </div>
               <div
                 class="device-metric device-metric--cell"
