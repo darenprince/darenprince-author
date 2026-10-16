@@ -1,79 +1,57 @@
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { load } from 'cheerio'
 import { describe, expect, it } from 'vitest'
 
-const currentDir = path.dirname(fileURLToPath(import.meta.url))
-const repoRoot = path.resolve(currentDir, '..')
-const html = readFileSync(path.join(repoRoot, '911.html'), 'utf8')
-const locationScript = readFileSync(path.join(repoRoot, 'emergency-911/live-location.js'), 'utf8')
-const $ = load(html)
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+const read = (file: string) => readFileSync(path.join(root, file), 'utf8')
+const entry = read('911.html')
+const owner = read('911-owner.html')
+const viewer = read('911-share.html')
+const api = read('supabase/functions/crown-sos/index.ts')
+const migration = read('supabase/migrations/20261016163000_crown_sos_private_emergency_sharing.sql')
 
-describe('911 portal privacy and location behavior', () => {
-  it('asks search engines not to index the emergency page', () => {
-    expect($('meta[name="robots"]').attr('content')).toContain('noindex')
-    expect($('meta[name="robots"]').attr('content')).toContain('noarchive')
+describe('Crown SOS authenticated full-information sharing', () => {
+  it('keeps the public 911 entry free of embedded emergency profile data', () => {
+    expect(entry).toContain('noindex,nofollow,noarchive')
+    expect(entry).toContain('/911-owner.html')
+    expect(entry).not.toMatch(/Haley Holden|medical|allergies|medications|emergencyContacts|Daren Prince/)
   })
 
-  it('does not ship account credential snippets or stored passwords', () => {
-    expect($('.credential-snippets, .credential-snippet').length).toBe(0)
-    expect($('#trackers').text()).toContain('Never share your Apple ID password')
-    expect($('#trackers').text()).not.toMatch(/Apple ID credentials|Copy password/i)
+  it('uses Supabase Auth for owner sign-in and provides profile editing and link controls', () => {
+    expect(owner).toContain('supabase.auth.signInWithPassword')
+    expect(owner).toContain('supabase.auth.signUp')
+    expect(owner).toContain("'/profile'")
+    expect(owner).toContain("'/shares'")
+    expect(owner).toContain('Start Live Location')
+    expect(owner).toContain('Revoke SOS Link')
+    expect(owner).toContain('sb_publishable_')
+    expect(owner).not.toMatch(/service_role|sb_secret_/i)
   })
 
-  it('does not publish stale device identifiers or network names', () => {
-    expect(html).not.toMatch(/\b\d{18,}\b/)
-    expect(html).not.toMatch(/Familywifi|Google Fi|Apple iPhone 16 Pro Max/)
-    expect($('#device-status-title').text()).toContain('Device Information')
-    expect($('#sos-intel').text()).toContain('not verified')
+  it('renders every saved profile field to a recipient without requiring login', () => {
+    expect(viewer).toContain('Object.entries(profile||{})')
+    expect(viewer).toContain("x-share-token")
+    expect(viewer).toContain("history.replaceState(null,'',location.pathname)")
+    expect(viewer).toContain('Full Emergency Profile')
+    expect(viewer).not.toContain('signInWithPassword')
   })
 
-  it('does not present unverified medical details as confirmed facts', () => {
-    expect($('#medical').text()).toContain('Not verified')
-    expect($('#if-unresponsive').text()).toContain('Do not give food or drink by mouth')
-    expect($('#if-unresponsive').text()).not.toContain('Give glucagon shot or any sugary food or drink')
+  it('verifies owner JWTs server-side and stores only bearer-token digests', () => {
+    expect(api).toContain('auth.getUser(token)')
+    expect(api).toContain('crypto.subtle.digest')
+    expect(api).toContain('token_hash')
+    expect(api).toContain('revoked_at')
+    expect(api).toContain('expires_at')
+    expect(api).toContain('x-share-token')
+    expect(api).toContain('MAX_SHARE_HOURS = 24')
+    expect(api).not.toMatch(/SUPABASE_SERVICE_ROLE_KEY.*(?:const|let).*window/i)
   })
 
-  it('includes user-controlled GPS and sharing controls with privacy copy', () => {
-    expect($('[data-location-refresh]').length).toBe(1)
-    expect($('[data-location-start]').length).toBe(1)
-    expect($('[data-location-stop]').length).toBe(1)
-    expect($('[data-location-copy]').length).toBe(1)
-    expect($('[data-location-share]').length).toBe(1)
-    expect($('[data-live-location]').text()).toContain('not automatically transmitted')
-    expect($('[data-live-location]').text()).toContain('not continuously share your movement')
-  })
-
-  it('keeps browser GPS local and passes JavaScript syntax validation', () => {
-    expect(locationScript).not.toMatch(/\bfetch\s*\(|XMLHttpRequest|WebSocket/)
-    expect(() => new Function(locationScript)).not.toThrow()
-    expect(locationScript).toContain('navigator.geolocation.watchPosition')
-    expect(locationScript).toContain('navigator.geolocation.clearWatch')
-  })
-
-  it('requires explicit consent for remote live sharing and provides revocation controls', () => {
-    const remote = readFileSync(path.join(repoRoot, 'emergency-911/remote-live-sharing.js'), 'utf8')
-    const worker = readFileSync(path.join(repoRoot, 'emergency-911/worker.js'), 'utf8')
-    const viewer = readFileSync(path.join(repoRoot, '911-share.html'), 'utf8')
-    expect($('[data-remote-start]').length).toBe(1)
-    expect($('[data-remote-stop]').length).toBe(1)
-    expect($('[data-remote-copy]').length).toBe(1)
-    expect(remote).toContain("addEventListener('sos:gps-update'")
-    expect(remote).toContain("method: 'DELETE'")
-    expect(remote).toContain('Starting a private location share')
-    expect(worker).toContain('ownerHash')
-    expect(worker).toContain('viewerHash')
-    expect(worker).toContain('const TTL = 7200')
-    expect(worker).toContain('await env.SOS_SESSIONS.delete("s:" + id)')
-    expect(viewer).toContain('location.hash.slice(1)')
-    expect(viewer).toContain('history.replaceState(null, \'\', location.pathname)')
-    expect(viewer).toContain('noindex, nofollow, noarchive')
-  })
-
-  it('labels the client-side access code as non-security', () => {
-    expect($('#gate-title').text()).toBe('Incident Code')
-    expect($('#gate-subtitle').text()).toContain('not real authentication')
-    expect($('#gate-title').text()).not.toContain('Secure Access Required')
+  it('denies direct browser table access and enables row-level security', () => {
+    expect(migration).toContain('enable row level security')
+    expect(migration).toContain('revoke all on table public.crown_sos_profiles from anon, authenticated')
+    expect(migration).toContain('revoke all on table public.crown_sos_shares from anon, authenticated')
+    expect(migration).toContain('references auth.users')
   })
 })
