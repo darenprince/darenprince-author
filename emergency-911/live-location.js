@@ -6,7 +6,7 @@
     if (panel) {
       const status = panel.querySelector('[data-location-status]');
       if (status) status.textContent = 'This browser does not support GPS location.';
-      panel.querySelectorAll('button[data-location-action]').forEach((button) => { button.disabled = true; });
+      panel.querySelectorAll('[data-location-refresh], [data-location-start], [data-location-stop], [data-location-copy], [data-location-share]').forEach((button) => { button.disabled = true; });
     }
     return;
   }
@@ -15,7 +15,6 @@
   const coordinates = panel.querySelector('[data-location-coordinates]');
   const updated = panel.querySelector('[data-location-updated]');
   const accuracy = panel.querySelector('[data-location-accuracy]');
-  const mapLink = panel.querySelector('[data-location-map]');
   const copyButton = panel.querySelector('[data-location-copy]');
   const shareButton = panel.querySelector('[data-location-share]');
   const startButton = panel.querySelector('[data-location-start]');
@@ -56,6 +55,12 @@
       3: 'The location request timed out. Try again.'
     };
     setStatus(messages[error.code] || 'Unable to retrieve your location.');
+    if (error.code === 1 && watchId !== null) {
+      navigator.geolocation.clearWatch(watchId);
+      watchId = null;
+      if (startButton) startButton.disabled = false;
+      if (stopButton) stopButton.disabled = true;
+    }
   };
   const getCurrent = () => {
     setStatus('Requesting location permission…');
