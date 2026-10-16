@@ -34,6 +34,9 @@
     latestPoint = point;
     latestAccuracy = Math.round(metres);
     latestTimestamp = position.timestamp;
+    window.dispatchEvent(new CustomEvent('sos:gps-update', { detail: {
+      latitude, longitude, accuracy: metres, timestamp: position.timestamp
+    } }));
     latestMapUrl = 'https://maps.google.com/?q=' + encodeURIComponent(point);
     if (coordinates) coordinates.textContent = lat + ', ' + lon;
     if (accuracy) accuracy.textContent = '±' + Math.round(metres) + ' metres';
