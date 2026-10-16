@@ -21,6 +21,9 @@
   const stopButton = panel.querySelector('[data-location-stop]');
   let watchId = null;
   let latestMapUrl = '';
+  let latestPoint = '';
+  let latestAccuracy = null;
+  let latestTimestamp = null;
 
   const setStatus = (message) => { if (status) status.textContent = message; };
   const renderPosition = (position) => {
@@ -28,6 +31,9 @@
     const lat = latitude.toFixed(6);
     const lon = longitude.toFixed(6);
     const point = lat + ',' + lon;
+    latestPoint = point;
+    latestAccuracy = Math.round(metres);
+    latestTimestamp = position.timestamp;
     latestMapUrl = 'https://maps.google.com/?q=' + encodeURIComponent(point);
     if (coordinates) coordinates.textContent = lat + ', ' + lon;
     if (accuracy) accuracy.textContent = '±' + Math.round(metres) + ' metres';
@@ -94,7 +100,9 @@
     if (!latestMapUrl) return;
     if (navigator.share) {
       try {
-        await navigator.share({ title: 'My current location', text: 'My latest GPS location. Accuracy and timestamp are shown on the SOS page.', url: latestMapUrl });
+        const recordedAt = latestTimestamp ? new Date(latestTimestamp).toLocaleString() : 'time unavailable';
+        const detail = 'Latest GPS fix: ' + latestPoint + '; accuracy ±' + latestAccuracy + ' metres; recorded ' + recordedAt + '. This is a one-time fix, not continuous tracking.';
+        await navigator.share({ title: 'My current location', text: detail, url: latestMapUrl });
         setStatus('Location link shared using your device share sheet. It is a one-time GPS fix, not continuous tracking.');
         return;
       } catch (error) {
