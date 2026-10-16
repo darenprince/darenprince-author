@@ -128,6 +128,7 @@
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
   <meta
     name="description"
     content="Daren Prince has triggered an SOS alert from his device. This indicates he may be in danger or require urgent assistance."
@@ -137,7 +138,7 @@
   <meta property="og:title" content="Crown SOS Emergency Portal | Daren Prince" />
   <meta
     property="og:description"
-    content="Daren Prince has activated his personal SOS emergency portal. This is a live distress signal that indicates potential danger or duress. The portal contains his current live location, along with photos, videos, audio recordings, and evidence captured in real time. This alert requires immediate attention. Please review the portal without delay. Treat this as a call to safeguard life."
+    content="Personal emergency information page. Location is not automatically shared; call emergency services directly if urgent help is needed."
   />
   <meta property="og:image" content="emergency-911/911-ogimage.svg" />
   <meta property="og:image:width" content="1366" />
@@ -282,7 +283,7 @@
             <div class="dashboard-alert__body">
               <p class="dashboard-alert__eyebrow">PRIMARY DEVICE</p>
               <p class="dashboard-alert__title">iPhone 16 Pro Max</p>
-              <p class="dashboard-alert__meta">EID: 890490320074088851002093863863 &middot; IMEI: 45 286494 576610 2</p>
+              <p class="dashboard-alert__meta">Device identifiers are intentionally not displayed.</p>
             </div>
           </article>
           <article class="dashboard-alert dashboard-alert--network" role="listitem">
@@ -339,14 +340,14 @@
                   <span class="device-data__icon" aria-hidden="true"><i class="fi fi-rr-sim-card"></i></span>
                   <span class="device-data__label">EID</span>
                 </dt>
-                <dd>890490320074088851002093863863</dd>
+                <dd>Hidden for privacy</dd>
               </div>
               <div class="device-data__row">
                 <dt>
                   <span class="device-data__icon" aria-hidden="true"><i class="fi fi-rr-barcode"></i></span>
                   <span class="device-data__label">IMEI</span>
                 </dt>
-                <dd>45 286494 576610 2</dd>
+                <dd>Hidden for privacy</dd>
               </div>
             </dl>
             <div class="device-metrics" data-device-telemetry>
@@ -377,7 +378,7 @@
                 data-metric="wifi"
                 data-state="connected"
                 data-strength="3"
-                data-ssid="Familywifi"
+                data-ssid="not-shared"
               >
                 <div class="device-metric__label">Wi-Fi Network</div>
                 <div
@@ -385,7 +386,7 @@
                   data-wifi-visual
                   role="img"
                   aria-live="polite"
-                  aria-label="Wi-Fi connected to Familywifi"
+                  aria-label="Wi-Fi status not verified"
                 >
                   <span class="wifi-indicator" data-wifi-indicator aria-hidden="true">
                     <span class="wifi-indicator__arc wifi-indicator__arc--outer"></span>
@@ -700,36 +701,10 @@
       </header>
       <div class="emergency-card__content">
         <p>I may have AirTags on personal items. Even if my phone dies, I may still be trackable.</p>
-        <p>Use the link below. (Must sign-in using the info below)</p>
+        <p>Use your own authenticated Apple account on the official Find Devices site. Account credentials are never stored or displayed on this page.</p>
         <p class="track-link">Track at: <a href="https://www.icloud.com/find" target="_blank" rel="noopener">https://www.icloud.com/find</a></p>
-        <div class="credential-snippets" role="group" aria-label="Apple ID credentials">
-          <div class="credential-snippet">
-            <div class="credential-snippet__label">Apple ID</div>
-            <div class="credential-snippet__code">
-              <code>daren.prince@gmail.com</code>
-              <button class="copy-button" type="button" data-copy="daren.prince@gmail.com">
-                <span class="copy-button__icon" aria-hidden="true">
-                  <i class="fi fi-rr-copy"></i>
-                </span>
-                <span class="sr-only">Copy Apple ID</span>
-                <span class="copy-button__tooltip" role="status" aria-live="polite"></span>
-              </button>
-            </div>
-          </div>
-          <div class="credential-snippet">
-            <div class="credential-snippet__label">Password</div>
-            <div class="credential-snippet__code">
-              <code>testpassword</code>
-              <button class="copy-button" type="button" data-copy="testpassword">
-                <span class="copy-button__icon" aria-hidden="true">
-                  <i class="fi fi-rr-copy"></i>
-                </span>
-                <span class="sr-only">Copy password</span>
-                <span class="copy-button__tooltip" role="status" aria-live="polite"></span>
-              </button>
-            </div>
-          </div>
-        </div>
+        <p class="credential-security-note">Never share your Apple ID password or recovery codes in an emergency webpage. Use the official Apple sign-in flow directly.</p>
+div>
       </div>
     </section>
 
@@ -768,11 +743,11 @@
           <div class="password-gate__icon" aria-hidden="true">
             <i class="fi fi-rr-lock"></i>
           </div>
-          <h1 class="password-gate__title" id="gate-title">Secure Access Required</h1>
-          <p class="password-gate__subtitle" id="gate-subtitle">Enter the incident code to unlock the command portal.</p>
+          <h1 class="password-gate__title" id="gate-title">Incident Code</h1>
+          <p class="password-gate__subtitle" id="gate-subtitle">This static page uses a client-side code gate, which is not real authentication. Do not treat it as protection for confidential information.</p>
           <form class="password-form" novalidate>
             <fieldset class="code-inputs" aria-label="8 digit emergency code">
-              <legend class="sr-only">Enter code 64235548</legend>
+              <legend class="sr-only">Enter the 8 digit incident code</legend>
               <div class="code-inputs__grid">
                 <input class="code-input" type="tel" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" aria-label="Digit 1" maxlength="1" data-index="0" enterkeyhint="done" required />
                 <input class="code-input" type="tel" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" aria-label="Digit 2" maxlength="1" data-index="1" enterkeyhint="done" required />
@@ -785,7 +760,7 @@
               </div>
             </fieldset>
             <button class="password-submit" type="submit">Unlock Portal</button>
-            <p class="password-hint">Authorized emergency responders only.</p>
+            <p class="password-hint">For urgent danger, call 911. Do not rely on this page to dispatch help.</p>
             <div class="password-error" role="alert" data-error></div>
           </form>
         </div>
