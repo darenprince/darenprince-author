@@ -90,16 +90,16 @@
     setStatus('Stopping and revoking the share…');
     try {
       await request('/api/sessions/' + session.id, { method: 'DELETE', headers: auth() });
-      setStatus('Live sharing stopped. The viewer link has been revoked.');
-    } catch (error) {
-      setStatus((error.message || 'Unable to confirm revocation.') + ' The link expires automatically after two hours.');
-    } finally {
       session = null;
       ownerToken = '';
       viewerUrl = '';
       if (output) { output.value = ''; output.hidden = true; }
       if (copy) copy.disabled = true;
       if (start) start.disabled = !latest;
+      setStatus('Live sharing stopped. The viewer link has been revoked.');
+    } catch (error) {
+      setStatus((error.message || 'Unable to confirm revocation.') + ' Sharing is not confirmed stopped; retry revocation or wait for the two-hour expiry.');
+      stop.disabled = false;
     }
   });
 
