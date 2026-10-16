@@ -1,0 +1,10 @@
+name = "911-live-sharing"
+main = "worker.js"
+compatibility_date = "2026-10-16"
+
+[[kv_namespaces]]
+binding = "SOS_SESSIONS"
+id = "06ecd0d4b6f64694a6ed197353874bfb"
+
+[observability]
+enabled = false
