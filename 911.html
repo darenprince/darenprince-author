@@ -292,8 +292,8 @@
             </div>
             <div class="dashboard-alert__body">
               <p class="dashboard-alert__eyebrow">NETWORK STATUS</p>
-              <p class="dashboard-alert__title">Not connected to live telemetry</p>
-              <p class="dashboard-alert__meta">Carrier, Wi-Fi, and cellular status are not verified by this page.</p>
+              <p class="dashboard-alert__title">Status not verified</p>
+              <p class="dashboard-alert__meta">This page cannot read live carrier, Wi-Fi, or cellular status.</p>
             </div>
           </article>
         </div>
@@ -301,19 +301,9 @@
           <section class="dashboard-panel" aria-labelledby="device-status-title">
             <div class="dashboard-panel__header">
               <h3 class="dashboard-panel__title" id="device-status-title">Device Information</h3>
-              <span class="network-badge" role="img" aria-label="Network: Google Fi">
-                <span class="network-badge__logo" aria-hidden="true">
-                  <svg viewBox="0 0 48 24" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
-                    <rect x="2" y="2" width="10" height="20" rx="5" fill="#34a853" />
-                    <rect x="14" y="2" width="10" height="10" rx="5" fill="#fbbc04" />
-                    <rect x="26" y="2" width="20" height="10" rx="5" fill="#4285f4" />
-                    <circle cx="36" cy="18" r="4" fill="#ea4335" />
-                  </svg>
-                </span>
-                <span class="network-badge__text">Google Fi</span>
-              </span>
+              <span class="network-badge" role="status" aria-label="Network status not verified"><span class="network-badge__text">Not Verified</span></span>
             </div>
-            <p class="device-data__notice">Device and network details below are not automatically detected. Do not rely on them as live status.</p>
+            <p class="device-data__notice">Only the information explicitly marked as verified should be relied on. This page does not detect the device model or network.</p>
             <dl class="device-data">
               <div class="device-data__row">
                 <dt>
@@ -334,7 +324,7 @@
                   <span class="device-data__icon" aria-hidden="true"><i class="fi fi-rr-mobile-button"></i></span>
                   <span class="device-data__label">Device</span>
                 </dt>
-                <dd>Apple iPhone 16 Pro Max</dd>
+                <dd>Device model not verified</dd>
               </div>
 
             </dl>
@@ -576,11 +566,11 @@
           </div>
           <div class="medical-list__item">
             <dt>Conditions</dt>
-            <dd>Type 1 Diabetes (insulin-dependent), Asthma</dd>
+            <dd>Not verified. Confirm directly with Daren or emergency responders before treatment.</dd>
           </div>
           <div class="medical-list__item">
             <dt>Height / Weight</dt>
-            <dd>5&rsquo;9&rdquo;, 162 lbs</dd>
+            <dd>Not verified. Confirm directly if medically necessary.</dd>
           </div>
           <div class="medical-list__item">
             <dt>Primary Language</dt>
@@ -600,9 +590,10 @@
       </header>
       <div class="emergency-card__content">
         <ul class="emergency-steps">
-          <li>Do <strong>NOT</strong> give insulin.</li>
-          <li>Give glucagon shot or any sugary food or drink.</li>
-          <li>Call 911 immediately.</li>
+          <li>Call 911 immediately and follow the dispatcher&rsquo;s instructions.</li>
+          <li>Do not give food or drink by mouth to someone who is unconscious or unable to swallow safely.</li>
+          <li>If the person is not breathing normally, begin CPR and use an AED if available and you can do so safely.</li>
+          <li>Use prescribed emergency medication only as directed by its instructions or emergency professionals.</li>
         </ul>
       </div>
     </section>
