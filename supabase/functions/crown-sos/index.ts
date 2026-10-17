@@ -94,7 +94,7 @@ Deno.serve(async (req: Request) => {
       const expiresAt = new Date(Date.now() + hours * 60 * 60 * 1000).toISOString();
       const { data, error } = await admin.from("crown_sos_shares").insert({ owner_id: user.id, token_hash: await digest(token), expires_at: expiresAt }).select("id,expires_at,created_at").single();
       if (error) throw error;
-      return response({ shareId: data.id, token, expiresAt: data.expires_at, createdAt: data.created_at, shareUrl: "https://darenprince.com/911-share.html#" + new URLSearchParams({ id: data.id, token }).toString() }, 201, origin);
+      return response({ shareId: data.id, token, expiresAt: data.expires_at, createdAt: data.created_at, shareUrl: "https://darenprince.com/911.html#" + new URLSearchParams({ id: data.id, token }).toString() }, 201, origin);
     }
 
     const locationMatch = path.match(/^\/shares\/([0-9a-f-]+)\/location$/i);
