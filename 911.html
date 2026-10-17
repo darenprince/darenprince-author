@@ -22,6 +22,8 @@ header{border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:20p
 <div id="status" class="status" role="status" aria-live="polite">Validating your SOS link…</div>
 <div class="notice"><strong>If there is immediate danger, call 911 directly.</strong><p>This page does not contact emergency dispatch. Information is supplied by the account owner and may be incomplete or outdated. Confirm critical details when possible.</p></div>
 <section id="location" class="panel wide hidden"><h2>Device Location &amp; Tracking</h2><p id="locstatus">No location update received.</p><dl><div><dt>Coordinates</dt><dd id="coords">Unavailable</dd></div><div><dt>Accuracy</dt><dd id="accuracy">Unavailable</dd></div><div><dt>Last Location Update</dt><dd id="updated">Unavailable</dd></div><div><dt>SOS Link Expires</dt><dd id="expires">Unavailable</dd></div></dl><div class="actions"><a id="map" class="link hidden" target="_blank" rel="noopener noreferrer">Open Location In Maps</a></div></section>
+
+<section class="panel wide" id="public-directory"><h2>Emergency Services &amp; Community Directory</h2><p class="small">Historical Central Louisiana directory preserved from the previous portal. Phone numbers, addresses, and service details have not yet been independently reverified. For immediate danger, call <a href="tel:911">911</a>.</p><label for="directory-search" class="field-label">Search Directory</label><input id="directory-search" type="search" placeholder="Search agencies, towns, services, or phone numbers" autocomplete="off" style="width:100%;background:#101216;color:var(--text);border:1px solid var(--line);padding:12px;font:inherit;margin:8px 0 14px"><div id="public-directory-list" class="items"></div><p id="directory-empty" class="empty hidden">No directory entries match your search.</p></section>
 <div class="grid" id="sections">
 <section class="panel wide" data-section="emergencySummary"><h2>Live SOS Command Summary</h2><div class="value" data-value="emergencySummary"></div></section>
 <section class="panel" data-section="currentSituation"><h2>Current Situation &amp; Recent Context</h2><div class="value" data-value="currentSituation"></div><div class="field"><div class="field-label">Current With / Nearby</div><div class="value" data-value="currentWith"></div></div><div class="field"><div class="field-label">Location Context</div><div class="value" data-value="locationContext"></div></div><div class="field"><div class="field-label">Recent Context</div><div class="value" data-value="recentContext"></div></div></section>
@@ -41,6 +43,69 @@ header{border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:20p
 const API='https://zzrmnmwnaovcqgodiesc.supabase.co/functions/v1/crown-sos';
 const PUBLISHABLE_KEY='sb_publishable_q03gjlEk274X9aXjZkVEeQ_ze6gzTlO';
 const byId=id=>document.getElementById(id);
+const publicDirectory = [
+"Sheriff’s Office — Main Phone: 318-473-6700",
+"Sheriff’s Office — South Substation 3311 3rd St, Alexandria",
+"Sheriff’s Office — Tioga Substation 400 John Allison Dr · Phone: 318-640-1696",
+"Sheriff’s Office — Glenmora Substation Phone: 318-748-6307",
+"Sheriff’s Office — Hineston Substation Under construction — use main line above for updates",
+"Alexandria Police Department 1000 Bolton Ave · Phone: 318-449-5099",
+"Pineville Police Department Phone: 318-442-6603",
+"Ball Police Department 100 Municipal Dr · Phone: 318-640-4673",
+"Boyce Police Department Phone: 318-793-5110",
+"Cheneyville Police Department Phone: 318-776-9380",
+"Glenmora Police Department Phone: 318-748-6307",
+"Lecompte Police Department Phone: 318-776-9389",
+"Woodworth Police Department Phone: 318-442-1198",
+"District 2 — Tioga / Ball / Libuse Phone: 318-445-8124",
+"District 3 — Alpine / Poland Phone: 318-640-8227",
+"District 4 — Holiday Village Phone: 318-443-5243",
+"District 5 — Oakhill Phone: 318-659-3398",
+"District 6 — Deville / Buckeye Phone: 318-466-9993",
+"District 9 — Highway 1 South Phone: 318-767-1434",
+"Acadian Ambulance — Rapides Dispatch Phone: 318-445-6128",
+"Rapides Regional Medical Center Phone: 318-769-3000",
+"CHRISTUS St. Frances Cabrini Phone: 318-487-1122",
+"CLECO Power Phone: 1-800-622-6537",
+"Entergy Louisiana Phone: 1-800-968-8243 (1-800-9OUTAGE)",
+"City of Alexandria Utilities Phone: 318-473-1301",
+"Rapides Parish Animal Control Phone: 318-473-6706",
+"Sheriff’s Office — Main / Dispatch 205 Cypress St, Colfax · Phone: 318-627-3261",
+"Colfax Police Department Phone: 318-627-5357",
+"Creola Town Hall / Police Phone: 318-641-0430",
+"Pollock Town Hall Phone: 318-765-3796",
+"District 1 — Colfax Phone: 318-627-2636",
+"District 3 — Dry Prong Phone: 318-899-5341 or 318-899-7670",
+"District 5 — Pollock Phone: 318-765-9730",
+"District 7 — Atlanta Phone: 318-646-2635",
+"Acadian Ambulance — Grant Dispatch Phone: 318-627-3261 (via Sheriff dispatch)",
+"Nearest Hospitals Rapides Regional (318-769-3000) · Cabrini (318-487-1122)",
+"CLECO Phone: 1-800-622-6537",
+"Entergy Phone: 1-800-968-8243 (1-800-9OUTAGE)",
+"Grant Parish Animal Control Phone: 318-321-0424",
+"Poison Control Phone: 1-800-222-1222",
+"Suicide & Crisis Lifeline Phone: 988",
+"Child Abuse Hotline (DCFS) Phone: 1-855-452-5437",
+"National Domestic Violence Hotline Phone: 1-800-799-7233"
+];
+function renderPublicDirectory(query='') {
+  const list=byId('public-directory-list'); if(!list) return;
+  list.replaceChildren();
+  const normalized=query.trim().toLocaleLowerCase();
+  const matches=publicDirectory.filter(entry=>entry.toLocaleLowerCase().includes(normalized));
+  for(const entry of matches){
+    const card=document.createElement('div');card.className='item';
+    const parts=entry.split(/(1-\d{3}-\d{3}-\d{4}|\b\d{3}-\d{3}-\d{4}\b)/g);
+    for(const part of parts){
+      if(/^(?:1-\d{3}-\d{3}-\d{4}|\d{3}-\d{3}-\d{4})$/.test(part)){
+        const link=document.createElement('a');link.href='tel:'+part.replace(/[^0-9+]/g,'');link.textContent=part;card.append(link);
+      }else card.append(document.createTextNode(part));
+    }
+    list.append(card);
+  }
+  byId('directory-empty').classList.toggle('hidden',matches.length!==0);
+}
+
 const params=new URLSearchParams(location.hash.slice(1));const id=params.get('id'),token=params.get('token');
 history.replaceState(null,'',location.pathname+location.search);
 let stopped=false,busy=false,lastProfile='';
@@ -52,5 +117,7 @@ function renderItem(value){const card=document.createElement('div');card.classNa
 function renderValue(key,value){const targets=document.querySelectorAll('[data-value="'+key+'"]');for(const target of targets){target.replaceChildren();if(value===null||value===undefined||value===''||(Array.isArray(value)&&!value.length)||(typeof value==='object'&&!Array.isArray(value)&&!Object.keys(value).length)){const empty=document.createElement('div');empty.className='empty';empty.textContent='Not provided in the shared profile.';target.append(empty);continue}if(Array.isArray(value)){value.forEach(v=>target.append(renderItem(v)));continue}if(typeof value==='object'){Object.entries(value).forEach(([k,v])=>{if(v===null||v===''||v===undefined||(Array.isArray(v)&&!v.length))return;const item=document.createElement('div');item.className='field';const label=document.createElement('div');label.className='field-label';label.textContent=nice(k);item.append(label);if(typeof v==='string'&&/url|link|photo|image|file|media/i.test(k)){const url=safeUrl(v);if(url){const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=v;item.append(a)}else appendText(item,v)}else appendText(item,typeof v==='object'?JSON.stringify(v,null,2):String(v));target.append(item)});return}target.textContent=String(value)}}
 function renderProfile(profile){const normalized=profile&&typeof profile==='object'?profile:{};if(JSON.stringify(normalized)===lastProfile)return;lastProfile=JSON.stringify(normalized);byId('title').textContent=normalized.fullName?('Emergency Information · '+String(normalized.fullName)):'Emergency Information';byId('summary').textContent=normalized.emergencySummary?String(normalized.emergencySummary):'Emergency details shared by the account owner.';const aliases={ifUnresponsive:normalized.ifUnresponsive??normalized.medical?.ifUnresponsive,trackersAndContingencies:normalized.trackersAndContingencies??normalized.trackers};for(const el of document.querySelectorAll('[data-value]')){const key=el.dataset.value;renderValue(key,Object.prototype.hasOwnProperty.call(normalized,key)?normalized[key]:aliases[key])}for(const section of document.querySelectorAll('[data-section]')){const key=section.dataset.section;const value=normalized[key]??aliases[key];const present=value!==undefined&&value!==null&&value!==''&&!(Array.isArray(value)&&!value.length)&&!(typeof value==='object'&&!Array.isArray(value)&&!Object.keys(value).length);if(!present&&['emergencySummary','currentSituation','emergencyContacts','medical','safetyInstructions','importantLinks','evidenceAndMedia','recentPhotos','pets','vehicles','additionalInformation'].includes(key))section.classList.add('hidden');else section.classList.remove('hidden')}}
 async function poll(){if(stopped||busy)return;busy=true;try{const response=await fetch(API+'/shares/'+encodeURIComponent(id),{headers:{apikey:PUBLISHABLE_KEY,'x-share-token':token},cache:'no-store'});const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error||'SOS link is invalid, expired, or revoked.');renderProfile(data.profile);byId('location').classList.remove('hidden');byId('expires').textContent=data.expiresAt?new Date(data.expiresAt).toLocaleString():'Unavailable';byId('profile-updated').textContent=data.profileUpdatedAt?new Date(data.profileUpdatedAt).toLocaleString():'Unavailable';const fix=data.location;if(fix&&Number.isFinite(fix.latitude)&&Number.isFinite(fix.longitude)){byId('coords').textContent=fix.latitude.toFixed(6)+', '+fix.longitude.toFixed(6);byId('accuracy').textContent=Number.isFinite(fix.accuracy)?'±'+Math.round(fix.accuracy)+' metres':'Unavailable';byId('updated').textContent=fix.timestamp?new Date(fix.timestamp).toLocaleString():'Unavailable';byId('map').href='https://maps.google.com/?q='+encodeURIComponent(fix.latitude+','+fix.longitude);byId('map').classList.remove('hidden');const age=Date.now()-Date.parse(fix.timestamp);byId('locstatus').textContent=Number.isFinite(age)&&age>120000?'Last received location is stale.':'Showing the most recently received location. This may not be the device’s current position.'}else{byId('coords').textContent='Unavailable';byId('accuracy').textContent='Unavailable';byId('updated').textContent='Unavailable';byId('map').classList.add('hidden');byId('locstatus').textContent='No location update received. The owner must grant browser location permission and keep sharing open.'}setStatus('SOS link valid. Shared information loaded. Last checked '+new Date().toLocaleTimeString()+'.')}catch(e){setStatus(e.message||'Unable to load SOS information.',true);if(/invalid|expired|revoked/i.test(e.message||''))stopped=true}finally{busy=false}}
+byId('directory-search')?.addEventListener('input',event=>renderPublicDirectory(event.target.value));
+renderPublicDirectory();
 if(!id||!/^[a-f0-9-]{36}$/.test(id)||!/^[a-f0-9]{64}$/.test(token||'')){setStatus('This SOS link is incomplete or invalid.',true);stopped=true}else{poll();const timer=setInterval(poll,5000);addEventListener('pagehide',()=>{stopped=true;clearInterval(timer)})}
 </script></body></html>
