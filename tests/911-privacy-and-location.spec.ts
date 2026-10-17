@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
+import ts from 'typescript'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const read = (file: string) => readFileSync(path.join(root, file), 'utf8')
@@ -63,6 +64,18 @@ describe('Crown SOS authenticated full-information sharing', () => {
     expect(api).toContain('const user = await requireOwner(req)')
     expect(read('emergency-911/dist/911.js')).not.toContain('64235548')
     expect(read('emergency-911/dist/911.js')).not.toContain('const CODE')
+  })
+
+
+  it('parses the Edge Function TypeScript without syntax errors', () => {
+    const result = ts.transpileModule(api, {
+      compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext },
+      reportDiagnostics: true,
+    })
+    const errors = (result.diagnostics ?? []).filter(
+      diagnostic => diagnostic.category === ts.DiagnosticCategory.Error,
+    )
+    expect(errors.map(error => ts.flattenDiagnosticMessageText(error.messageText, '\\n'))).toEqual([])
   })
 
   it('denies direct browser table access and enables row-level security', () => {
