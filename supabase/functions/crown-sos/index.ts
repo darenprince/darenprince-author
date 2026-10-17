@@ -62,6 +62,74 @@ Deno.serve(async (req: Request) => {
   const admin = clientAdmin();
 
   try {
+
+    if (path === "/profile/import-legacy-preview" && req.method === "POST") {
+      const user = await requireOwner(req);
+      if (!user) return fail("Sign in required", 401, origin);
+      // Fixed historical source; only an authenticated owner can request this import.
+      const legacyUrl = "https://raw.githubusercontent.com/darenprince/darenprince-author/e3ba6bf5fb3be8e461473281deb4d23615b15207/911.html";
+      const legacyResponse = await fetch(legacyUrl, { headers: { "accept": "text/html" } });
+      if (!legacyResponse.ok) return fail("Legacy source could not be retrieved", 502, origin);
+      const legacyHtml = await legacyResponse.text();
+      if (legacyHtml.length > 200_000) return fail("Legacy source exceeded the import limit", 413, origin);
+      const decodeEntities = (value: string) => value
+        .replace(/&nbsp;|&#160;/gi, " ")
+        .replace(/&amp;/gi, "&").replace(/&quot;/gi, '"').replace(/&#39;|&apos;/gi, "'")
+        .replace(/&lt;/gi, "<").replace(/&gt;/gi, ">")
+        .replace(/&#(\d+);/g, (_m, n) => String.fromCodePoint(Math.min(Number(n), 0x10ffff)))
+        .replace(/&#x([0-9a-f]+);/gi, (_m, n) => String.fromCodePoint(Math.min(parseInt(n, 16), 0x10ffff)));
+      const textFromHtml = (html: string) => decodeEntities(html
+        .replace(/<script\b[\s\S]*?<\/script>/gi, " ")
+        .replace(/<style\b[\s\S]*?<\/style>/gi, " ")
+        .replace(/<svg\b[\s\S]*?<\/svg>/gi, " ")
+        .replace(/<iframe\b[\s\S]*?<\/iframe>/gi, " ")
+        .replace(/<button\b[\s\S]*?<\/button>/gi, " ")
+        .replace(/<input\b[^>]*>/gi, " ")
+        .replace(/<[^>]+>/g, " ")
+        .replace(/[ \t\r\f\v]+/g, " ")
+        .replace(/ *\n */g, "\n")
+        .replace(/\s+/g, " ")
+        .trim());
+      const sectionText = (id: string) => {
+        const marker = new RegExp('<section\\b(?=[^>]*\\bid=["\\']' + id + '["\\'])[^>]*>', "i");
+        const match = marker.exec(legacyHtml);
+        if (!match) return "";
+        const start = match.index + match[0].length;
+        const tail = legacyHtml.slice(start);
+        const nextSection = tail.search(/<section\\b/i);
+        const nextMain = tail.search(/<\\/main\\s*>/i);
+        const ends = [nextSection, nextMain].filter(n => n >= 0);
+        const end = ends.length ? Math.min(...ends) : tail.length;
+        return textFromHtml(tail.slice(0, end));
+      };
+      const sections: Record<string, string> = {
+        emergencySummary: sectionText("alert-overview"),
+        currentSituation: sectionText("sos-intel"),
+        locationContext: sectionText("device-location"),
+        emergencyContacts: sectionText("emergency-contacts"),
+        recentContext: sectionText("recent-context"),
+        importantLinks: sectionText("live-links"),
+        evidenceAndMedia: sectionText("evidence"),
+        medical: sectionText("medical"),
+        ifUnresponsive: sectionText("if-unresponsive"),
+        trackersAndContingencies: sectionText("trackers"),
+        recentPhotos: sectionText("recent-photos"),
+      };
+      for (const [key, value] of Object.entries(sections)) {
+        if (!value) delete sections[key];
+        else sections[key] = value.slice(0, 12_000);
+      }
+      if (!Object.keys(sections).length) return fail("No importable emergency sections were found in the legacy page", 422, origin);
+      const profile = {
+        ...sections,
+        legacyImportNotice: "Imported from the historical Crown SOS portal for owner review. Treat all dates, locations, device status, links, medical details, and instructions as unverified until checked. No legacy telemetry is represented as current live location.",
+        legacySourceRevision: "e3ba6bf5fb3be8e461473281deb4d23615b15207",
+        legacyImportedAt: new Date().toISOString(),
+        legacyReviewRequired: true
+      };
+      return response({ profile, sectionCount: Object.keys(sections).length, requiresOwnerReview: true }, 200, origin);
+    }
+
     if (path === "/profile" && req.method === "GET") {
       const user = await requireOwner(req);
       if (!user) return fail("Sign in required", 401, origin);
