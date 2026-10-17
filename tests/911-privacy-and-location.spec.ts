@@ -27,6 +27,8 @@ describe('Crown SOS authenticated full-information sharing', () => {
     expect(owner).toContain("'/profile'")
     expect(owner).toContain("'/shares'")
     expect(owner).toContain('Start Live Location')
+    expect(owner).toContain('Import Existing 911 Portal')
+    expect(owner).toContain('/profile/import-legacy-preview')
     expect(owner).toContain('Revoke SOS Link')
     expect(owner).toContain('sb_publishable_')
     expect(owner).not.toMatch(/service_role|sb_secret_/i)
@@ -43,6 +45,10 @@ describe('Crown SOS authenticated full-information sharing', () => {
 
   it('verifies owner JWTs server-side and stores only bearer-token digests', () => {
     expect(api).toContain('auth.getUser(token)')
+    expect(api).toContain('/profile/import-legacy-preview')
+    expect(api).toContain('requiresOwnerReview: true')
+    expect(api).toContain('legacyReviewRequired: true')
+    expect(api).toContain('e3ba6bf5fb3be8e461473281deb4d23615b15207')
     expect(api).toContain('crypto.subtle.digest')
     expect(api).toContain('token_hash')
     expect(api).toContain('revoked_at')
@@ -50,6 +56,7 @@ describe('Crown SOS authenticated full-information sharing', () => {
     expect(api).toContain('x-share-token')
     expect(api).toContain('MAX_SHARE_HOURS = 24')
     expect(api).not.toMatch(/SUPABASE_SERVICE_ROLE_KEY.*(?:const|let).*window/i)
+    expect(api).toContain('const user = await requireOwner(req)')
   })
 
   it('denies direct browser table access and enables row-level security', () => {
