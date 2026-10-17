@@ -14,8 +14,11 @@ const migration = read('supabase/migrations/20261016163000_crown_sos_private_eme
 describe('Crown SOS authenticated full-information sharing', () => {
   it('keeps the public 911 entry free of embedded emergency profile data', () => {
     expect(entry).toContain('noindex,nofollow,noarchive')
-    expect(entry).toContain('/911-owner.html')
-    expect(entry).not.toMatch(/Haley Holden|medical|allergies|medications|emergencyContacts|Daren Prince/)
+    expect(entry).toContain('Emergency Contact Directory')
+    expect(entry).toContain('Medical Information')
+    expect(entry).toContain("x-share-token")
+    expect(entry).not.toMatch(/Haley Holden|215 Dawn Dr|Lori Simmons|64235548/)
+    expect(entry).not.toContain('signInWithPassword')
   })
 
   it('uses Supabase Auth for owner sign-in and provides profile editing and link controls', () => {
@@ -30,10 +33,11 @@ describe('Crown SOS authenticated full-information sharing', () => {
   })
 
   it('renders every saved profile field to a recipient without requiring login', () => {
-    expect(viewer).toContain('Object.entries(profile||{})')
-    expect(viewer).toContain("x-share-token")
-    expect(viewer).toContain("history.replaceState(null,'',location.pathname)")
-    expect(viewer).toContain('Full Emergency Profile')
+    expect(viewer).toContain("location.replace('/911.html'+location.hash)")
+    expect(entry).toContain("history.replaceState(null,'',location.pathname+location.search)")
+    expect(entry).toContain('Emergency Contact Directory')
+    expect(entry).toContain('Evidence Uploads &amp; Media')
+    expect(entry).toContain('Medical Information')
     expect(viewer).not.toContain('signInWithPassword')
   })
 
