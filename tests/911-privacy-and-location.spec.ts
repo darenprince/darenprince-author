@@ -33,6 +33,7 @@ describe('Crown SOS authenticated full-information sharing', () => {
     expect(owner).toContain('Start Live Location')
     expect(owner).toContain('Import Existing 911 Portal')
     expect(owner).toContain('full legacy snapshot is kept separately')
+    expect(owner).toContain('Existing saved profile fields are preserved')
     expect(owner).toContain('/profile/import-legacy-preview')
     expect(owner).toContain('Revoke SOS Link')
     expect(owner).toContain('sb_publishable_')
