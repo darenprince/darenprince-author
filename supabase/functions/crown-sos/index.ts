@@ -126,7 +126,8 @@ Deno.serve(async (req: Request) => {
         legacyImportNotice: "Imported from the historical Crown SOS portal for owner review. Treat all dates, locations, device status, links, medical details, and instructions as unverified until checked. No legacy telemetry is represented as current live location.",
         legacySourceRevision: "e3ba6bf5fb3be8e461473281deb4d23615b15207",
         legacyImportedAt: new Date().toISOString(),
-        legacyReviewRequired: true
+        legacyReviewRequired: true,
+        additionalInformation: "LEGACY IMPORT — REVIEW REQUIRED. Historical emergency details have not been verified. Confirm all contacts, medical details, location context, links, and instructions before relying on or sharing this profile."
       };
       return response({ profile, sectionCount: Object.keys(sections).length, requiresOwnerReview: true }, 200, origin);
     }
