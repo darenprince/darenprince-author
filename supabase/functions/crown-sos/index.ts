@@ -62,6 +62,94 @@ Deno.serve(async (req: Request) => {
   const admin = clientAdmin();
 
   try {
+
+    if (path === "/profile/import-legacy-preview" && req.method === "POST") {
+      const user = await requireOwner(req);
+      if (!user) return fail("Sign in required", 401, origin);
+      // Fixed historical source; only an authenticated owner can request this import.
+      const legacyUrl = "https://raw.githubusercontent.com/darenprince/darenprince-author/e3ba6bf5fb3be8e461473281deb4d23615b15207/911.html";
+      const legacyResponse = await fetch(legacyUrl, { headers: { "accept": "text/html" } });
+      if (!legacyResponse.ok) return fail("Legacy source could not be retrieved", 502, origin);
+      const legacyHtml = await legacyResponse.text();
+      if (legacyHtml.length > 200_000) return fail("Legacy source exceeded the import limit", 413, origin);
+      const decodeEntities = (value: string) => value
+        .replace(/&nbsp;|&#160;/gi, " ")
+        .replace(/&amp;/gi, "&").replace(/&quot;/gi, '"').replace(/&#39;|&apos;/gi, "'")
+        .replace(/&lt;/gi, "<").replace(/&gt;/gi, ">")
+        .replace(/&#(\d+);/g, (_m, n) => String.fromCodePoint(Math.min(Number(n), 0x10ffff)))
+        .replace(/&#x([0-9a-f]+);/gi, (_m, n) => String.fromCodePoint(Math.min(parseInt(n, 16), 0x10ffff)));
+      const textFromHtml = (html: string) => decodeEntities(html
+        .replace(/<script\b[\s\S]*?<\/script>/gi, " ")
+        .replace(/<style\b[\s\S]*?<\/style>/gi, " ")
+        .replace(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi, "$2 [link: $1]")
+        .replace(/<img\b([^>]*)>/gi, (_m, attrs) => {
+          const src = attrs.match(/\bsrc=["']([^"']+)["']/i)?.[1] ?? "";
+          const alt = attrs.match(/\balt=["']([^"']+)["']/i)?.[1] ?? "image";
+          return src ? alt + " [media: " + src + "]" : alt;
+        })
+        .replace(/<iframe\b([^>]*)>[\s\S]*?<\/iframe>/gi, (_m, attrs) => {
+          const src = attrs.match(/\bsrc=["']([^"']+)["']/i)?.[1] ?? "";
+          return src ? "[embedded resource: " + src + "]" : " ";
+        })
+        .replace(/<svg\b[\s\S]*?<\/svg>/gi, " ")
+        .replace(/<button\b[\s\S]*?<\/button>/gi, " ")
+        .replace(/<input\b[^>]*>/gi, " ")
+        .replace(/<[^>]+>/g, " ")
+        .replace(/\s+/g, " ")
+        .trim());
+      const sectionText = (id: string) => {
+        const marker = 'id="' + id + '"';
+        const idPosition = legacyHtml.indexOf(marker);
+        if (idPosition < 0) return "";
+        const sectionStart = legacyHtml.lastIndexOf("<section", idPosition);
+        if (sectionStart < 0 || sectionStart < legacyHtml.lastIndexOf("</section>", idPosition)) return "";
+        const openingEnd = legacyHtml.indexOf(">", idPosition);
+        if (openingEnd < 0) return "";
+        const tail = legacyHtml.slice(openingEnd + 1);
+        const nextSection = tail.search(/<section\b/i);
+        const nextMain = tail.search(/<\/main\s*>/i);
+        const ends = [nextSection, nextMain].filter(n => n >= 0);
+        const end = ends.length ? Math.min(...ends) : tail.length;
+        return textFromHtml(tail.slice(0, end));
+      };
+      const sections: Record<string, string> = {
+        emergencySummary: sectionText("alert-overview"),
+        currentSituation: sectionText("sos-intel"),
+        locationContext: sectionText("device-location"),
+        emergencyContacts: sectionText("emergency-contacts"),
+        recentContext: sectionText("recent-context"),
+        importantLinks: sectionText("live-links"),
+        evidenceAndMedia: sectionText("evidence"),
+        medical: sectionText("medical"),
+        ifUnresponsive: sectionText("if-unresponsive"),
+        trackersAndContingencies: sectionText("trackers"),
+        recentPhotos: sectionText("recent-photos"),
+      };
+      for (const [key, value] of Object.entries(sections)) {
+        if (!value) delete sections[key];
+        else sections[key] = value.slice(0, 12_000);
+      }
+      if (!Object.keys(sections).length) return fail("No importable emergency sections were found in the legacy page", 422, origin);
+      const { data: currentRow, error: currentError } = await admin.from("crown_sos_profiles").select("profile").eq("owner_id", user.id).maybeSingle();
+      if (currentError) throw currentError;
+      const currentProfile = currentRow?.profile && typeof currentRow.profile === "object" ? currentRow.profile : {};
+      const profile: Record<string, unknown> = { ...currentProfile };
+      const isEmpty = (value: unknown) => value === undefined || value === null || value === "" ||
+        (Array.isArray(value) && value.length === 0) ||
+        (typeof value === "object" && !Array.isArray(value) && value !== null && Object.keys(value).length === 0);
+      for (const [key, value] of Object.entries(sections)) {
+        if (isEmpty(profile[key])) profile[key] = value;
+      }
+      const reviewNotice = "LEGACY IMPORT — REVIEW REQUIRED. Historical emergency details have not been verified. Confirm all contacts, medical details, location context, links, and instructions before relying on or sharing this profile.";
+      profile.legacyArchive = sections;
+      profile.legacyImportNotice = "Imported from the historical Crown SOS portal for owner review. Treat all dates, locations, device status, links, medical details, and instructions as unverified until checked. No legacy telemetry is represented as current live location.";
+      profile.legacySourceRevision = "e3ba6bf5fb3be8e461473281deb4d23615b15207";
+      profile.legacyImportedAt = new Date().toISOString();
+      profile.legacyReviewRequired = true;
+      profile.additionalInformation = [typeof currentProfile.additionalInformation === "string" ? currentProfile.additionalInformation : "", reviewNotice].filter(Boolean).join("\n\n");
+      return response({ profile, sectionCount: Object.keys(sections).length, requiresOwnerReview: true, existingProfilePreserved: Object.keys(currentProfile).length > 0 }, 200, origin);
+    }
+
     if (path === "/profile" && req.method === "GET") {
       const user = await requireOwner(req);
       if (!user) return fail("Sign in required", 401, origin);
@@ -94,7 +182,7 @@ Deno.serve(async (req: Request) => {
       const expiresAt = new Date(Date.now() + hours * 60 * 60 * 1000).toISOString();
       const { data, error } = await admin.from("crown_sos_shares").insert({ owner_id: user.id, token_hash: await digest(token), expires_at: expiresAt }).select("id,expires_at,created_at").single();
       if (error) throw error;
-      return response({ shareId: data.id, token, expiresAt: data.expires_at, createdAt: data.created_at, shareUrl: "https://darenprince.com/911-share.html#" + new URLSearchParams({ id: data.id, token }).toString() }, 201, origin);
+      return response({ shareId: data.id, token, expiresAt: data.expires_at, createdAt: data.created_at, shareUrl: "https://darenprince.com/911.html#" + new URLSearchParams({ id: data.id, token }).toString() }, 201, origin);
     }
 
     const locationMatch = path.match(/^\/shares\/([0-9a-f-]+)\/location$/i);
