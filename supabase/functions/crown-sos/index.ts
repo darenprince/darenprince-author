@@ -146,7 +146,7 @@ Deno.serve(async (req: Request) => {
       profile.legacySourceRevision = "e3ba6bf5fb3be8e461473281deb4d23615b15207";
       profile.legacyImportedAt = new Date().toISOString();
       profile.legacyReviewRequired = true;
-      profile.additionalInformation = [typeof currentProfile.additionalInformation === "string" ? currentProfile.additionalInformation : "", reviewNotice].filter(Boolean).join("\\n\\n");
+      profile.additionalInformation = [typeof currentProfile.additionalInformation === "string" ? currentProfile.additionalInformation : "", reviewNotice].filter(Boolean).join("\n\n");
       return response({ profile, sectionCount: Object.keys(sections).length, requiresOwnerReview: true, existingProfilePreserved: Object.keys(currentProfile).length > 0 }, 200, origin);
     }
 
