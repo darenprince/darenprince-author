@@ -15,6 +15,9 @@ describe('Crown SOS authenticated full-information sharing', () => {
   it('keeps the public 911 entry free of embedded emergency profile data', () => {
     expect(entry).toContain('noindex,nofollow,noarchive')
     expect(entry).toContain('Emergency Contact Directory')
+    expect(entry).toContain('Historical Central Louisiana directory preserved')
+    expect(entry).toContain('renderPublicDirectory')
+    expect(entry).not.toContain('64235548')
     expect(entry).toContain('Medical Information')
     expect(entry).toContain("x-share-token")
     expect(entry).not.toMatch(/Haley Holden|215 Dawn Dr|Lori Simmons|64235548/)
@@ -48,6 +51,7 @@ describe('Crown SOS authenticated full-information sharing', () => {
     expect(api).toContain('/profile/import-legacy-preview')
     expect(api).toContain('requiresOwnerReview: true')
     expect(api).toContain('legacyReviewRequired: true')
+    expect(api).toContain('LEGACY IMPORT — REVIEW REQUIRED')
     expect(api).toContain('e3ba6bf5fb3be8e461473281deb4d23615b15207')
     expect(api).toContain('crypto.subtle.digest')
     expect(api).toContain('token_hash')
@@ -57,6 +61,8 @@ describe('Crown SOS authenticated full-information sharing', () => {
     expect(api).toContain('MAX_SHARE_HOURS = 24')
     expect(api).not.toMatch(/SUPABASE_SERVICE_ROLE_KEY.*(?:const|let).*window/i)
     expect(api).toContain('const user = await requireOwner(req)')
+    expect(read('emergency-911/dist/911.js')).not.toContain('64235548')
+    expect(read('emergency-911/dist/911.js')).not.toContain('const CODE')
   })
 
   it('denies direct browser table access and enables row-level security', () => {
