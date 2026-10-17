@@ -86,18 +86,19 @@ Deno.serve(async (req: Request) => {
         .replace(/<button\b[\s\S]*?<\/button>/gi, " ")
         .replace(/<input\b[^>]*>/gi, " ")
         .replace(/<[^>]+>/g, " ")
-        .replace(/[ \t\r\f\v]+/g, " ")
-        .replace(/ *\n */g, "\n")
         .replace(/\s+/g, " ")
         .trim());
       const sectionText = (id: string) => {
-        const marker = new RegExp('<section\\b(?=[^>]*\\bid=["\\']' + id + '["\\'])[^>]*>', "i");
-        const match = marker.exec(legacyHtml);
-        if (!match) return "";
-        const start = match.index + match[0].length;
-        const tail = legacyHtml.slice(start);
-        const nextSection = tail.search(/<section\\b/i);
-        const nextMain = tail.search(/<\\/main\\s*>/i);
+        const marker = 'id="' + id + '"';
+        const idPosition = legacyHtml.indexOf(marker);
+        if (idPosition < 0) return "";
+        const sectionStart = legacyHtml.lastIndexOf("<section", idPosition);
+        if (sectionStart < 0 || sectionStart < legacyHtml.lastIndexOf("</section>", idPosition)) return "";
+        const openingEnd = legacyHtml.indexOf(">", idPosition);
+        if (openingEnd < 0) return "";
+        const tail = legacyHtml.slice(openingEnd + 1);
+        const nextSection = tail.search(/<section\b/i);
+        const nextMain = tail.search(/<\/main\s*>/i);
         const ends = [nextSection, nextMain].filter(n => n >= 0);
         const end = ends.length ? Math.min(...ends) : tail.length;
         return textFromHtml(tail.slice(0, end));
