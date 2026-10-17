@@ -130,15 +130,24 @@ Deno.serve(async (req: Request) => {
         else sections[key] = value.slice(0, 12_000);
       }
       if (!Object.keys(sections).length) return fail("No importable emergency sections were found in the legacy page", 422, origin);
-      const profile = {
-        ...sections,
-        legacyImportNotice: "Imported from the historical Crown SOS portal for owner review. Treat all dates, locations, device status, links, medical details, and instructions as unverified until checked. No legacy telemetry is represented as current live location.",
-        legacySourceRevision: "e3ba6bf5fb3be8e461473281deb4d23615b15207",
-        legacyImportedAt: new Date().toISOString(),
-        legacyReviewRequired: true,
-        additionalInformation: "LEGACY IMPORT — REVIEW REQUIRED. Historical emergency details have not been verified. Confirm all contacts, medical details, location context, links, and instructions before relying on or sharing this profile."
-      };
-      return response({ profile, sectionCount: Object.keys(sections).length, requiresOwnerReview: true }, 200, origin);
+      const { data: currentRow, error: currentError } = await admin.from("crown_sos_profiles").select("profile").eq("owner_id", user.id).maybeSingle();
+      if (currentError) throw currentError;
+      const currentProfile = currentRow?.profile && typeof currentRow.profile === "object" ? currentRow.profile : {};
+      const profile: Record<string, unknown> = { ...currentProfile };
+      const isEmpty = (value: unknown) => value === undefined || value === null || value === "" ||
+        (Array.isArray(value) && value.length === 0) ||
+        (typeof value === "object" && !Array.isArray(value) && value !== null && Object.keys(value).length === 0);
+      for (const [key, value] of Object.entries(sections)) {
+        if (isEmpty(profile[key])) profile[key] = value;
+      }
+      const reviewNotice = "LEGACY IMPORT — REVIEW REQUIRED. Historical emergency details have not been verified. Confirm all contacts, medical details, location context, links, and instructions before relying on or sharing this profile.";
+      profile.legacyArchive = sections;
+      profile.legacyImportNotice = "Imported from the historical Crown SOS portal for owner review. Treat all dates, locations, device status, links, medical details, and instructions as unverified until checked. No legacy telemetry is represented as current live location.";
+      profile.legacySourceRevision = "e3ba6bf5fb3be8e461473281deb4d23615b15207";
+      profile.legacyImportedAt = new Date().toISOString();
+      profile.legacyReviewRequired = true;
+      profile.additionalInformation = [typeof currentProfile.additionalInformation === "string" ? currentProfile.additionalInformation : "", reviewNotice].filter(Boolean).join("\\n\\n");
+      return response({ profile, sectionCount: Object.keys(sections).length, requiresOwnerReview: true, existingProfilePreserved: Object.keys(currentProfile).length > 0 }, 200, origin);
     }
 
     if (path === "/profile" && req.method === "GET") {
