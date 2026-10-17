@@ -81,8 +81,17 @@ Deno.serve(async (req: Request) => {
       const textFromHtml = (html: string) => decodeEntities(html
         .replace(/<script\b[\s\S]*?<\/script>/gi, " ")
         .replace(/<style\b[\s\S]*?<\/style>/gi, " ")
+        .replace(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi, "$2 [link: $1]")
+        .replace(/<img\b([^>]*)>/gi, (_m, attrs) => {
+          const src = attrs.match(/\bsrc=["']([^"']+)["']/i)?.[1] ?? "";
+          const alt = attrs.match(/\balt=["']([^"']+)["']/i)?.[1] ?? "image";
+          return src ? alt + " [media: " + src + "]" : alt;
+        })
+        .replace(/<iframe\b([^>]*)>[\s\S]*?<\/iframe>/gi, (_m, attrs) => {
+          const src = attrs.match(/\bsrc=["']([^"']+)["']/i)?.[1] ?? "";
+          return src ? "[embedded resource: " + src + "]" : " ";
+        })
         .replace(/<svg\b[\s\S]*?<\/svg>/gi, " ")
-        .replace(/<iframe\b[\s\S]*?<\/iframe>/gi, " ")
         .replace(/<button\b[\s\S]*?<\/button>/gi, " ")
         .replace(/<input\b[^>]*>/gi, " ")
         .replace(/<[^>]+>/g, " ")
