@@ -1,0 +1,9 @@
+name = "crown-shield-dns-api"
+main = "src/index.js"
+compatibility_date = "2026-10-18"
+workers_dev = true
+
+[vars]
+ALLOWED_ORIGIN = "https://REPLACE-WITH-CROWN-SHIELD-HOSTNAME"
+# Set secrets with wrangler secret put SUPABASE_URL
+# SUPABASE_ANON_KEY, CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN, ADMIN_EMAILS
